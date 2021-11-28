@@ -12,3 +12,5 @@ API List: https://docs.google.com/document/d/1ExNroR1Sd1363ZYhcXzOn0Tl3BxuHnhwb8
 Bike Sequence Diagram: https://app.diagrams.net/?libs=general;uml#G1stluhs7i0LbvefOiwVelabZAoImRoHCt
 
 Suugested Bike swaps sequence diagram: https://drive.google.com/file/d/1H36E_8HGR4Jroo2DOkXxtpTu62w9aBjk/view?usp=sharing 
+
+Weather Warnings sequence diagram: https://drive.google.com/file/d/1IrUEek3BvVioEReua1A3Pv-4QbOlm78a/view?usp=sharing
