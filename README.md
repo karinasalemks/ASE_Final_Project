@@ -30,3 +30,6 @@ https://drive.google.com/file/d/1ltRvgR8L4DjFzOARJajRPZ0htLednPd4/view?usp=shari
 
 CO2 level : https://drive.google.com/file/d/1-kU5pljHUCLpv0l4P5i0tNYsO7B3ikfI/view?usp=sharing
 
+Bus route frequency: https://drive.google.com/file/d/1iLXJCk2Ogc9tKviiK9xF7-JbRvYdEWld/view?usp=sharing
+
+CO2 comparison: https://drive.google.com/file/d/1yB59MNM5C84-vr5yzmclroumfNKy2MGJ/view?usp=sharing
