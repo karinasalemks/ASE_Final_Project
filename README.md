@@ -14,3 +14,8 @@ Bike Sequence Diagram: https://app.diagrams.net/?libs=general;uml#G1stluhs7i0Lbv
 Suugested Bike swaps sequence diagram: https://drive.google.com/file/d/1H36E_8HGR4Jroo2DOkXxtpTu62w9aBjk/view?usp=sharing 
 
 Weather Warnings sequence diagram: https://drive.google.com/file/d/1IrUEek3BvVioEReua1A3Pv-4QbOlm78a/view?usp=sharing
+
+Bus and Bus stops Sequence Diagram: https://drive.google.com/file/d/1X5SGi2GwTe7R0queQ49iMngoBjZFfb62/view?usp=sharing
+
+Events > Maintenance Sequence Diagram: https://drive.google.com/file/d/1h47Hj4P84qWj-d1bWqQaAAnBNiGzfAOv/view?usp=sharing
+
