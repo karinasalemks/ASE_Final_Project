@@ -19,6 +19,8 @@ Bus and Bus stops Sequence Diagram: https://drive.google.com/file/d/1X5SGi2GwTe7
 
 Events > Maintenance Sequence Diagram: https://drive.google.com/file/d/1h47Hj4P84qWj-d1bWqQaAAnBNiGzfAOv/view?usp=sharing
 
+Data Pipeline UML Sequence Diagram: https://app.diagrams.net/#G1f4HO8NR2jzR9-kJ2d2vMRFlBwDT_7Fz3
+
 ------------------------------------------------------------------------------------------------------
 Quality of Service Technical Requirements: Yatheen
 https://docs.google.com/document/d/1drMD_0pPiLNzNefasFA36_16zqqod1I8ymRvAjJHego/edit?usp=sharing
