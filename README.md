@@ -33,3 +33,8 @@ CO2 level : https://drive.google.com/file/d/1-kU5pljHUCLpv0l4P5i0tNYsO7B3ikfI/vi
 Bus route frequency: https://drive.google.com/file/d/1iLXJCk2Ogc9tKviiK9xF7-JbRvYdEWld/view?usp=sharing
 
 CO2 comparison: https://drive.google.com/file/d/1yB59MNM5C84-vr5yzmclroumfNKy2MGJ/view?usp=sharing
+
+
+
+//////////////////data buffer change/////////////////////// 29.11.2021
+https://app.diagrams.net/#G1vWpZusDxE20hE7lPm7pS1C2YvIcKtHyG
