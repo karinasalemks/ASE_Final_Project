@@ -40,4 +40,4 @@ Luas, bikes and login UML: https://drive.google.com/drive/u/1/folders/1sIAj_q7wG
 https://app.diagrams.net/#G1vWpZusDxE20hE7lPm7pS1C2YvIcKtHyG
 
 Use_Case_3_Bikes_UML_Diagram
-https://drive.google.com/drive/u/1/folders/1sIAj_q7wG5T_ddeLRr4pml0i0--Y2P-D
+https://drive.google.com/file/d/1s162G0HbMqYU_9k3RUH5WbMJTO8TqOMn/view?usp=sharing
