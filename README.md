@@ -41,6 +41,8 @@ https://app.diagrams.net/#G1vWpZusDxE20hE7lPm7pS1C2YvIcKtHyG
 
 Use_Case_3_Bikes_UML_Diagram
 https://drive.google.com/file/d/1s162G0HbMqYU_9k3RUH5WbMJTO8TqOMn/view?usp=sharing
+Use_Case_4_Buses_UML_Diagram
+https://drive.google.com/file/d/16KKUO2Ax0UXGln9kNTNEXZcywNUBatec/view?usp=sharing
 
 ------------------------------------------------------------------------------------------------------
 Project Development Document:
