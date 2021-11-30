@@ -1,0 +1,26 @@
+
+Login UML
+https://drive.google.com/drive/u/2/folders/1sIAj_q7wG5T_ddeLRr4pml0i0--Y2P-D
+
+
+Buses
+1. Bus Map
+https://drive.google.com/file/d/1X5SGi2GwTe7R0queQ49iMngoBjZFfb62/view
+
+2. Current env impact
+
+
+3. Predict CO2 emmisions
+
+4. Rerouting Suggestions
+
+
+
+Luas
+1. View map of current luas locations, luas stops and service interruptions. (Loke)
+https://app.diagrams.net/#G1spfKLxaaXc2-s_xofuYYucOrI5iX_sYC
+
+2. Display Luas electricity usage estimates. (Loke)
+https://app.diagrams.net/#G1F4SKcEbC3mR97SICw7jo0oPOvbwxHBCa
+
+
