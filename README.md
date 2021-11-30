@@ -38,3 +38,6 @@ Luas, bikes and login UML: https://drive.google.com/drive/u/1/folders/1sIAj_q7wG
 ------------------------------------------------------------------------------------------------------
 //////////////////data buffer UML diagram change/////////////////////// 29.11.2021
 https://app.diagrams.net/#G1vWpZusDxE20hE7lPm7pS1C2YvIcKtHyG
+
+Use_Case_3_Bikes_UML_Diagram
+https://drive.google.com/drive/u/1/folders/1sIAj_q7wG5T_ddeLRr4pml0i0--Y2P-D
