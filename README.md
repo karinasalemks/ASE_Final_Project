@@ -34,6 +34,10 @@ Bus route frequency: https://drive.google.com/file/d/1iLXJCk2Ogc9tKviiK9xF7-JbRv
 
 CO2 comparison: https://drive.google.com/file/d/1yB59MNM5C84-vr5yzmclroumfNKy2MGJ/view?usp=sharing
 
+
+
+FINAL Architecture Document link:
+https://docs.google.com/document/d/1iVrG7x7bX-5sRNGWJUCagd9Zletsc1C5/edit?usp=sharing&ouid=111574431908363913321&rtpof=true&sd=true
 Luas, bikes and login UML: https://drive.google.com/drive/u/1/folders/1sIAj_q7wG5T_ddeLRr4pml0i0--Y2P-D
 ------------------------------------------------------------------------------------------------------
 //////////////////data buffer UML diagram change/////////////////////// 29.11.2021
