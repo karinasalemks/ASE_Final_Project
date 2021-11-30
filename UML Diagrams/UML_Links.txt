@@ -8,11 +8,13 @@ Buses
 https://drive.google.com/file/d/1X5SGi2GwTe7R0queQ49iMngoBjZFfb62/view
 
 2. Current env impact
-
+https://app.diagrams.net/#G1-kU5pljHUCLpv0l4P5i0tNYsO7B3ikfI
 
 3. Predict CO2 emmisions
+https://app.diagrams.net/#G1kxxXggpbTh6sqZZuhIQuKoXfZ7i9rmVB
 
 4. Rerouting Suggestions
+https://app.diagrams.net/#G16KKUO2Ax0UXGln9kNTNEXZcywNUBatec
 
 
 
