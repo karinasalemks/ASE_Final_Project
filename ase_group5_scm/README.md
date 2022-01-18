@@ -1,7 +1,5 @@
 # ase_group5_scm
-this?
-Hello?
-yeah I can see you typing 
+
 Sustainable City Management
 
 ## Getting Started
