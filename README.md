@@ -4,9 +4,9 @@ Sustainable City Management
 
 ##Folder structure 
 
-ase_group5_scm_flutter - front end flutter development
-ase_group5_scm_django_server - back end django development
-documentation - contains all the documents related to the project
+ase_group5_scm_flutter - front end flutter development. 
+ase_group5_scm_django_server - back end django development. 
+documentation - contains all the documents related to the project. 
 
 ## Getting Started
 
