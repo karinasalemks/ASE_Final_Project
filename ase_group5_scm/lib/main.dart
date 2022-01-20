@@ -153,10 +153,16 @@ class _BikeDataState extends State<BikeData> {
           children: snapshot.data!.docs.map((DocumentSnapshot document) {
             Map<String, dynamic> data =
                 document.data()! as Map<String, dynamic>;
-            return ListTile(
-              title: Text(data['last']),
-              subtitle: Text(data['first']),
-            );
+            /*
+            * filter the data, display only data with 'last' value in the 'last' field
+            * maybe the same method could be used for markers in the map when working with the bike data
+            * */
+            return Visibility(
+                visible: data['last'] == 'last',
+                child: ListTile(
+                  title: Text(data['last']),
+                  subtitle: Text(data['first']),
+                ));
           }).toList(),
         );
       },
