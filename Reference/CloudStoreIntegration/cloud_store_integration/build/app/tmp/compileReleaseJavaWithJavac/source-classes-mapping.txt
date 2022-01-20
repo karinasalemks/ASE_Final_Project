@@ -1,0 +1,6 @@
+io/flutter/plugins/GeneratedPluginRegistrant.java
+ io.flutter.plugins.GeneratedPluginRegistrant
+ase/group5/cloud_store_integration/MainActivity.java
+ ase.group5.cloud_store_integration.MainActivity
+ase/group5/cloud_store_integration/BuildConfig.java
+ ase.group5.cloud_store_integration.BuildConfig

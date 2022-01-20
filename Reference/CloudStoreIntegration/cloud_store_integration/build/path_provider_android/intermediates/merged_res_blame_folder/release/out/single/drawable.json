@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/ypkm/Desktop/TCD/ASE/ASE_Final_Project/Reference/CloudStoreIntegration/cloud_store_integration/build/path_provider_android/intermediates/res/merged/release/drawable/notification_icon_background.xml",
+        "source": "/Users/ypkm/.gradle/caches/transforms-2/files-2.1/264d9551c65e454ca4a13f554e4afe35/core-1.6.0/res/drawable/notification_icon_background.xml"
+    },
+    {
+        "merged": "/Users/ypkm/Desktop/TCD/ASE/ASE_Final_Project/Reference/CloudStoreIntegration/cloud_store_integration/build/path_provider_android/intermediates/res/merged/release/drawable/notification_bg.xml",
+        "source": "/Users/ypkm/.gradle/caches/transforms-2/files-2.1/264d9551c65e454ca4a13f554e4afe35/core-1.6.0/res/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "/Users/ypkm/Desktop/TCD/ASE/ASE_Final_Project/Reference/CloudStoreIntegration/cloud_store_integration/build/path_provider_android/intermediates/res/merged/release/drawable/notification_bg_low.xml",
+        "source": "/Users/ypkm/.gradle/caches/transforms-2/files-2.1/264d9551c65e454ca4a13f554e4afe35/core-1.6.0/res/drawable/notification_bg_low.xml"
+    },
+    {
+        "merged": "/Users/ypkm/Desktop/TCD/ASE/ASE_Final_Project/Reference/CloudStoreIntegration/cloud_store_integration/build/path_provider_android/intermediates/res/merged/release/drawable/notification_tile_bg.xml",
+        "source": "/Users/ypkm/.gradle/caches/transforms-2/files-2.1/264d9551c65e454ca4a13f554e4afe35/core-1.6.0/res/drawable/notification_tile_bg.xml"
+    }
+]
