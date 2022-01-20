@@ -1,0 +1,4 @@
+#Wed Jan 19 13:16:22 GMT 2022
+base.0=/Users/ypkm/Desktop/TCD/ASE/ASE_Final_Project/Reference/CloudStoreIntegration/cloud_store_integration/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
