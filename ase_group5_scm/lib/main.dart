@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import 'Routes/dublin_bikes_map.dart';
 import 'firebase_options.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return OverlaySupport.global(child:MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => loginScreen(),
         '/dublinBikesMap': (context) => BikeStationMap(),
       },
-    );
+    ));
   }
 }
 

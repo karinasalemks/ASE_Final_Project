@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 class loginScreen extends StatelessWidget {
   static const String _title = 'Sustainable City Management';
@@ -24,6 +27,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   bool _credentials_invalid = false;
+  bool hasInternet = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,51 +71,61 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
               child: ElevatedButton(
                   child: const Text('Login'),
-                  onPressed: () {
-                    setState(() {
-                      if (nameController.text.isEmpty ||
-                          passwordController.text.isEmpty) {
-                        _credentials_invalid = true;
-                      } else {
-                        _credentials_invalid = false;
-                        signIn(nameController.text, passwordController.text)
-                            .then((result) {
-                          if (result == null) {
-                            Navigator.of(context).pushNamed("/dublinBikesMap");
-                          }
-                          else{
-                            return showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  title: new Text("Invalid credentials!"),
-                                  content: new Text("username or password is incorrect! Try again"),
-                                  actions: <Widget>[
-                                    new TextButton(
-                                      child: new Text("OK"),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
-                        });
-                      }
-                    });
-                  })),
+                  onPressed: () async {
+                    hasInternet =  await InternetConnectionChecker().hasConnection;
+                    if (hasInternet) {
+                      setState(() {
+                        if (nameController.text.isEmpty ||
+                            passwordController.text.isEmpty) {
+                          _credentials_invalid = true;
+                        } else {
+                          _credentials_invalid = false;
+                          signIn(nameController.text, passwordController.text)
+                              .then((result) {
+                            if (result == null) {
+                              Navigator.of(context).pushNamed(
+                                  "/dublinBikesMap");
+                            } else {
+                              return showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: new Text("Invalid credentials!"),
+                                    content: new Text(
+                                        "username or password is incorrect! Try again"),
+                                    actions: <Widget>[
+                                      new TextButton(
+                                        child: new Text("OK"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          });
+                        }
+                      });
+                    }
+                    else{
+                      showSimpleNotification(
+                        Text('No Internet detected. Try again after connecting to internet',
+                        style:TextStyle(color:Colors.white)),
+                          background:Colors.red);
+                    };
+                    })),
           Container(
             height: 100,
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
             child: (_credentials_invalid)
                 ? Text(
-                    'Username or password cannot be empty',
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
-                  )
+              'Username or password cannot be empty',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            )
                 : Text(''),
           ),
         ]));
@@ -123,6 +137,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           .signInWithEmailAndPassword(email: email, password: password);
       return null;
     } on FirebaseAuthException catch (e) {
+      print(e.message);
       return e.message;
     }
   }
