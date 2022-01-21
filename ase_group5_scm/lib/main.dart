@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'Routes/dublin_bikes_map.dart';
 import 'firebase_options.dart';
+import 'Routes/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,8 +36,10 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-      routes: <String, WidgetBuilder> {
+      //home: MyHomePage(title: 'Flutter Demo Home Page'),
+      initialRoute: '/',
+      routes: <String, WidgetBuilder>{
+        '/': (BuildContext context) => loginScreen(),
         '/dublinBikesMap': (BuildContext context) => BikeStationMap(),
       },
     );
