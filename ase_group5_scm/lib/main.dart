@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => loginScreen(),
-        '/dublinBikesMap': (BuildContext context) => BikeStationMap(),
+        '/': (context) => loginScreen(),
+        '/dublinBikesMap': (context) => BikeStationMap(),
       },
     );
   }
