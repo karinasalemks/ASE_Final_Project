@@ -23,10 +23,10 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  bool _credentials_invalid = false;
 
   @override
   Widget build(BuildContext context) {
-    bool _credentials_invalid = false;
     return Padding(
         padding: const EdgeInsets.all(10),
         child: ListView(children: <Widget>[
@@ -68,44 +68,51 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               child: ElevatedButton(
                   child: const Text('Login'),
                   onPressed: () {
-                    if (nameController.text.isEmpty ||
-                        passwordController.text.isEmpty) {
-                      _credentials_invalid = true;
-                    } else {
-                      _credentials_invalid = false;
-                    }
-                    signIn(nameController.text, passwordController.text)
-                        .then((result) {
-                      print("inside then function");
-                      if (result == null) {
-                        Navigator.of(context).pushNamed("/dublinBikesMap");
+                    setState(() {
+                      if (nameController.text.isEmpty ||
+                          passwordController.text.isEmpty) {
+                        _credentials_invalid = true;
+                      } else {
+                        _credentials_invalid = false;
+                        signIn(nameController.text, passwordController.text)
+                            .then((result) {
+                          if (result == null) {
+                            Navigator.of(context).pushNamed("/dublinBikesMap");
+                          }
+                          else{
+                            return showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: new Text("Invalid credentials!"),
+                                  content: new Text("username or password is incorrect! Try again"),
+                                  actions: <Widget>[
+                                    new FlatButton(
+                                      child: new Text("OK"),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }
+                        });
                       }
-                      /*try {
-                Future<UserCredential> userCredential =  FirebaseAuth.instance.signInWithEmailAndPassword(
-                    email: nameController.text,
-                    password: passwordController.text,
-                );
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'user-not-found') {
-                  print('No user found for that email.');
-                  Navigator.of(context).pushNamed('/dublinBikesMap');
-                } else if (e.code == 'wrong-password') {
-                  print('Wrong password provided for that user.');
-                  Navigator.of(context).pushNamed('/dublinBikesMap');
-                }
-                else {
-                  print("success");
-                  Navigator.of(context).pushNamed('/dublinBikesMap');
-                }
-              }*/
                     });
                   })),
           Container(
             height: 100,
             padding: const EdgeInsets.fromLTRB(10, 10, 10, 40),
-            child: (_credentials_invalid == true)
-                ? Text('Username or password cannot be empty')
-                : Text('any'),
+            child: (_credentials_invalid)
+                ? Text(
+                    'Username or password cannot be empty',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  )
+                : Text(''),
           ),
         ]));
   }
