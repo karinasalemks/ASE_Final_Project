@@ -6,12 +6,9 @@ class loginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: _title,
-      home: Scaffold(
-        appBar: AppBar(title: const Text(_title)),
-        body: const MyStatefulWidget(),
-      ),
+    return Scaffold(
+      appBar: AppBar(title: const Text(_title)),
+      body: const MyStatefulWidget(),
     );
   }
 }
@@ -79,7 +76,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     }
                     signIn(nameController.text, passwordController.text)
                         .then((result) {
-                          print("inside then function");
+                      print("inside then function");
                       if (result == null) {
                         Navigator.of(context).pushNamed("/dublinBikesMap");
                       }
