@@ -87,7 +87,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                   title: new Text("Invalid credentials!"),
                                   content: new Text("username or password is incorrect! Try again"),
                                   actions: <Widget>[
-                                    new FlatButton(
+                                    new TextButton(
                                       child: new Text("OK"),
                                       onPressed: () {
                                         Navigator.of(context).pop();
