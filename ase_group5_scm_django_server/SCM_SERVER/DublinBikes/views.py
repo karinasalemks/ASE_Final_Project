@@ -6,7 +6,7 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 # replace the key with the groups private key
-cred_obj = credentials.Certificate('static\privateKey.json')
+cred_obj = credentials.Certificate('static/privateKey.json')  # "/" for MAC ; "\" for Windows.
 default_app = firebase_admin.initialize_app(cred_obj)
 db = firestore.client()
 
@@ -29,8 +29,10 @@ def bikeAvailability():
         currentStation['longitude'] = values['longitude']
         currentStation['station_name'] = values['name']
         currentStation['station_status'] = values['status']
-        currentStation['station_occupancy'] = availabeBikes / values['bike_stands']
-
+        occupancyList = []
+        for x in availabeBikes:
+            occupancyList.append(x / values['bike_stands'])
+        currentStation['station_occupancy'] = occupancyList
         currentDocRef = bikesCollectionRef.document(station_id)
         batch.update(currentDocRef, currentStation)
     batch.commit()
