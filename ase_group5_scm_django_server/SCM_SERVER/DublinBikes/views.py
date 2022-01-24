@@ -4,16 +4,19 @@ import requests,json
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-
-
+from API_Handler.views import getAPIEndpoint
+import os
 # replace the key with the groups private key
-cred_obj = credentials.Certificate('static\privateKey.json')
+privateKeyPath = os.path.join(os.getcwd(),'static')
+privateKeyPath = os.path.join(privateKeyPath,'privateKey.json')
+cred_obj = credentials.Certificate(privateKeyPath)
 default_app = firebase_admin.initialize_app(cred_obj)
 db =firestore.client()
 
 
 def bikeAvailability():
-    response = requests.get('https://data.smartdublin.ie/dublinbikes-api/last_snapshot/')
+    endpoint = getAPIEndpoint("DUBLIN_BIKES")
+    response = requests.get(endpoint)
     print("*************** Fetching Dublin Bike's API ****************")
     r =response.json()
     bikesCollectionRef= db.collection(u'DublinBikes')
