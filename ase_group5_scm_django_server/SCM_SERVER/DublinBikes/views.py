@@ -6,6 +6,8 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 from API_Handler.views import getAPIEndpoint
 import os
+
+from DataTransformer.views import transformData
 # replace the key with the groups private key
 privateKeyPath = os.path.join(os.getcwd(),'static')
 privateKeyPath = os.path.join(privateKeyPath,'privateKey.json')
@@ -15,27 +17,18 @@ db =firestore.client()
 
 
 def bikeAvailability():
-    endpoint = getAPIEndpoint("DUBLIN_BIKES")
-    response = requests.get(endpoint)
+    endpoint,isPrimarySource = getAPIEndpoint("DUBLIN_BIKES")
     print("*************** Fetching Dublin Bike's API ****************")
-    r =response.json()
+    response = requests.get(endpoint)
+    apiResponse =response.json()
+    #Data Transformed to a custom model here
+    bikeStationData = transformData(apiResponse=apiResponse,isPrimarySource=isPrimarySource)
+
     bikesCollectionRef= db.collection(u'DublinBikes')
     batch = db.batch()
-    for values in r:
-        currentStation = {}
-        station_id = str(values['station_id'])
-        currentStation['station_id'] = station_id
-        availabeBikes = [values['available_bikes'] for i in range(25)] 
-        currentStation['available_bikes'] = availabeBikes
-        currentStation['available_bike_stands']=values['available_bike_stands']
-        currentStation['harvest_time'] = values['harvest_time']
-        currentStation['latitude'] = values['latitude']
-        currentStation['longitude'] = values['longitude']
-        currentStation['station_name'] = values['name']
-        currentStation['station_status'] = values['status']
-
-        currentDocRef = bikesCollectionRef.document(station_id)
-        batch.update(currentDocRef, currentStation)
+    for stationData in bikeStationData:
+        currentDocRef = bikesCollectionRef.document(stationData.station_id)
+        batch.update(currentDocRef, stationData.to_dict())
     batch.commit()
     print("Batch Transaction Complete..")
     
