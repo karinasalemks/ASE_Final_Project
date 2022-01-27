@@ -1,3 +1,4 @@
+import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -61,20 +62,24 @@ class _BikeStationMapState extends State<BikeStationMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: MediaQuery.of(context).size.height*0.70,
-        width: double.infinity,
-        child: mapToggle ?
-        GoogleMap(
-          onMapCreated: onMapCreated,
-          myLocationEnabled: true,
-          initialCameraPosition: CameraPosition(target: LatLng(53.344007, -6.266802),
-            zoom: 15.0,
-          ),
-          markers: Set<Marker>.of(markers.values),
-        ):
-        Center(child: CircularProgressIndicator(),
-        )
+    return Scaffold(
+        appBar: AppBar(title: const Text("Bike Map")),
+      drawer: SideMenu(),
+      body:   Container(
+          height: MediaQuery.of(context).size.height*0.70,
+          width: double.infinity,
+          child: mapToggle ?
+          GoogleMap(
+            onMapCreated: onMapCreated,
+            myLocationEnabled: true,
+            initialCameraPosition: CameraPosition(target: LatLng(53.344007, -6.266802),
+              zoom: 15.0,
+            ),
+            markers: Set<Marker>.of(markers.values),
+          ):
+          Center(child: CircularProgressIndicator(),
+          )
+      ),
     );
   }
 }
