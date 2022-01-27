@@ -7,7 +7,6 @@ from firebase_admin import firestore
 import numpy as np
 import pandas as pd
 
-
 # replace the key with the groups private key
 cred_obj = credentials.Certificate('static\privateKey.json')
 default_app = firebase_admin.initialize_app(cred_obj)
@@ -20,6 +19,7 @@ def bikeAvailability():
 
     # Fetching recent observations from csv for predictions.
     recent_df = pd.read_csv('../static/StationID_Recent_Observations.csv')
+    recent_df.set_index('stationID', inplace=True)
 
     r =response.json()
     bikesCollectionRef= db.collection(u'DublinBikes')
@@ -28,8 +28,8 @@ def bikeAvailability():
         currentStation = {}
         station_id = str(values['station_id'])
         currentStation['station_id'] = station_id
-        availabeBikes = [values['available_bikes'] for i in range(25)] 
-        currentStation['available_bikes'] = availabeBikes
+        availableBikes = [values['available_bikes'] for i in range(25)]
+        currentStation['available_bikes'] = availableBikes
         currentStation['available_bike_stands'] = values['available_bike_stands']
         currentStation['harvest_time'] = values['harvest_time']
         currentStation['latitude'] = values['latitude']
@@ -37,10 +37,28 @@ def bikeAvailability():
         currentStation['station_name'] = values['name']
         currentStation['station_status'] = values['status']
 
+        # Update CSV file with most recent observation
+        # First read the last 20 observations, then convert to numpy array
+        recent_list = np.fromstring(recent_df.loc[int(station_id)].recentObservations[1:-1], sep=' ', dtype='int64')
+
+        updated_list = np.empty(20, dtype='int64')
+        updated_list[:19] = recent_list[1:]
+        updated_list[19] = availableBikes
+
+        #Call predictions
+
+
+        #Pass prediction output to Firebase
+
         currentDocRef = bikesCollectionRef.document(station_id)
         batch.update(currentDocRef, currentStation)
+
+
     batch.commit()
     print("Batch Transaction Complete..")
+
+    # Save new Observations CSV
+    recent_df.to_csv('../static/StationID_Recent_Observations.csv')
     
     # for structure we can pass the time stamp and station id in document
     
