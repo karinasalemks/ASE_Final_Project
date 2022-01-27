@@ -4,6 +4,8 @@ import requests,json
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import numpy as np
+import pandas as pd
 
 
 # replace the key with the groups private key
@@ -15,6 +17,10 @@ db =firestore.client()
 def bikeAvailability():
     response = requests.get('https://data.smartdublin.ie/dublinbikes-api/last_snapshot/')
     print("*************** Fetching Dublin Bike's API ****************")
+
+    # Fetching recent observations from csv for predictions.
+    recent_df = pd.read_csv('../static/StationID_Recent_Observations.csv')
+
     r =response.json()
     bikesCollectionRef= db.collection(u'DublinBikes')
     batch = db.batch()
@@ -24,7 +30,7 @@ def bikeAvailability():
         currentStation['station_id'] = station_id
         availabeBikes = [values['available_bikes'] for i in range(25)] 
         currentStation['available_bikes'] = availabeBikes
-        currentStation['available_bike_stands']=values['available_bike_stands']
+        currentStation['available_bike_stands'] = values['available_bike_stands']
         currentStation['harvest_time'] = values['harvest_time']
         currentStation['latitude'] = values['latitude']
         currentStation['longitude'] = values['longitude']
