@@ -4,6 +4,7 @@ from .views import bikeAvailability
 
 
 def start():
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(bikeAvailability,'interval',minutes=5)
-    scheduler.start()
+    schedulers = BackgroundScheduler()
+    schedulers.add_job(bikeAvailability,'interval',minutes=5)
+    schedulers.start()
+

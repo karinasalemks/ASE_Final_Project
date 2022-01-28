@@ -4,9 +4,15 @@ import requests, json
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+
+#' From prediction branch
+import numpy as np
+import pandas as pd
+from predictionApp.views import predictionDublinBikes
+
+##From Django develop
 from API_Handler.views import getAPIEndpoint
 import os
-
 
 from DataTransformer.views import transformData
 # replace the key with the groups private key
@@ -21,7 +27,13 @@ db = firestore.client()
 def bikeAvailability():
     endpoint,isPrimarySource = getAPIEndpoint("DUBLIN_BIKES")
     print("*************** Fetching Dublin Bike's API ****************")
+    
+    # Fetching recent observations from csv for predictions.
+    recent_df = pd.read_csv('static\StationID_Recent_Observations.csv')
+    recent_df.set_index('stationID', inplace=True)
+
     response = requests.get(endpoint)
+    
     if response.status_code == 200 or response.status_code == 201:
       apiResponse =response.json()
       #Data Transformed to a custom model here
@@ -31,9 +43,28 @@ def bikeAvailability():
       batch = db.batch()
       for stationData in bikeStationData:
           currentDocRef = bikesCollectionRef.document(stationData.station_id)
+        
+          recent_list = np.fromstring(recent_df.loc[int(station_id)].recentObservations[1:-1], sep=' ', dtype='int64')
+          
+          updated_list = np.empty(20, dtype='int64')
+          updated_list[:19] = recent_list[1:]
+          updated_list[19] = values['available_bikes']
+          recent_df.loc[int(station_id)].recentObservations = updated_list
+          
+          #call predictions  the code for prediction is in predictionApp.views
+          predictions= predictionDublinBikes(updated_list,int(values['station_id'])).tolist()
+          
+          # At zero index we have inserted the current availability of bike
+          predictions.insert(0,values['available_bikes'])         
+          currentStation['available_bikes'] = predictions  
+                  
           batch.update(currentDocRef, stationData.to_dict())
+                    
       batch.commit()
       print("Batch Transaction Complete..")
+      
+      # Save updated Observations CSV
+      recent_df.to_csv('static\StationID_Recent_Observations.csv')
+      
      else:
       print("Response code:", response.status_code)
-
