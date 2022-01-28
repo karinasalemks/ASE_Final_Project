@@ -1,22 +1,30 @@
 from django.shortcuts import render
 from DataTransformer.DataModel.bikeModel import BikeModel
-from predictionApp.views import predictionDublinBikes
+from predictionApp.views import BikePredictor
 import pandas as pd
+import numpy as np
 
 # Create your views here.
 def transformBikeData(inputData,isPrimarySource):
     result = {}
     stationData = []
 
-    # Fetching recent observations from csv for predictions.
-    recent_df = pd.read_csv('static\StationID_Recent_Observations.csv')
-    recent_df.set_index('stationID', inplace=True)
+    bikePredictor = BikePredictor()
     
     if isPrimarySource:
         for apiResponse in inputData:
             result['station_id'] = str(apiResponse['station_id'])
+            
             #Call Prediction Engine here
-            result['available_bikes'] = [apiResponse['available_bikes'] for i in range(25)]
+            recent_list = np.fromstring(bikePredictor.recent_df.loc[int(result['station_id'])].recentObservations[1:-1], sep=' ', dtype='int64')
+            updated_list = np.empty(20, dtype='int64')
+            updated_list[:19] = recent_list[1:]
+            updated_list[19] = apiResponse['available_bikes']
+            bikePredictor.recent_df.loc[int(result['station_id'])].recentObservations = updated_list
+            predictions = bikePredictor.predictDublinBikes(updated_list,int(result['station_id'])).tolist()
+            predictions.insert(0,apiResponse['available_bikes'])  
+            result['available_bikes'] = predictions
+            
             result['bike_stands'] = apiResponse['bike_stands']
             result['available_bike_stands']=apiResponse['available_bike_stands']
             #TODO: harvest_time is in timestamp.So do conversion to epochTime as required.
@@ -31,8 +39,17 @@ def transformBikeData(inputData,isPrimarySource):
     else:
         for apiResponse in inputData:
             result['station_id'] = str(apiResponse['number'])
+            
             #Call Prediction Engine here
-            result['available_bikes'] = [apiResponse['available_bikes'] for i in range(25)]
+            recent_list = np.fromstring(bikePredictor.recent_df.loc[int(result['station_id'])].recentObservations[1:-1], sep=' ', dtype='int64')
+            updated_list = np.empty(20, dtype='int64')
+            updated_list[:19] = recent_list[1:]
+            updated_list[19] = apiResponse['available_bikes']
+            bikePredictor.recent_df.loc[int(result['station_id'])].recentObservations = updated_list
+            predictions = bikePredictor.predictDublinBikes(updated_list,int(result['station_id'])).tolist()
+            predictions.insert(0,apiResponse['available_bikes'])  
+            result['available_bikes'] = predictions
+
             result['bike_stands'] = apiResponse['bike_stands']
             result['available_bike_stands']=apiResponse['available_bike_stands']
             result['harvest_time'] = apiResponse['last_update']
@@ -43,6 +60,9 @@ def transformBikeData(inputData,isPrimarySource):
             bikeData = BikeModel(result)
             bikeData.calculateOccupancyList()
             stationData.append(bikeData)
+    
+    bikePredictor.updateAndCloseFiles()
+
     return stationData
     
 def transformLUASData(apiResponse):

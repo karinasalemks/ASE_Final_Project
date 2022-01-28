@@ -29,33 +29,14 @@ def bikeAvailability():
       apiResponse =response.json()
       #Data Transformed to a custom model here
       bikeStationData = transformData(apiResponse=apiResponse,isPrimarySource=isPrimarySource)
-
-      bikesCollectionRef= db.collection(u'DublinBikes')
-      batch = db.batch()
-      for stationData in bikeStationData:
-          currentDocRef = bikesCollectionRef.document(stationData.station_id)
-        
-          recent_list = np.fromstring(recent_df.loc[int(station_id)].recentObservations[1:-1], sep=' ', dtype='int64')
-          
-          updated_list = np.empty(20, dtype='int64')
-          updated_list[:19] = recent_list[1:]
-          updated_list[19] = values['available_bikes']
-          recent_df.loc[int(station_id)].recentObservations = updated_list
-          
-          #call predictions  the code for prediction is in predictionApp.views
-          predictions= predictionDublinBikes(updated_list,int(values['station_id'])).tolist()
-          
-          # At zero index we have inserted the current availability of bike
-          predictions.insert(0,values['available_bikes'])         
-          currentStation['available_bikes'] = predictions  
-                  
-          batch.update(currentDocRef, stationData.to_dict())
+      print(bikeStationData)
+    #   bikesCollectionRef= db.collection(u'DublinBikes')
+    #   batch = db.batch()
+    #   for stationData in bikeStationData:
+    #       currentDocRef = bikesCollectionRef.document(stationData.station_id) 
+    #       batch.update(currentDocRef, stationData.to_dict())
                     
-      batch.commit()
+    #   batch.commit()
       print("Batch Transaction Complete..")
-      
-      # Save updated Observations CSV
-      recent_df.to_csv('static\StationID_Recent_Observations.csv')
-      
-     else:
+    else:
       print("Response code:", response.status_code)
