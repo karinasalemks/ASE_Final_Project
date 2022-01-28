@@ -1,3 +1,4 @@
+import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -24,6 +25,9 @@ class _BikeStationMapState extends State<BikeStationMap> {
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
+  AppBar appBar = AppBar(
+    title: Text("Dublin Bikes Map"),
+  );
   //is not used.
   getMarkerData() async {
     FirebaseFirestore.instance
@@ -66,8 +70,8 @@ class _BikeStationMapState extends State<BikeStationMap> {
     var freeBikes = stationData.get("available_bikes")[0].toString();
     final Marker marker = Marker(
       markerId: markerId,
-      position: LatLng(double.parse(stationData.get("latitude")),
-          double.parse(stationData.get("longitude"))),
+      position: LatLng(double.parse(stationData.get("latitude").toString()),
+          double.parse(stationData.get("longitude").toString())),
       infoWindow: InfoWindow(
           title: stationData.get("station_name"),
           snippet: "Stands: $bikeStand | Bikes: $freeBikes"),
@@ -101,6 +105,8 @@ class _BikeStationMapState extends State<BikeStationMap> {
   Widget build(BuildContext context) {
     //Todo: Refine the code here to stop calling setState method before build.
     return Scaffold(
+      appBar: appBar,
+      drawer: SideMenu(),
       body: StreamBuilder<QuerySnapshot>(
         stream:
             FirebaseFirestore.instance.collection('DublinBikes').snapshots(),
@@ -110,7 +116,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
             return Column(
               children: <Widget>[
                 new Container(
-                    height: MediaQuery.of(context).size.height * 0.10,
+                    height: (MediaQuery.of(context).size.height - appBar.preferredSize.height) * 0.10,
                     child: Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Row(
@@ -154,7 +160,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
                           ],
                         ))),
                 new Container(
-                    height: MediaQuery.of(context).size.height * 0.90,
+                    height: (MediaQuery.of(context).size.height - appBar.preferredSize.height) * 0.90,
                     child: GoogleMap(
                       onMapCreated: onMapCreated,
                       myLocationEnabled: true,
