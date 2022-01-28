@@ -24,6 +24,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
   late GoogleMapController mapController;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
   AppBar appBar = AppBar(
     title: Text("Dublin Bikes Map"),
   );
