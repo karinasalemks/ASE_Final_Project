@@ -1,10 +1,16 @@
 from django.shortcuts import render
 from DataTransformer.DataModel.bikeModel import BikeModel
+from predictionApp.views import predictionDublinBikes
+import pandas as pd
 
 # Create your views here.
 def transformBikeData(inputData,isPrimarySource):
     result = {}
     stationData = []
+
+    # Fetching recent observations from csv for predictions.
+    recent_df = pd.read_csv('static\StationID_Recent_Observations.csv')
+    recent_df.set_index('stationID', inplace=True)
     
     if isPrimarySource:
         for apiResponse in inputData:

@@ -4,17 +4,12 @@ import requests, json
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
-
-#' From prediction branch
 import numpy as np
-import pandas as pd
-from predictionApp.views import predictionDublinBikes
 
-##From Django develop
-from API_Handler.views import getAPIEndpoint
 import os
-
+from API_Handler.views import getAPIEndpoint
 from DataTransformer.views import transformData
+
 # replace the key with the groups private key
 privateKeyPath = os.path.join(os.getcwd(),'static')
 privateKeyPath = os.path.join(privateKeyPath,'privateKey.json')
@@ -23,14 +18,10 @@ cred_obj = credentials.Certificate(privateKeyPath)
 default_app = firebase_admin.initialize_app(cred_obj)
 db = firestore.client()
 
-
 def bikeAvailability():
     endpoint,isPrimarySource = getAPIEndpoint("DUBLIN_BIKES")
     print("*************** Fetching Dublin Bike's API ****************")
-    
-    # Fetching recent observations from csv for predictions.
-    recent_df = pd.read_csv('static\StationID_Recent_Observations.csv')
-    recent_df.set_index('stationID', inplace=True)
+
 
     response = requests.get(endpoint)
     
