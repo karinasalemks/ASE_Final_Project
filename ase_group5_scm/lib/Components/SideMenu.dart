@@ -2,12 +2,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class SideMenu extends StatelessWidget {
-  SideMenu({Key? key}) : super(key: key);
+var sideMenuIndex = 0;
+class SideMenu extends StatefulWidget {
+  const SideMenu({Key? key}) : super(key: key);
+
+  @override
+  _SideMenuState createState() => _SideMenuState();
+}
+
+class _SideMenuState extends State<SideMenu> {
+  var color = const Color(0xffE6E6E6);
   String? auth = FirebaseAuth.instance.currentUser == null
       ? "guest"
       : FirebaseAuth.instance.currentUser?.email;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      sideMenuIndex == null?0:sideMenuIndex;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -25,15 +41,15 @@ class SideMenu extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   Expanded(
-              child: Align(
-              alignment: Alignment.centerLeft,
-                child: CircleAvatar(
-                  radius: 40,
-                  backgroundImage: NetworkImage(
-                    'https://source.unsplash.com/50x50/?portrait',
-                  ),
-                ),
-              )
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: CircleAvatar(
+                          radius: 40,
+                          backgroundImage: NetworkImage(
+                            'https://source.unsplash.com/50x50/?portrait',
+                          ),
+                        ),
+                      )
                   ),
                   Align(
                     alignment: Alignment.bottomLeft,
@@ -47,6 +63,51 @@ class SideMenu extends StatelessWidget {
                 ],
               )),
           ListTile(
+            title: Text('Dublin Bikes',style:TextStyle(
+              color: sideMenuIndex == 0 ?Colors.blue:Colors.black
+            )),
+            tileColor: sideMenuIndex == 0 ?color:null,
+            onTap: () {
+              setState(() {
+                sideMenuIndex = 0;
+              });
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.of(context).pushNamed("/dublinBikesMap");
+            },
+          ),
+          ListTile(
+            title: Text('Buses',style:TextStyle(
+                color: sideMenuIndex == 1 ?Colors.blue:Colors.black
+            )),
+            tileColor: sideMenuIndex == 1 ?color:null,
+            onTap: () {
+              setState(() {
+                sideMenuIndex = 1;
+              });
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.of(context).pushNamed("/dublinBikesMap");
+            },
+          ),
+          ListTile(
+            title: Text('Luas',style:TextStyle(
+                color: sideMenuIndex == 2 ?Colors.blue:Colors.black
+            )),
+            tileColor: sideMenuIndex == 2 ?color:null,
+            onTap: (){
+              setState(() {
+                sideMenuIndex = 2;
+              });
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.of(context).pushNamed("/dublinBikesMap");
+            },
+          ),
+          ListTile(
             title: Text('Log out'),
             onTap: () {
               // Update the state of the app
@@ -55,8 +116,11 @@ class SideMenu extends StatelessWidget {
               Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
             },
           ),
+
         ],
       ),
     );
   }
 }
+
+
