@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: "Sans",
       ),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
       initialRoute: '/',
