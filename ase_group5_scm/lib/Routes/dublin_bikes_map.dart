@@ -72,16 +72,14 @@ class _BikeStationMapState extends State<BikeStationMap> {
   /*
   * Initialized the individual markers and add them to the map of markers
   * */
-  void initMarker (stationData, stationID) async {
-    //customIcon = await BitmapDescriptor.fromAssetImage (ImageConfiguration(),
-      // 'assets/image/bike_station_marker.png');
+  void initMarker (stationData, stationID) {
     var markerIdVal = stationID;
     final MarkerId markerId = MarkerId(markerIdVal);
     var bikeStand = stationData.get("available_bike_stands").toString();
     var freeBikes = stationData.get("available_bikes")[0].toString();
     final Marker marker = Marker(
       markerId: markerId,
-      //icon: customIcon,
+      icon: customIcon,
       position: LatLng(double.parse(stationData.get("latitude").toString()),
           double.parse(stationData.get("longitude").toString())),
       infoWindow: InfoWindow(
@@ -116,9 +114,9 @@ class _BikeStationMapState extends State<BikeStationMap> {
   }
 
   getMapIcon()  async {
-    customIcon = await BitmapDescriptor.fromAssetImage (ImageConfiguration(),
+    customIcon = await BitmapDescriptor.fromAssetImage (ImageConfiguration(size: Size(36, 36)),
         'assets/image/bike_station_marker.png');
-      }
+  }
 
   @override
   Widget build(BuildContext context) {
