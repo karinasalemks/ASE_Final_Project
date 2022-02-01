@@ -1,4 +1,3 @@
-import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +79,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       signIn(userNameController.text, passwordController.text)
                           .then((result) {
                         if (result == "success") {
-                          Navigator.of(context).pushNamed("/dublinBikesMap");
+                          Navigator.of(context).pushNamed("/intermediateUI",arguments: "Dublin Bikes");
                         } else if (result == "network-request-failed") {
                           return showSimpleNotification(
                               Text(
@@ -117,7 +116,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     cursor: SystemMouseCursors.click,
                     child: new GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/dublinBikesMap");
+                        Navigator.pushNamed(context, "/intermediateUI",arguments: "Dublin Bikes");
                       },
                       child: new Text(
                         "Continue as a guest",

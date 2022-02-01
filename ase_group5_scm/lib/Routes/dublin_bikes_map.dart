@@ -11,6 +11,7 @@ class BikeStationMap extends StatefulWidget {
 }
 
 class _BikeStationMapState extends State<BikeStationMap> {
+  late BitmapDescriptor customIcon;
   bool mapToggle = false;
   var currentLocation;
   var filterList = [
@@ -28,6 +29,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
   AppBar appBar = AppBar(
     title: Text("Dublin Bikes Map"),
   );
+
   //is not used.
   getMarkerData() async {
     FirebaseFirestore.instance
@@ -60,16 +62,26 @@ class _BikeStationMapState extends State<BikeStationMap> {
     }
   }
 
+// make sure to initialize before map loading
+
+  final nearbyCarsLocation = [
+    LatLng(24.9286825, 67.0403249),
+    LatLng(24.985577, 67.0661056), //24.9294892,67.0391903,18.73z
+  ];
+
   /*
   * Initialized the individual markers and add them to the map of markers
   * */
-  void initMarker(stationData, stationID) {
+  void initMarker (stationData, stationID) async {
+    //customIcon = await BitmapDescriptor.fromAssetImage (ImageConfiguration(),
+      // 'assets/image/bike_station_marker.png');
     var markerIdVal = stationID;
     final MarkerId markerId = MarkerId(markerIdVal);
     var bikeStand = stationData.get("available_bike_stands").toString();
     var freeBikes = stationData.get("available_bikes")[0].toString();
     final Marker marker = Marker(
       markerId: markerId,
+      //icon: customIcon,
       position: LatLng(double.parse(stationData.get("latitude").toString()),
           double.parse(stationData.get("longitude").toString())),
       infoWindow: InfoWindow(
@@ -87,7 +99,9 @@ class _BikeStationMapState extends State<BikeStationMap> {
     return markers;
   }
 
+  @override
   void initState() {
+    getMapIcon();
     //getMarkerData();
     super.initState();
     setState(() {
@@ -101,11 +115,20 @@ class _BikeStationMapState extends State<BikeStationMap> {
     });
   }
 
+  getMapIcon()  async {
+    customIcon = await BitmapDescriptor.fromAssetImage (ImageConfiguration(),
+        'assets/image/bike_station_marker.png');
+      }
+
   @override
   Widget build(BuildContext context) {
+    var heightOfFilter =
+        (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
+            0.10;
     //Todo: Refine the code here to stop calling setState method before build.
     return Scaffold(
-      appBar: appBar,
+      //appBar: appBar,
+      resizeToAvoidBottomInset: false,
       drawer: SideMenu(),
       body: StreamBuilder<QuerySnapshot>(
         stream:
@@ -116,7 +139,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
             return Column(
               children: <Widget>[
                 new Container(
-                    height: (MediaQuery.of(context).size.height - appBar.preferredSize.height) * 0.10,
+                    height: heightOfFilter,
                     child: Padding(
                         padding: const EdgeInsets.only(top: 10.0),
                         child: Row(
@@ -160,7 +183,10 @@ class _BikeStationMapState extends State<BikeStationMap> {
                           ],
                         ))),
                 new Container(
-                    height: (MediaQuery.of(context).size.height - appBar.preferredSize.height) * 0.90,
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            heightOfFilter) *
+                        0.90,
                     child: GoogleMap(
                       onMapCreated: onMapCreated,
                       myLocationEnabled: true,
