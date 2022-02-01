@@ -23,3 +23,8 @@ samples, guidance on mobile development, and a full API reference.
 
 ##Tasks:
 https://docs.google.com/document/d/1bq2cFTixZYuo4w3UDPrM4125C5kRBXTw_2QTfCz2LvI/edit?usp=sharing
+
+
+## How to start the Django Server
+- Go to dir SCM_Server
+- Run python manage.py runserver --noreload
