@@ -37,6 +37,9 @@ class BikePredictor:
         # Reverse min-max scaling, and round to nearest integer
         Y = np.round(Y * maxBikes)
 
+        # Cap the predictions at the maxBikes value
+        Y[Y > maxBikes] = maxBikes
+
         # Set all negative observations to 0
         Y[Y < 0] = 0
 
