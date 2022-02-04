@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'Routes/dublin_bikes_map.dart';
+import 'Routes/intermediate_interface.dart';
 import 'firebase_options.dart';
+import 'Routes/dublin_bikes_usage_chart.dart';
 import 'Routes/login.dart';
 
 void main() async {
@@ -38,11 +40,12 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         fontFamily: "Sans",
       ),
-      //home: MyHomePage(title: 'Flutter Demo Home Page'),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (context) => loginScreen(),
         '/dublinBikesMap': (context) => BikeStationMap(),
+        '/intermediateUI': (context) => const IntermediateInterface(),
+        '/dublinBikesUsageChart': (context) => DublinBikesUsageChart(),
       },
     ));
   }
@@ -124,7 +127,19 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             new Row(children: <Widget>[
               Expanded(child: SizedBox(height: 100.0, child: BikeData()))
-            ])
+            ]),
+            SizedBox(width: 5),
+            TextButton(
+                child: Text("Show Dublin Bikes Usage"),
+                style: TextButton.styleFrom(
+                  primary: Colors.white,
+                  backgroundColor: Colors.teal,
+                  onSurface: Colors.grey,
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed("/dublinBikesUsageChart");
+                }
+            ),
           ],
         ),
       ),
