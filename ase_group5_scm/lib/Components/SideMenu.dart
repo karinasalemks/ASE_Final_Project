@@ -74,7 +74,7 @@ class _SideMenuState extends State<SideMenu> {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.of(context).pushNamed("/dublinBikesMap");
+              Navigator.of(context).pushNamed("/intermediateUI",arguments: "Dublin Bikes");
             },
           ),
           ListTile(
@@ -89,7 +89,7 @@ class _SideMenuState extends State<SideMenu> {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.of(context).pushNamed("/dublinBikesMap");
+              Navigator.of(context).pushNamed("/intermediateUI",arguments: "Buses");
             },
           ),
           ListTile(
@@ -104,7 +104,7 @@ class _SideMenuState extends State<SideMenu> {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.of(context).pushNamed("/dublinBikesMap");
+              Navigator.of(context).pushNamed("/intermediateUI",arguments: "Luas");
             },
           ),
           ListTile(
