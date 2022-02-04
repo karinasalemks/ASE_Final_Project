@@ -1,8 +1,7 @@
-import 'package:ase_group5_scm/Components/SideMenu.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
+import '../Repository/fsbase_login.dart';
 
 /*
 * Login screen class is used to implement authentication of users
@@ -53,16 +52,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             Container(
               padding: const EdgeInsets.all(10),
               child: TextField(
+                key: Key("username-field"),
                 controller: userNameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'User Name',
+
                 ),
               ),
+
             ),
             Container(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 20),
               child: TextField(
+                key: Key("password-field"),
                 obscureText: true,
                 controller: passwordController,
                 decoration: const InputDecoration(
@@ -77,10 +80,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () {
-                      signIn(userNameController.text, passwordController.text)
+                      fsbase_login.signIn(userNameController.text, passwordController.text)
                           .then((result) {
                         if (result == "success") {
-                          Navigator.of(context).pushNamed("/dublinBikesMap");
+                          Navigator.of(context).pushNamed("/intermediateUI",arguments: "Dublin Bikes");
                         } else if (result == "network-request-failed") {
                           return showSimpleNotification(
                               Text(
@@ -117,7 +120,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     cursor: SystemMouseCursors.click,
                     child: new GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/dublinBikesMap");
+                        Navigator.pushNamed(context, "/intermediateUI",arguments: "Dublin Bikes");
                       },
                       child: new Text(
                         "Continue as a guest",
@@ -130,20 +133,5 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ]));
   }
 
-  /*
-  * signIn method is used to authenticate credentials with firebase
-  *
-  * @param String email
-  * @param String password
-  * @return Future<String> (success or auth message)
-  * */
-  Future<String> signIn(String email, String password) async {
-    try {
-      await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      return "success";
-    } on FirebaseAuthException catch (e) {
-      return e.code;
-    }
-  }
+
 }

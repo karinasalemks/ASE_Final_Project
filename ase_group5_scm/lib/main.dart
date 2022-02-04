@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'Routes/dublin_bikes_map.dart';
+import 'Routes/intermediate_interface.dart';
 import 'firebase_options.dart';
 import 'Routes/login.dart';
 
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/': (context) => loginScreen(),
         '/dublinBikesMap': (context) => BikeStationMap(),
+        '/intermediateUI': (context) => const IntermediateInterface(),
       },
     ));
   }
