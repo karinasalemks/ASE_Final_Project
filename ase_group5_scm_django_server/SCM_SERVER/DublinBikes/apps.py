@@ -9,4 +9,4 @@ class DublinbikesConfig(AppConfig):
     #changed for scheduling 
     def ready(self):
         from DublinBikes import scheduler
-        scheduler.start()
+        scheduler.start_schedulers()
