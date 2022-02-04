@@ -185,6 +185,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
                             appBar.preferredSize.height -
                             heightOfFilter) *
                         0.90,
+                    key:Key("dublin-bikes-map"),
                     child: GoogleMap(
                       onMapCreated: onMapCreated,
                       myLocationEnabled: true,
