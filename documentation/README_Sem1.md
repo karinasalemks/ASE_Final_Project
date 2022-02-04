@@ -21,7 +21,7 @@ Events > Maintenance Sequence Diagram: https://drive.google.com/file/d/1h47Hj4P8
 
 Data Pipeline UML Sequence Diagram: https://app.diagrams.net/#G1f4HO8NR2jzR9-kJ2d2vMRFlBwDT_7Fz3
 
-Functional Architecture (updated for Thin-Slice): https://drive.google.com/file/d/11bTqqnq3-hNItDInqFLU872KWA_BzrTK/view?usp=sharing
+Functional Architecture: https://drive.google.com/file/d/1pHiX3Y8OSui301FemGjBR6QZvsQT7eVu/view
 
 ------------------------------------------------------------------------------------------------------
 Quality of Service Technical Requirements: Yatheen
