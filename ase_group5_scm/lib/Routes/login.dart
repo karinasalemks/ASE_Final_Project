@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
-import '../Repository/fsbase_login.dart';
 
 /*
 * Login screen class is used to implement authentication of users
@@ -80,7 +79,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 child: ElevatedButton(
                     child: const Text('Login'),
                     onPressed: () {
-                      fsbase_login.signIn(userNameController.text, passwordController.text)
+                      signIn(userNameController.text, passwordController.text)
                           .then((result) {
                         if (result == "success") {
                           Navigator.of(context).pushNamed("/intermediateUI",arguments: "Dublin Bikes");
@@ -133,5 +132,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ]));
   }
 
+  /*
+  * signIn method is used to authenticate credentials with firebase
+  *
+  * @param String email
+  * @param String password
+  * @return Future<String> (success or auth message)
+  * */
+  Future<String> signIn(String email, String password) async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      return "success";
+    } on FirebaseAuthException catch (e) {
+      return e.code;
+    }
+  }
 
 }
