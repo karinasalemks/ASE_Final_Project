@@ -37,16 +37,17 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
   Widget build(BuildContext context) {
     void getSationUsageData(stationData) {
       var stationName = stationData.get("station_name");
-      var stationOccupany = stationData.get("occupancy_list");
-      var latUpdateTime = stationData.get("harvest_time");
+      var stationOccupancy = stationData.get("occupancy_list");
+      var lastUpdateTime = stationData.get("harvest_time");
       DateTime now = DateTime.now();
       var timeDifference =
-          now.difference(DateTime.parse(latUpdateTime)).inMinutes;
+          now.difference(DateTime.parse(lastUpdateTime)).inMinutes;
       int index = (timeDifference / 5).round();
-      if (index < 288) {
-        stationUsageMap[stationName] = stationOccupany[index] * 100;
+      int maxIndex = stationOccupancy.length - 1;
+      if (index < maxIndex) {
+        stationUsageMap[stationName] = stationOccupancy[index] * 100;
       } else {
-        stationUsageMap[stationName] = stationOccupany[277] * 100;
+        stationUsageMap[stationName] = stationOccupancy[maxIndex] * 100;
       }
     }
 
