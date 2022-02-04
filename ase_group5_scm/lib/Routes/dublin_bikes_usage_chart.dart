@@ -118,7 +118,6 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
                 }
 
                 return Scaffold(
-                  appBar: AppBar(title: Text("Dublin Bikes Usage Chart")),
                   body: Center(
                       child: Container(
                         height: 600,
