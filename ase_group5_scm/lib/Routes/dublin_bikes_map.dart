@@ -62,13 +62,6 @@ class _BikeStationMapState extends State<BikeStationMap> {
     }
   }
 
-// make sure to initialize before map loading
-
-  final nearbyCarsLocation = [
-    LatLng(24.9286825, 67.0403249),
-    LatLng(24.985577, 67.0661056), //24.9294892,67.0391903,18.73z
-  ];
-
   /*
   * Initialized the individual markers and add them to the map of markers
   * */
