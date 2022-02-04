@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import 'Routes/dublin_bikes_map.dart';
+import 'Routes/intermediate_interface.dart';
 import 'firebase_options.dart';
 import 'dublin_bikes_usage_chart.dart';
+import 'Routes/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return OverlaySupport.global(child:MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -35,13 +38,17 @@ class MyApp extends StatelessWidget {
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: "Sans",
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
-      routes: <String, WidgetBuilder> {
-        '/dublinBikesMap': (BuildContext context) => BikeStationMap(),
+      initialRoute: '/',
+      routes: <String, WidgetBuilder>{
+        '/': (context) => loginScreen(),
+        '/dublinBikesMap': (context) => BikeStationMap(),
+        '/intermediateUI': (context) => const IntermediateInterface(),
         '/dublinBikesUsageChart': (BuildContext context) => DublinBikesUsageChart(),
       },
-    );
+    ));
   }
 }
 
