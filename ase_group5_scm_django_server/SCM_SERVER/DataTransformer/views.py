@@ -22,12 +22,11 @@ def transformBikeData(inputData,isPrimarySource):
             updated_list[19] = apiResponse['available_bikes']
             bikePredictor.recent_df.loc[int(result['station_id'])].recentObservations = updated_list
             predictions = bikePredictor.predictDublinBikes(updated_list,int(result['station_id'])).tolist()
-            predictions.insert(0,apiResponse['available_bikes'])  
+            predictions.insert(0,apiResponse['available_bikes'])
             result['available_bikes'] = predictions
             
             result['bike_stands'] = apiResponse['bike_stands']
             result['available_bike_stands']=apiResponse['available_bike_stands']
-            #TODO: harvest_time is in timestamp.So do conversion to epochTime as required.
             result['harvest_time'] = apiResponse['harvest_time']
             result['latitude'] = apiResponse['latitude']
             result['longitude'] = apiResponse['longitude']
@@ -52,9 +51,12 @@ def transformBikeData(inputData,isPrimarySource):
 
             result['bike_stands'] = apiResponse['bike_stands']
             result['available_bike_stands']=apiResponse['available_bike_stands']
-            result['harvest_time'] = apiResponse['last_update']
-            result['latitude'] = apiResponse['position']['lat']
-            result['longitude'] = apiResponse['position']['lng']
+            timestamp = apiResponse['last_update']
+            timestamp_ms = pd.to_datetime(timestamp, unit='ms')
+            timestamp_formatted = timestamp_ms.strftime('%Y-%m-%dT%H:%M:%S')
+            result['harvest_time'] = timestamp_formatted
+            result['latitude'] = str(apiResponse['position']['lat'])
+            result['longitude'] = str(apiResponse['position']['lng'])
             result['station_name'] = apiResponse['name']
             result['station_status'] = apiResponse['status']
             bikeData = BikeModel(result)
