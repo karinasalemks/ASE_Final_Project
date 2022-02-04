@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'dublin_bikes_map.dart';
 
+import 'dublin_bikes_usage_chart.dart';
+
 List _bikeScreenList = [
   BikeStationMap(),
-  Text(' Bar chart Placeholder Text'),
+  DublinBikesUsageChart(),
   Text(' Heat map placeholder Text')
 ];
 
