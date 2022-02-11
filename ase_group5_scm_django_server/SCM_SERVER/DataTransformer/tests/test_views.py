@@ -22,7 +22,7 @@ class TestViews(unittest.TestCase):
         self.assertEqual(isinstance(result.longitude, str), True)
         self.assertEqual(isinstance(result.station_name, str), True)
         self.assertEqual(isinstance(result.station_status, str), True)
-        self.assertEqual(isinstance(result.available_bikeStands, int), True)
+        self.assertEqual(isinstance(result.available_bikeStands, list), True)
         self.assertEqual(isinstance(result.bike_stands, int), True)
         self.assertEqual(isinstance(result.available_bikes, list), True)
         self.assertEqual(isinstance(result.occupancy_list, list), True)
@@ -30,7 +30,7 @@ class TestViews(unittest.TestCase):
         self.assertEqual(len(result.occupancy_list), 289)
         self.assertEqual(any(x < 0 for x in result.available_bikes), False)
         self.assertEqual(any(x < 0 for x in result.occupancy_list), False)
-        self.assertEqual(result.available_bikeStands < 0, False)
+        self.assertEqual(any(x < 0 for x in result.available_bikeStands), False)
         self.assertEqual(result.bike_stands < 0, False)
 
     def test_transform_bike_data_not_primary(self):
@@ -53,7 +53,7 @@ class TestViews(unittest.TestCase):
         self.assertEqual(isinstance(result.longitude, str), True)
         self.assertEqual(isinstance(result.station_name, str), True)
         self.assertEqual(isinstance(result.station_status, str), True)
-        self.assertEqual(isinstance(result.available_bikeStands, int), True)
+        self.assertEqual(isinstance(result.available_bikeStands, list), True)
         self.assertEqual(isinstance(result.bike_stands, int), True)
         self.assertEqual(isinstance(result.available_bikes, list), True)
         self.assertEqual(isinstance(result.occupancy_list, list), True)
@@ -61,5 +61,5 @@ class TestViews(unittest.TestCase):
         self.assertEqual(len(result.occupancy_list), 289)
         self.assertEqual(any(x < 0 for x in result.available_bikes), False)
         self.assertEqual(any(x < 0 for x in result.occupancy_list), False)
-        self.assertEqual(result.available_bikeStands < 0, False)
+        self.assertEqual(any(x < 0 for x in result.available_bikeStands), False)
         self.assertEqual(result.bike_stands < 0, False)

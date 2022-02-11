@@ -24,9 +24,8 @@ def transformBikeData(inputData,isPrimarySource):
             predictions = bikePredictor.predictDublinBikes(updated_list,int(result['station_id'])).tolist()
             predictions.insert(0,apiResponse['available_bikes'])
             result['available_bikes'] = predictions
-            
             result['bike_stands'] = apiResponse['bike_stands']
-            result['available_bike_stands']=apiResponse['available_bike_stands']
+            result['available_bike_stands']=[(result['bike_stands'] - x) for x in predictions]
             result['harvest_time'] = apiResponse['harvest_time']
             result['latitude'] = apiResponse['latitude']
             result['longitude'] = apiResponse['longitude']
@@ -50,7 +49,7 @@ def transformBikeData(inputData,isPrimarySource):
             result['available_bikes'] = predictions
 
             result['bike_stands'] = apiResponse['bike_stands']
-            result['available_bike_stands']=apiResponse['available_bike_stands']
+            result['available_bike_stands']=[(result['bike_stands'] - x) for x in predictions]
             timestamp = apiResponse['last_update']
             timestamp_ms = pd.to_datetime(timestamp, unit='ms')
             timestamp_formatted = timestamp_ms.strftime('%Y-%m-%dT%H:%M:%S')
