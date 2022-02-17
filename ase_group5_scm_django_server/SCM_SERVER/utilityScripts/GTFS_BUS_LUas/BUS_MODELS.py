@@ -5,8 +5,7 @@ class TRIP:
         self.start_time = start_time
         self.stop_sequences = stop_sequences
 
-
-class STOP:
+class BUS_STOP:
     """Read stops.txt file and create objects"""
     def __init__(self,stop_id,stop_name,stop_lat,stop_lon,part_of_trips):
         self.stop_id = stop_id
