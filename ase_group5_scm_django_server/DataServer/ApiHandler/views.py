@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from DataTransformer.views import transformData
 from django.http import HttpResponse
 import requests, json
+from DataTransformer.DataModel import bikeModel
+
 
 def getBikeData(request):
     endpoint = None
@@ -18,5 +20,5 @@ def getBikeData(request):
         isPrimarySource = False
 
     response = requests.get(endpoint)
-    dublinBikesData = transformData(apiResponse=response,isPrimarySource=isPrimarySource)
-    return JsonResponse({"foo":"Bar"})
+    dublinBikesData = transformData(apiResponse=response.json(), isPrimarySource=isPrimarySource)
+    return JsonResponse(dublinBikesData, safe=False)

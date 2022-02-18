@@ -1,10 +1,7 @@
 from django.shortcuts import render
 from DataTransformer.DataModel.bikeModel import BikeModel
 import pandas as pd
-import logging
 
-logger = logging.getLogger("mylogger")
-logger.info("Whatever to log")
 
 # Create your views here.
 def transformBikeData(inputData, isPrimarySource):
@@ -12,9 +9,8 @@ def transformBikeData(inputData, isPrimarySource):
     stationData = []
 
     if isPrimarySource:
-        logger.info(inputData)
-
         for apiResponse in inputData:
+            print(apiResponse["station_id"])
             result['station_id'] = str(apiResponse['station_id'])
             result['bike_stands'] = apiResponse['bike_stands']
             result['available_bikes'] = apiResponse['available_bikes']
@@ -24,11 +20,13 @@ def transformBikeData(inputData, isPrimarySource):
             result['longitude'] = apiResponse['longitude']
             result['station_name'] = apiResponse['name']
             result['station_status'] = apiResponse['status']
+            # occupancy list has to be added
+            # prediction has to done in the app
             bikeData = BikeModel(result)
-            stationData.append(bikeData)
+            stationData.append(bikeData.toJSON())
     else:
         for apiResponse in inputData:
-            result['station_id'] = str(apiResponse['number'])
+            result["station_id"] = str(apiResponse["number"])
             result['available_bikes'] = apiResponse['available_bikes']
             result['bike_stands'] = apiResponse['bike_stands']
             result['available_bike_stands'] = apiResponse['available_bike_stands']
@@ -40,8 +38,10 @@ def transformBikeData(inputData, isPrimarySource):
             result['longitude'] = str(apiResponse['position']['lng'])
             result['station_name'] = apiResponse['name']
             result['station_status'] = apiResponse['status']
+            # occupancy list has to be added
+            # prediction has to be added
             bikeData = BikeModel(result)
-            stationData.append(bikeData)
+            stationData.append(bikeData.toJSON())
     return stationData
 
 
@@ -64,9 +64,6 @@ DataTransformer = {
     "DUBLIN_EVENTS": transformEventsData,
 }
 
+
 def transformData(source="DUBLIN_BIKES", apiResponse={}, isPrimarySource=True):
     return DataTransformer.get(source)(apiResponse, isPrimarySource)
-
-
-
-

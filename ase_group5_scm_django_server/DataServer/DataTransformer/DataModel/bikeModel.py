@@ -1,9 +1,12 @@
+import json
+
+
 class BikeModel:
     # default constructor
-    def __init__(self,inputData):
+    def __init__(self, inputData):
         self.station_id = inputData['station_id']
-        #self.available_bikes = inputData['available_bikes']
-        self.available_bikeStands=inputData['available_bike_stands']
+        # self.available_bikes = inputData['available_bikes']
+        self.available_bikeStands = inputData['available_bike_stands']
         self.bike_stands = inputData['bike_stands']
         self.harvest_time = inputData['harvest_time']
         self.latitude = inputData['latitude']
@@ -11,16 +14,7 @@ class BikeModel:
         self.station_name = inputData['station_name']
         self.station_status = inputData['station_status']
 
-    def to_dict(self):
-        result = {}
-        result['station_id'] = self.station_id
-        result['available_bikes'] = self.available_bikes
-        result['available_bikeStands']=self.available_bikeStands
-        result['bike_stands'] = self.bike_stands
-        result['harvest_time'] = self.harvest_time
-        result['latitude'] = self.latitude
-        result['longitude'] = self.longitude
-        result['station_name'] = self.station_name
-        result['station_status'] = self.station_status
-        result['occupancy_list'] = self.occupancy_list
-        return result
+    # method to convert bike model to json
+    # https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable :P
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__,sort_keys=True, indent=4)
