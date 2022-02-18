@@ -8,7 +8,7 @@ class TRIP:
 
 class BUS_STOP:
     """Read stops.txt file and create objects"""
-    def __init__(self,stop_id,stop_name,stop_lat,stop_lon,part_of_trips):
+    def __init__(self,stop_id,stop_name,stop_lat,stop_lon):
         self.stop_id = stop_id
         self.name = stop_name
         self.latitude = stop_lat
@@ -17,9 +17,9 @@ class BUS_STOP:
 class STOPSEQUENCE:
     """Read data from stop_times.txt and 
     aggregate with stop time update data received from API"""
-    def __init__(self,stop_sequence_id,stop_id,arrival_time,departure_time):
+    def __init__(self,stop_sequence_id,bus_stop,arrival_time,departure_time):
         self.stop_sequence_id = stop_sequence_id
-        self.bus_stop = stop_id
+        self.bus_stop = bus_stop
         self.arrival_time = arrival_time
         self.departure_time = departure_time
         

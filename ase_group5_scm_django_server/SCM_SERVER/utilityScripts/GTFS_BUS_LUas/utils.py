@@ -17,4 +17,3 @@ def readSTOPSFile(inputFilePath):
     return list_of_stops
 
 bus_stops = readSTOPSFile(inputFilePath)
-print(bus_stops[0].name)
