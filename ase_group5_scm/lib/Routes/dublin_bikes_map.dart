@@ -12,12 +12,17 @@ class BikeStationMap extends StatefulWidget {
 
 class _BikeStationMapState extends State<BikeStationMap> {
   late BitmapDescriptor customIcon;
+  late BitmapDescriptor customIcon_orange;
+  late BitmapDescriptor customIcon_red;
+  late BitmapDescriptor customIcon_green;
   bool mapToggle = false;
   var currentLocation;
   var filterList = [
     'All Stations',
-    'More than 90% full',
-    'More than 90% empty',
+    'More than 75% full',
+    'More than 50% full',
+    'Less than 50% full',
+    'Less than 25% full',
   ]; //station occupancy filter list
   String dropdownvalue =
       'All Stations'; // the default value for the station occupancy filter
@@ -51,14 +56,29 @@ class _BikeStationMapState extends State<BikeStationMap> {
   void initAllMarkers(var markersList) {
     markers.clear();
     for (int i = 0; i < markersList.length; i++) {
-      if (dropdownvalue == filterList[0])
+      if (dropdownvalue == filterList[0]) {
+
+      if (markersList[i].get("station_occupancy")[0] >= 0.75)
         initMarker(markersList[i], markersList[i].id);
+      else if (markersList[i].get("station_occupancy")[0] >= 0.50)
+        initMarker_green(markersList[i], markersList[i].id);
+      else if (markersList[i].get("station_occupancy")[0] <= 0.25)
+        initMarker_red(markersList[i], markersList[i].id);
+      else
+        initMarker_orange(markersList[i], markersList[i].id);
+    }
       else if (dropdownvalue == filterList[1] &&
-          markersList[i].get("station_occupancy")[0] > 0.9)
+          markersList[i].get("station_occupancy")[0] >= 0.75)
         initMarker(markersList[i], markersList[i].id);
       else if (dropdownvalue == filterList[2] &&
-          markersList[i].get("station_occupancy")[0] <= 0.1)
-        initMarker(markersList[i], markersList[i].id);
+          markersList[i].get("station_occupancy")[0] >= 0.50 && markersList[i].get("station_occupancy")[0]< 0.75)
+        initMarker_green(markersList[i], markersList[i].id);
+      else if (dropdownvalue == filterList[3] &&
+          markersList[i].get("station_occupancy")[0] <= 0.50 && markersList[i].get("station_occupancy")[0]> 0.25)
+        initMarker_orange(markersList[i], markersList[i].id);
+      else if (dropdownvalue == filterList[4] &&
+          markersList[i].get("station_occupancy")[0] <= 0.25)
+        initMarker_red(markersList[i], markersList[i].id);
     }
   }
 
@@ -73,6 +93,56 @@ class _BikeStationMapState extends State<BikeStationMap> {
     final Marker marker = Marker(
       markerId: markerId,
       icon: customIcon,
+      position: LatLng(double.parse(stationData.get("latitude").toString()),
+          double.parse(stationData.get("longitude").toString())),
+      infoWindow: InfoWindow(
+          title: stationData.get("station_name"),
+          snippet: "Stands: $bikeStand | Bikes: $freeBikes"),
+    );
+    markers[markerId] = marker;
+  }
+  void initMarker_orange (stationData, stationID) {
+    var markerIdVal = stationID;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    var bikeStand = stationData.get("available_bike_stands").toString();
+    var freeBikes = stationData.get("available_bikes")[0].toString();
+    final Marker marker = Marker(
+      markerId: markerId,
+      icon: customIcon_orange,
+      position: LatLng(double.parse(stationData.get("latitude").toString()),
+          double.parse(stationData.get("longitude").toString())),
+      infoWindow: InfoWindow(
+          title: stationData.get("station_name"),
+          snippet: "Stands: $bikeStand | Bikes: $freeBikes"),
+    );
+    markers[markerId] = marker;
+  }
+
+  void initMarker_green (stationData, stationID) {
+    var markerIdVal = stationID;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    var bikeStand = stationData.get("available_bike_stands").toString();
+    var freeBikes = stationData.get("available_bikes")[0].toString();
+    final Marker marker = Marker(
+      markerId: markerId,
+      icon: customIcon_green,
+      position: LatLng(double.parse(stationData.get("latitude").toString()),
+          double.parse(stationData.get("longitude").toString())),
+      infoWindow: InfoWindow(
+          title: stationData.get("station_name"),
+          snippet: "Stands: $bikeStand | Bikes: $freeBikes"),
+    );
+    markers[markerId] = marker;
+  }
+
+  void initMarker_red (stationData, stationID) {
+    var markerIdVal = stationID;
+    final MarkerId markerId = MarkerId(markerIdVal);
+    var bikeStand = stationData.get("available_bike_stands").toString();
+    var freeBikes = stationData.get("available_bikes")[0].toString();
+    final Marker marker = Marker(
+      markerId: markerId,
+      icon: customIcon_red,
       position: LatLng(double.parse(stationData.get("latitude").toString()),
           double.parse(stationData.get("longitude").toString())),
       infoWindow: InfoWindow(
@@ -107,8 +177,14 @@ class _BikeStationMapState extends State<BikeStationMap> {
   }
 
   getMapIcon()  async {
-    customIcon = await BitmapDescriptor.fromAssetImage (ImageConfiguration(size: Size(36, 36)),
+   customIcon = await BitmapDescriptor.fromAssetImage (ImageConfiguration(size: Size(36, 36)),
         'assets/image/bike_station_marker.png');
+   customIcon_orange = await BitmapDescriptor.fromAssetImage (ImageConfiguration(size: Size(36, 36)),
+        'assets/image/bike_station_marker_orange.png');
+   customIcon_red = await BitmapDescriptor.fromAssetImage (ImageConfiguration(size: Size(36, 36)),
+        'assets/image/bike_station_marker_red.png');
+   customIcon_green = await BitmapDescriptor.fromAssetImage (ImageConfiguration(size: Size(36, 36)),
+       'assets/image/bike_station_marker_green.png');
   }
 
   @override
@@ -171,6 +247,78 @@ class _BikeStationMapState extends State<BikeStationMap> {
                                 },
                               ),
                             ),
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 50.0),
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: Text('>75% Stand Occupied',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          letterSpacing: 0.5,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: 16)),
+                                ),
+                              ),
+                            ),
+                          new Image(image:new AssetImage( 'assets/image/bike_station_marker.png'),fit: BoxFit.cover),
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: Text('≥50% Stand Occupied',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          letterSpacing: 0.5,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: 16)),
+                                ),
+                              ),
+                            ),
+                            new Image(image:new AssetImage( 'assets/image/bike_station_marker_green.png'),fit: BoxFit.cover),
+
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: Text('<50% Stand Occupied',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          letterSpacing: 0.5,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: 16)),
+                                ),
+                              ),
+                            ),
+                            new Image(image:new AssetImage( 'assets/image/bike_station_marker_orange.png'),fit: BoxFit.cover),
+
+
+
+                            Flexible(
+                              fit: FlexFit.loose,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 10.0),
+                                child: FittedBox(
+                                  fit: BoxFit.cover,
+                                  child: Text('≤25% Stand Occupied',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                          letterSpacing: 0.5,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.black,
+                                          fontSize: 16)),
+                                ),
+                              ),
+                            ),
+                            new Image(image:new AssetImage( 'assets/image/bike_station_marker_red.png'),fit: BoxFit.cover),
                           ],
                         ))),
                 new Container(

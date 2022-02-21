@@ -3,11 +3,12 @@ import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'dublin_bikes_map.dart';
 
 import 'dublin_bikes_usage_chart.dart';
+import 'dublin_bikes_heat_map.dart';
 
 List _bikeScreenList = [
   BikeStationMap(),
   DublinBikesUsageChart(),
-  Text(' Heat map placeholder Text')
+  DublinBikesHeatMap()
 ];
 
 //replace the below list values with corresponding nested screen widgets
@@ -89,10 +90,10 @@ class _IntermediateInterfaceState extends State<IntermediateInterface> {
               icon: Icon(Icons.bar_chart),
               label: 'Bar_chart_placeHolder',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: 'Heat Map placeHolder',
-            ),
+            // BottomNavigationBarItem(
+              //icon: Icon(Icons.map),
+              // label: 'Heat Map placeHolder',
+            //),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.amber[800],
