@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from DataTransformer.DataModel.bikeModel import BikeModel
+from Server_DataTransformer.Server_DataModel.serverBikeModel import BikeModel
 import pandas as pd
 
 

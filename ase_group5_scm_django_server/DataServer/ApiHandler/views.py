@@ -1,14 +1,13 @@
 from django.shortcuts import render
 from . import Endpoints
 from django.http import JsonResponse
-from DataTransformer.views import transformData
+from Server_DataTransformer.views import transformData
 from django.http import HttpResponse
 import requests, json
-from DataTransformer.DataModel import bikeModel
+from Server_DataTransformer.Server_DataModel import serverBikeModel
 
 
 def getBikeData(request):
-
     # dummy logic to determine the api source, it needs a change
     endpoint = None
     isPrimarySource = None
