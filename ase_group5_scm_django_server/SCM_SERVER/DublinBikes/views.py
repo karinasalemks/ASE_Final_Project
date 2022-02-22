@@ -10,6 +10,7 @@ import os,time
 
 from API_Handler.views import getAPIEndpoint
 from DataTransformer.views import transformData
+from bike_swap_suggestions import *
 
 # replace the key with the groups private key
 privateKeyPath = os.path.join(os.getcwd(),'static')
@@ -18,6 +19,9 @@ cred_obj = credentials.Certificate(privateKeyPath)
 
 default_app = firebase_admin.initialize_app(cred_obj)
 db = firestore.client()
+
+#this method call should be done only once before the server starts
+bike_station_distance_matrix = proprocessBikeStationData()
 
 def bikeAvailability():
     start=time.time()
@@ -30,6 +34,8 @@ def bikeAvailability():
       apiResponse =response.json()
       #Data Transformed to a custom model here
       bikeStationData = transformData(apiResponse=apiResponse,isPrimarySource=isPrimarySource)
+      #Once the data is transformed we need to generate swap suggestions:
+      swap_suggestions = generate_swap_suggestions(bikeStationData,bike_station_distance_matrix)
       bikesCollectionRef= db.collection(u'DublinBikes')
       batch = db.batch()
       for stationData in bikeStationData:
