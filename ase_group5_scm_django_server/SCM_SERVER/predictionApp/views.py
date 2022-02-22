@@ -19,7 +19,7 @@ class BikePredictor:
         self.recent_df = pd.read_csv(self.recent_df_path)
         self.recent_df.set_index('stationID', inplace=True)
     
-    # Create your views here.
+    # Create your views here
     def predictDublinBikes(self,X, station_ID):
         
         # Create a dictionary that can look-up that maxBikes for a station based on it's station_ID

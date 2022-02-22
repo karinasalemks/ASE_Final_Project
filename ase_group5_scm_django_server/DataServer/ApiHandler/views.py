@@ -8,6 +8,8 @@ from DataTransformer.DataModel import bikeModel
 
 
 def getBikeData(request):
+
+    # dummy logic to determine the api source, it needs a change
     endpoint = None
     isPrimarySource = None
     from random import randint
@@ -19,6 +21,7 @@ def getBikeData(request):
         endpoint = Endpoints.DUBLIN_BIKES_API['SECONDARY']
         isPrimarySource = False
 
+    # getting data from bike live data source
     response = requests.get(endpoint)
     dublinBikesData = transformData(apiResponse=response.json(), isPrimarySource=isPrimarySource)
     return JsonResponse(dublinBikesData, safe=False)

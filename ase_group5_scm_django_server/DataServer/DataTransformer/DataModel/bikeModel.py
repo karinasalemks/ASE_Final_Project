@@ -5,7 +5,7 @@ class BikeModel:
     # default constructor
     def __init__(self, inputData):
         self.station_id = inputData['station_id']
-        # self.available_bikes = inputData['available_bikes']
+        self.available_bikes = inputData['available_bikes']
         self.available_bikeStands = inputData['available_bike_stands']
         self.bike_stands = inputData['bike_stands']
         self.harvest_time = inputData['harvest_time']
