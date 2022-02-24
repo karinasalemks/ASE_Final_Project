@@ -1,0 +1,10 @@
+ase_development/*
+__pycache__/*
+*.pyc
+*.dill
+*.stamp
+*.dill
+documentation/.DS_Store
+ase_group5_scm_django_server/SCM_SERVER/utilityScripts/testAPI.py
+*.lock
+ase_group5_scm/pubspec.lock

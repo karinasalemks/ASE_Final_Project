@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import json
 
+
 # Create your views here.
 def transformBikeData(inputData):
     # result = {}
@@ -14,8 +15,9 @@ def transformBikeData(inputData):
     for apiResponse in inputData:
         # Call Prediction Engine here
         apiResponse = json.loads(apiResponse)
-        recent_list = np.fromstring(bikePredictor.recent_df.loc[int(apiResponse['station_id'])].recentObservations[1:-1],
-                                    sep=' ', dtype='int64')
+        recent_list = np.fromstring(
+            bikePredictor.recent_df.loc[int(apiResponse['station_id'])].recentObservations[1:-1],
+            sep=' ', dtype='int64')
         updated_list = np.empty(20, dtype='int64')
         updated_list[:19] = recent_list[1:]
         updated_list[19] = apiResponse['available_bikes']
@@ -23,6 +25,7 @@ def transformBikeData(inputData):
         predictions = bikePredictor.predictDublinBikes(updated_list, int(apiResponse['station_id'])).tolist()
         predictions.insert(0, apiResponse['available_bikes'])
         apiResponse['available_bikes'] = predictions
+        apiResponse['available_bike_stands'] = [(apiResponse['bike_stands'] - x) for x in predictions]
         bikeData = BikeModel(apiResponse)
         bikeData.calculateOccupancyList()
         stationData.append(bikeData)

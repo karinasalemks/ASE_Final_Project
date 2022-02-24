@@ -68,8 +68,12 @@ class _BikeStationMapState extends State<BikeStationMap> {
   void initMarker (stationData, stationID) {
     var markerIdVal = stationID;
     final MarkerId markerId = MarkerId(markerIdVal);
-    var bikeStand = stationData.get("available_bike_stands").toString();
-    var freeBikes = stationData.get("available_bikes")[0].toString();
+    var bikeStand = stationData.get("available_bikeStands")[0];
+    var freeBikes = stationData.get("available_bikes")[0];
+    var totalBikes = bikeStand + freeBikes;
+    bikeStand = bikeStand.toString();
+    freeBikes = freeBikes.toString();
+    totalBikes = totalBikes.toString();
     final Marker marker = Marker(
       markerId: markerId,
       icon: customIcon,
@@ -77,7 +81,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
           double.parse(stationData.get("longitude").toString())),
       infoWindow: InfoWindow(
           title: stationData.get("station_name"),
-          snippet: "Stands: $bikeStand | Bikes: $freeBikes"),
+          snippet: "Total Stands:$totalBikes\nAvailable Stands: $bikeStand\nAvailable Bikes: $freeBikes"),
     );
     markers[markerId] = marker;
   }
