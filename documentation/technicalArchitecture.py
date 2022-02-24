@@ -15,18 +15,14 @@ from diagrams.custom import Custom
 with Diagram("Technical Architecture", direction='RL') as diag: # It's LR by default, but you have a few options with the orientation
     
     with Cluster("Frontend"):
-        flutter = Flutter("User Interface\n[UI Handler + Visualizer]")
-        with Cluster("Local Database"):
-            localDBGroup = [
-                PostgreSQL("User Database\nLive Data Buffer"),
-            ]
-        flutter - localDBGroup
+        flutter = Flutter("User Interface")
+        
 
     firebase = RealtimeDatabase("Firebase")
 
     with Cluster("External Data Sources"):
-        luas = SQL("Luas"),
         dataSourcesGroup = [
+            SQL("Luas"),
             SQL("Bikes"),
             SQL("Buses"),
             SQL("Events/Incidents"),
@@ -42,20 +38,10 @@ with Diagram("Technical Architecture", direction='RL') as diag: # It's LR by def
                 Custom("",'scikitLearn.png'),
                 Custom("",'s.png')
             ]
-        apiEngine >> predictionGroup >> dataTransformer >> firebase >> localDBGroup
-        
-        with Cluster("Server Database"):
-            serverDBGroup = [
-                PostgreSQL("Request Logger\n and DataBuffer"),
-            ]
-        
-        serverDBGroup - django
+        apiEngine >> predictionGroup >> dataTransformer >> firebase >> flutter
 
         
-    luas >> apiEngine
-    django \
-        >> Edge(color="darkgreen") \
-        << flutter \
+    dataSourcesGroup >> apiEngine
 
     #TODO:Ad legend for every tech stack
     #PostgreSQL("PostgreSQL"),
