@@ -10,7 +10,7 @@ import os,time
 
 from API_Handler.views import getAPIEndpoint
 from DataTransformer.views import transformData
-from bike_swap_suggestions import *
+from .bike_swap_suggestions import *
 
 # replace the key with the groups private key
 privateKeyPath = os.path.join(os.getcwd(),'static')
