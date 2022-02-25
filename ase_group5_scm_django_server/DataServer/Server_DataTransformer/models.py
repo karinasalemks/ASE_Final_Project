@@ -1,12 +1,21 @@
 # from pickle import STOP
 import pandas as pd
-from .Server_DataModel.busModel import BUS_STOP, STOPSEQUENCE, TRIP
 import csv
 
 # from StaticFiles
 
 stopsTimeFilePath = "Server_DataTransformer/StaticFiles/stop_times.csv"
 inputFilePath = "Server_DataTransformer/StaticFiles/stops.csv"
+
+
+class BUS_STOP:
+    """Read stops.txt file and create objects"""
+
+    def __init__(self, stop_id, stop_name, stop_lat, stop_lon):
+        self.stop_id = stop_id
+        self.name = stop_name
+        self.latitude = stop_lat
+        self.longitude = stop_lon
 
 
 def readSTOPSFile(inputFilePath):

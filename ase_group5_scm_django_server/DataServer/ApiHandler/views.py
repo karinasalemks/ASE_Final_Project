@@ -1,7 +1,6 @@
 from urllib import response
 from django.shortcuts import render
 
-from Server_DataTransformer.views import getBusTrips
 from . import Endpoints
 from django.http import JsonResponse
 from Server_DataTransformer.views import transformData
@@ -31,17 +30,14 @@ def getBikeData(request):
     return JsonResponse(dublinBikesData, safe=False)
 
 
-# def transformBusList(request):
-#     tripslist = getBusTrips()
-#     tripslist = transformData(apiResponse=response.json())
-
-
 def getBusData(request):
-
     response = requests.get(
-        Endpoints.DUBLIN_BUSES_API["PRIMARY"], headers=Endpoints.DUBLIN_BUS_HEADER())
+        Endpoints.DUBLIN_BUSES_API["PRIMARY"], headers={
+            # Request headers
+            'Cache-Control': 'no-cache',
+            'x-api-key': 'e6f06c8f344e454f872d48addd6c23c6',
+        })
     if (response.status_code == 200):
-        #
         dublinBusData = transformData(
             source="DUBLIN_BUS", apiResponse=response.json())
 

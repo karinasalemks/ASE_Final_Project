@@ -2,10 +2,8 @@ from django.shortcuts import render
 from Server_DataTransformer.Server_DataModel.serverBikeModel import BikeModel
 import pandas as pd
 import json
-from models import stops_dict, bus_stops
 import requests
-from Server_DataModel.busModel import TRIP, STOPSEQUENCE
-
+from Server_DataTransformer.Server_DataModel.busModel import TRIP, STOPSEQUENCE
 
 # Create your views here.
 def transformBikeData(inputData, isPrimarySource):
@@ -49,10 +47,6 @@ def transformBikeData(inputData, isPrimarySource):
     return stationData
 
 
-def transformLUASData(apiResponse):
-    return "Success"
-
-
 def transformBUSData(bus_data, isPrimarySource):
     """returns a list of TRIP objects"""
     # read bus data from request api
@@ -77,7 +71,7 @@ def transformBUSData(bus_data, isPrimarySource):
                 try:
                     stopTimeSequences = tripUpdate['StopTimeUpdate']
                     # trip_update_split[4] is the direction of the trip
-                    stop_seq_list = getStopSequenceList(
+                    stop_seq_list = STOPSEQUENCE.getStopSequenceList(
                         stopTimeSequences, route_id, trip_update_split[4])
                 except KeyError:
                     print("Error, no 'StopTimeUpdate' field", tripUpdate)
@@ -86,54 +80,14 @@ def transformBUSData(bus_data, isPrimarySource):
             print("Error in TripId, no routes, trip Id: ", trip_update_split)
             continue
         trip_obj = TRIP(trip_id, bus_entity, start_time, stop_seq_list)
+        jsonObj = trip_obj.toJSON()
         # trip_obj.estimateCO2()
-        trips_list.append(trip_obj)
+        trips_list.append(jsonObj)
     return trips_list
 
 
-# def getBusData():
-#     headers = {
-#         # Request headers
-#         'Cache-Control': 'no-cache',
-#         'x-api-key': 'e6f06c8f344e454f872d48addd6c23c6',
-#     }
-
-#     url = "https://gtfsr.transportforireland.ie/v1/?format=json"
-#     response = requests.get(url, headers=headers)
-#     if (response.status_code == 200):
-#         api_response = response.json()
-#         bus_data = api_response["Entity"]
-#         print("bus data done")
-#         return bus_data
-#     else:
-#         print(response.status_code)
-#         return ''
-
-
-def getStopSequenceList(stopTimeSequences, route_id, dir):
-    """returns a list of STOPSEQUENCE objects for each trip"""
-    stop_seq_list = []
-    for stopSequence in stopTimeSequences:
-        try:
-            stop_id = stopSequence['StopId']
-            # create tuple of "<route_id>,<stop_id>,<direction>"
-            key_tuple = (route_id, stop_id, dir)
-            stop_seq_id = stopSequence['StopSequence']
-            # check if the create key tuple exits in the stops_dict
-            if (key_tuple in stops_dict):
-                stop_dict_value = stops_dict[key_tuple]
-                bus_arrival_time = stop_dict_value[0]
-                bus_departure_time = stop_dict_value[1]
-                bus_stop = bus_stops[stop_id]
-                stop_seq = STOPSEQUENCE(
-                    stop_seq_id, bus_stop, bus_arrival_time, bus_departure_time)
-                stop_seq_list.append(stop_seq)
-            else:
-                print("Error - Key tuple is not there: ", key_tuple)
-                continue
-        except IndexError:
-            continue
-    return stop_seq_list
+def transformLUASData(apiResponse):
+    return "Success"
 
 
 def transformEventsData(apiResponse):
