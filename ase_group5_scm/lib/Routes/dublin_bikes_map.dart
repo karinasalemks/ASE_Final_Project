@@ -43,7 +43,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
         .then((myMarkers) {
       if (myMarkers.docs.isNotEmpty) {
         for (int i = 0; i < myMarkers.docs.length; i++) {
-          initMarker(myMarkers.docs[i], myMarkers.docs[i].id);
+          initMarker(myMarkers.docs[i], myMarkers.docs[i].id,customIcon);
         }
       }
     });
@@ -59,33 +59,33 @@ class _BikeStationMapState extends State<BikeStationMap> {
       if (dropdownvalue == filterList[0]) {
 
       if (markersList[i].get("station_occupancy")[0] >= 0.75)
-        initMarker(markersList[i], markersList[i].id);
+        initMarker(markersList[i], markersList[i].id,customIcon);
       else if (markersList[i].get("station_occupancy")[0] >= 0.50)
-        initMarker_green(markersList[i], markersList[i].id);
+        initMarker(markersList[i], markersList[i].id,customIcon_green);
       else if (markersList[i].get("station_occupancy")[0] <= 0.25)
-        initMarker_red(markersList[i], markersList[i].id);
+        initMarker(markersList[i], markersList[i].id,customIcon_red);
       else
-        initMarker_orange(markersList[i], markersList[i].id);
+        initMarker(markersList[i], markersList[i].id,customIcon_orange);
     }
       else if (dropdownvalue == filterList[1] &&
           markersList[i].get("station_occupancy")[0] >= 0.75)
-        initMarker(markersList[i], markersList[i].id);
+        initMarker(markersList[i], markersList[i].id,customIcon);
       else if (dropdownvalue == filterList[2] &&
           markersList[i].get("station_occupancy")[0] >= 0.50 && markersList[i].get("station_occupancy")[0]< 0.75)
-        initMarker_green(markersList[i], markersList[i].id);
+        initMarker(markersList[i], markersList[i].id,customIcon_green);
       else if (dropdownvalue == filterList[3] &&
           markersList[i].get("station_occupancy")[0] <= 0.50 && markersList[i].get("station_occupancy")[0]> 0.25)
-        initMarker_orange(markersList[i], markersList[i].id);
+        initMarker(markersList[i], markersList[i].id,customIcon_orange);
       else if (dropdownvalue == filterList[4] &&
           markersList[i].get("station_occupancy")[0] <= 0.25)
-        initMarker_red(markersList[i], markersList[i].id);
+        initMarker(markersList[i], markersList[i].id,customIcon_red);
     }
   }
 
   /*
   * Initialized the individual markers and add them to the map of markers
   * */
-  void initMarker (stationData, stationID) {
+  void initMarker (stationData, stationID,inputIcon) {
     var markerIdVal = stationID;
     final MarkerId markerId = MarkerId(markerIdVal);
     var bikeStand = stationData.get("available_bikeStands")[0];
@@ -96,62 +96,12 @@ class _BikeStationMapState extends State<BikeStationMap> {
     totalBikes = totalBikes.toString();
     final Marker marker = Marker(
       markerId: markerId,
-      icon: customIcon,
+      icon: inputIcon,
       position: LatLng(double.parse(stationData.get("latitude").toString()),
           double.parse(stationData.get("longitude").toString())),
       infoWindow: InfoWindow(
           title: stationData.get("station_name"),
           snippet: "Total Stands:$totalBikes\nAvailable Stands: $bikeStand\nAvailable Bikes: $freeBikes"),
-    );
-    markers[markerId] = marker;
-  }
-  void initMarker_orange (stationData, stationID) {
-    var markerIdVal = stationID;
-    final MarkerId markerId = MarkerId(markerIdVal);
-    var bikeStand = stationData.get("available_bike_stands").toString();
-    var freeBikes = stationData.get("available_bikes")[0].toString();
-    final Marker marker = Marker(
-      markerId: markerId,
-      icon: customIcon_orange,
-      position: LatLng(double.parse(stationData.get("latitude").toString()),
-          double.parse(stationData.get("longitude").toString())),
-      infoWindow: InfoWindow(
-          title: stationData.get("station_name"),
-          snippet: "Stands: $bikeStand | Bikes: $freeBikes"),
-    );
-    markers[markerId] = marker;
-  }
-
-  void initMarker_green (stationData, stationID) {
-    var markerIdVal = stationID;
-    final MarkerId markerId = MarkerId(markerIdVal);
-    var bikeStand = stationData.get("available_bike_stands").toString();
-    var freeBikes = stationData.get("available_bikes")[0].toString();
-    final Marker marker = Marker(
-      markerId: markerId,
-      icon: customIcon_green,
-      position: LatLng(double.parse(stationData.get("latitude").toString()),
-          double.parse(stationData.get("longitude").toString())),
-      infoWindow: InfoWindow(
-          title: stationData.get("station_name"),
-          snippet: "Stands: $bikeStand | Bikes: $freeBikes"),
-    );
-    markers[markerId] = marker;
-  }
-
-  void initMarker_red (stationData, stationID) {
-    var markerIdVal = stationID;
-    final MarkerId markerId = MarkerId(markerIdVal);
-    var bikeStand = stationData.get("available_bike_stands").toString();
-    var freeBikes = stationData.get("available_bikes")[0].toString();
-    final Marker marker = Marker(
-      markerId: markerId,
-      icon: customIcon_red,
-      position: LatLng(double.parse(stationData.get("latitude").toString()),
-          double.parse(stationData.get("longitude").toString())),
-      infoWindow: InfoWindow(
-          title: stationData.get("station_name"),
-          snippet: "Stands: $bikeStand | Bikes: $freeBikes"),
     );
     markers[markerId] = marker;
   }
