@@ -141,6 +141,155 @@ class _BikeStationMapState extends State<BikeStationMap> {
        'assets/image/bike_station_marker_green.png');
   }
 
+
+
+  bikeMapHeaderContainer(heightOfFilter, snapshot){
+    return new Container(
+        height: heightOfFilter,
+        child: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Row(
+              children: <Widget>[
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text('Current Station Occupancy',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16)),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: DropdownButton(
+                    value: dropdownvalue,
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    items: filterList.map((String items) {
+                      return DropdownMenuItem(
+                          value: items, child: Text(items));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownvalue = newValue!;
+                        initAllMarkers(snapshot.data!.docs);
+                      });
+                    },
+                  ),
+                ),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 50.0),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text('>75% Stand Occupied',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16)),
+                    ),
+                  ),
+                ),
+                new Image(image:new AssetImage( 'assets/image/bike_station_marker.png'),fit: BoxFit.cover),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text('≥50% Stand Occupied',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16)),
+                    ),
+                  ),
+                ),
+                new Image(image:new AssetImage( 'assets/image/bike_station_marker_green.png'),fit: BoxFit.cover),
+
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text('<50% Stand Occupied',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16)),
+                    ),
+                  ),
+                ),
+                new Image(image:new AssetImage( 'assets/image/bike_station_marker_orange.png'),fit: BoxFit.cover),
+
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text('≤25% Stand Occupied',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16)),
+                    ),
+                  ),
+                ),
+                new Image(image:new AssetImage( 'assets/image/bike_station_marker_red.png'),fit: BoxFit.cover),
+              ],
+            )));
+  }
+
+  bikesMapContainer(heightOfFilter, snapshot){
+    return new Container(
+        height: (MediaQuery.of(context).size.height -
+            appBar.preferredSize.height -
+            heightOfFilter) *
+            0.90,
+        key:Key("dublin-bikes-map"),
+        child: GoogleMap(
+          onMapCreated: onMapCreated,
+          myLocationEnabled: true,
+          initialCameraPosition: CameraPosition(
+            target: LatLng(53.344007, -6.266802),
+            zoom: 15.0,
+          ),
+          markers: Set<Marker>.of(getMarkers().values),
+        ));
+
+  }
+
+
+  bikeMap(heightOfFilter, snapshot) {
+    return Column(
+      children: <Widget>[
+        bikeMapHeaderContainer(heightOfFilter, snapshot),
+        bikesMapContainer(heightOfFilter, snapshot)
+      ],
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     var heightOfFilter =
@@ -157,141 +306,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             initAllMarkers(snapshot.data!.docs);
-            return Column(
-              children: <Widget>[
-                new Container(
-                    height: heightOfFilter,
-                    child: Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Row(
-                          children: <Widget>[
-                            Flexible(
-                              fit: FlexFit.loose,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: FittedBox(
-                                  fit: BoxFit.cover,
-                                  child: Text('Current Station Occupancy',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          letterSpacing: 0.5,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                          fontSize: 16)),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Flexible(
-                              fit: FlexFit.loose,
-                              child: DropdownButton(
-                                value: dropdownvalue,
-                                icon: Icon(Icons.keyboard_arrow_down),
-                                items: filterList.map((String items) {
-                                  return DropdownMenuItem(
-                                      value: items, child: Text(items));
-                                }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    dropdownvalue = newValue!;
-                                    initAllMarkers(snapshot.data!.docs);
-                                  });
-                                },
-                              ),
-                            ),
-                            Flexible(
-                              fit: FlexFit.loose,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 50.0),
-                                child: FittedBox(
-                                  fit: BoxFit.cover,
-                                  child: Text('>75% Stand Occupied',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          letterSpacing: 0.5,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                          fontSize: 16)),
-                                ),
-                              ),
-                            ),
-                          new Image(image:new AssetImage( 'assets/image/bike_station_marker.png'),fit: BoxFit.cover),
-                            Flexible(
-                              fit: FlexFit.loose,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: FittedBox(
-                                  fit: BoxFit.cover,
-                                  child: Text('≥50% Stand Occupied',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          letterSpacing: 0.5,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                          fontSize: 16)),
-                                ),
-                              ),
-                            ),
-                            new Image(image:new AssetImage( 'assets/image/bike_station_marker_green.png'),fit: BoxFit.cover),
-
-                            Flexible(
-                              fit: FlexFit.loose,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: FittedBox(
-                                  fit: BoxFit.cover,
-                                  child: Text('<50% Stand Occupied',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          letterSpacing: 0.5,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                          fontSize: 16)),
-                                ),
-                              ),
-                            ),
-                            new Image(image:new AssetImage( 'assets/image/bike_station_marker_orange.png'),fit: BoxFit.cover),
-
-
-
-                            Flexible(
-                              fit: FlexFit.loose,
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: FittedBox(
-                                  fit: BoxFit.cover,
-                                  child: Text('≤25% Stand Occupied',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          letterSpacing: 0.5,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.black,
-                                          fontSize: 16)),
-                                ),
-                              ),
-                            ),
-                            new Image(image:new AssetImage( 'assets/image/bike_station_marker_red.png'),fit: BoxFit.cover),
-                          ],
-                        ))),
-                new Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appBar.preferredSize.height -
-                            heightOfFilter) *
-                        0.90,
-                    key:Key("dublin-bikes-map"),
-                    child: GoogleMap(
-                      onMapCreated: onMapCreated,
-                      myLocationEnabled: true,
-                      initialCameraPosition: CameraPosition(
-                        target: LatLng(53.344007, -6.266802),
-                        zoom: 15.0,
-                      ),
-                      markers: Set<Marker>.of(getMarkers().values),
-                    )),
-              ],
-            );
+            return bikeMap(heightOfFilter, snapshot);
           } else if (snapshot.hasError) {
             print(snapshot.error);
             return Text("Error pa thambi!");
