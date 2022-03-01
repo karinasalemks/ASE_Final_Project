@@ -35,7 +35,7 @@ def bikeAvailability():
       #Data Transformed to a custom model here
       bikeStationData = transformData(apiResponse=apiResponse,isPrimarySource=isPrimarySource)
       #Once the data is transformed we need to generate swap suggestions:
-      swap_suggestions = generate_swap_suggestions(bikeStationData,bike_station_distance_matrix)
+      swap_suggestions = {"swap_suggestions":generate_swap_suggestions(bikeStationData,bike_station_distance_matrix)}
       bikesCollectionRef= db.collection(u'DublinBikes')
       batch = db.batch()
 
@@ -46,7 +46,7 @@ def bikeAvailability():
 
       #Update Swap Suggestions
       swap_suggestions_document = bikesCollectionRef.document("bike_swap_suggestions")
-      batch.update(swap_suggestions_document,swap_suggestions.to_dict())
+      batch.update(swap_suggestions_document,swap_suggestions)
                     
       batch.commit()
       print("Batch Transaction Complete..")
