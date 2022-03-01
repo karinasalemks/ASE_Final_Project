@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from Server_DataTransformer.Server_DataModel.serverBikeModel import BikeModel
 import pandas as pd
-
+import json
+import requests
+from Server_DataTransformer.Server_DataModel.busModel import TRIP, STOPSEQUENCE
 
 # Create your views here.
 def transformBikeData(inputData, isPrimarySource):
@@ -45,11 +47,46 @@ def transformBikeData(inputData, isPrimarySource):
     return stationData
 
 
+def transformBUSData(bus_data, isPrimarySource):
+    """returns a list of TRIP objects"""
+    # read bus data from request api
+    bus_delays_list = bus_data["Entity"]
+    trips_list = []
+    for trip in bus_delays_list:
+        tripUpdate = trip['TripUpdate']
+        trip_id = trip['Id']
+        # splitting the trip id to get the route id and direction
+        trip_update_split = trip_id.split(".")
+        try:
+            route_id = trip_update_split[2]
+            # splitting the route id to get the bus entity (bus number)
+            route_split = route_id.split("-")
+            bus_entity = route_split[2]
+            trip_entity = tripUpdate['Trip']
+            start_time = trip_entity['StartTime']
+            """ 
+            ScheduleRelationship has 3 values: 'Scheduled', 'Skipped', 'Canceled'
+            """
+            if (trip_entity['ScheduleRelationship'] == 'Scheduled'):
+                try:
+                    stopTimeSequences = tripUpdate['StopTimeUpdate']
+                    # trip_update_split[4] is the direction of the trip
+                    stop_seq_list = STOPSEQUENCE.getStopSequenceList(
+                        stopTimeSequences, route_id, trip_update_split[4])
+                except KeyError:
+                    print("Error, no 'StopTimeUpdate' field", tripUpdate)
+                    continue
+        except IndexError:
+            print("Error in TripId, no routes, trip Id: ", trip_update_split)
+            continue
+        trip_obj = TRIP(trip_id, bus_entity, start_time, stop_seq_list)
+        jsonObj = trip_obj.toJSON()
+        # trip_obj.estimateCO2()
+        trips_list.append(jsonObj)
+    return trips_list
+
+
 def transformLUASData(apiResponse):
-    return "Success"
-
-
-def transformBUSData(apiResponse):
     return "Success"
 
 
