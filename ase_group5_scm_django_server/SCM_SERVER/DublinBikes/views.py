@@ -38,9 +38,15 @@ def bikeAvailability():
       swap_suggestions = generate_swap_suggestions(bikeStationData,bike_station_distance_matrix)
       bikesCollectionRef= db.collection(u'DublinBikes')
       batch = db.batch()
+
+      #Update Bike station Data
       for stationData in bikeStationData:
           currentDocRef = bikesCollectionRef.document(stationData.station_id) 
           batch.update(currentDocRef, stationData.to_dict())
+
+      #Update Swap Suggestions
+      swap_suggestions_document = bikesCollectionRef.document("bike_swap_suggestions")
+      batch.update(swap_suggestions_document,swap_suggestions.to_dict())
                     
       batch.commit()
       print("Batch Transaction Complete..")

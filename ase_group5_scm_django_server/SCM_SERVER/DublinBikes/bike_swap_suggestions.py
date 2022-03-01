@@ -2,6 +2,7 @@ import pandas as pd
 import haversine as hs
 import os
 
+
 def proprocessBikeStationData():
     data = pd.read_csv("static/bike_station_coords.csv")
     data = data.sort_values(by=['Number'])
@@ -39,10 +40,12 @@ def generate_swap_suggestions(bikeStationData,distance_matrix):
     swap_suggestions = []
     #List of stations with their occupancy
     station_occupancy = {}
+    station_dict = {}
     for station in bikeStationData:
         station_id = int(station.station_id)
         current_occupancy = station.occupancy_list[0]
         station_occupancy[station_id] = current_occupancy
+        station_dict[station_id] = station
     
     #Select stations for which we need to generate suggestions
     station_occupancy_list = sorted(station_occupancy.items(), key=lambda item: item[1]) 
@@ -68,5 +71,15 @@ def generate_swap_suggestions(bikeStationData,distance_matrix):
                 swap_suggestions.append((station_id,nearest_station))
                 break
     
-    print(f"Swap Suggestions: {swap_suggestions}")
-    return swap_suggestions
+    result = []
+    #Generate the results
+    for suggestion in swap_suggestions:
+        occupied_station = suggestion[0]
+        suggested_station = suggestion[1]
+        temp = {}
+        temp['occupied_station'] = station_dict[occupied_station]
+        temp['suggested_station'] = station_dict[suggested_station]
+        result.append(temp)
+    
+    print(f"Swap Suggestions: {result}")
+    return result
