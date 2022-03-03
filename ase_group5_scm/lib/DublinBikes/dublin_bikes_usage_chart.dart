@@ -1,4 +1,3 @@
-import 'package:ase_group5_scm/Routes/dublin_bikes_usage_chart.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +73,14 @@ List<charts.Series<BikeStationUsageData, String>> getListSeries(
   return stationUsageMapListSeries;
 }
 
-chartContainer() {}
+class BikeStationUsageData {
+  final String stationName;
+  final double occupancyPercentage;
+  BikeStationUsageData({
+    required this.stationName,
+    required this.occupancyPercentage,
+  });
+}
 
 class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
   Map stationUsageMap = new Map<String, double>();
