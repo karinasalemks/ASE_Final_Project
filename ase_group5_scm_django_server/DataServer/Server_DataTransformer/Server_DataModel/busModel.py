@@ -24,14 +24,16 @@ class TRIP:
     def calculateTripDistance(self, stop_sequences):
         total_trip_distance = 0
         for index in range(0, len(stop_sequences) - 2):
-            source = stop_sequences[index]
-            destination = stop_sequences[index + 1]
+            source_coords = stop_sequences[index].coordinates
+            destination_coords = stop_sequences[index + 1].coordinates
 
             # Get the coordinates of the source and destination bus stops
-            source_coords = (source.bus_stop.latitude, source.bus_stop.longitude)
-            destination_coords = (destination.bus_stop.latitude, destination.bus_stop.longitude)
+            # source_coords = (source_lat, source_long)
+            # destination_coords = (destination_lat, destination_long)
 
             # Calculate the distance and add it to total_trip_distance
+            # print('source ===========>',source_coords)
+            # print('destination ==========>',destination_coords)
             total_trip_distance += self.calculate_distance(source_coords, destination_coords)
         return total_trip_distance
 
@@ -48,11 +50,12 @@ class STOPSEQUENCE:
     """Read data from stop_times.txt and 
     aggregate with stop time update data received from API"""
 
-    def __init__(self, stop_sequence_id, bus_stop, arrival_time, departure_time):
-        self.stop_sequence_id = stop_sequence_id
-        self.bus_stop = bus_stop
-        self.arrival_time = arrival_time
-        self.departure_time = departure_time
+    def __init__(self, lat,long):
+        # self.stop_sequence_id = stop_sequence_id
+        # self.bus_stop = bus_stop
+        # self.arrival_time = arrival_time
+        # self.departure_time = departure_time
+          self.coordinates = (lat,long)
 
     def getStopSequenceList(stopTimeSequences, route_id, dir):
         """returns a list of STOPSEQUENCE objects for each trip"""
@@ -62,15 +65,15 @@ class STOPSEQUENCE:
                 stop_id = stopSequence['StopId']
                 # create tuple of "<route_id>,<stop_id>,<direction>"
                 key_tuple = (route_id, stop_id, dir)
-                stop_seq_id = stopSequence['StopSequence']
+                # stop_seq_id = stopSequence['StopSequence']
                 # check if the create key tuple exits in the stops_dict
                 if (key_tuple in stops_dict):
                     stop_dict_value = stops_dict[key_tuple]
-                    bus_arrival_time = stop_dict_value[0]
-                    bus_departure_time = stop_dict_value[1]
+                    # bus_arrival_time = stop_dict_value[0]
+                    # bus_departure_time = stop_dict_value[1]
                     bus_stop = bus_stops[stop_id]
                     stop_seq = STOPSEQUENCE(
-                        stop_seq_id, bus_stop, bus_arrival_time, bus_departure_time)
+                       bus_stop.latitude,bus_stop.longitude)
                     stop_seq_list.append(stop_seq)
                 else:
                     print("Error - Key tuple is not there: ", key_tuple)
