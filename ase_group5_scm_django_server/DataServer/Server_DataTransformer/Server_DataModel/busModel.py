@@ -11,7 +11,7 @@ class TRIP:
 
     def __init__(self, trip_id, entity, start_time, stop_sequences):
         self.trip_id = trip_id
-        self.entity = entity
+        self.busNo = entity
         self.start_time = start_time
         self.stop_sequences = stop_sequences
         self.co2Emission = self.estimate_co2_emission(stop_sequences)
@@ -26,14 +26,6 @@ class TRIP:
         for index in range(0, len(stop_sequences) - 2):
             source_coords = stop_sequences[index]
             destination_coords = stop_sequences[index + 1]
-
-            # Get the coordinates of the source and destination bus stops
-            # source_coords = (source_lat, source_long)
-            # destination_coords = (destination_lat, destination_long)
-
-            # Calculate the distance and add it to total_trip_distance
-            # print('source ===========>',source_coords)
-            # print('destination ==========>',destination_coords)
             total_trip_distance += self.calculate_distance(source_coords, destination_coords)
         return total_trip_distance
 

@@ -4,7 +4,7 @@ from predictionApp.views import BikePredictor
 import pandas as pd
 import numpy as np
 import json
-
+from DataTransformer.DataModel.busModel import TRIP
 
 # Create your views here.
 def transformBikeData(inputData):
@@ -39,7 +39,11 @@ def transformLUASData(apiResponse):
 
 
 def transformBUSData(apiResponse):
-    return "Success"
+    resultBusData = []
+    for eachValue in apiResponse:
+        jsonDecoded = json.loads(eachValue)
+        resultBusData.append(jsonDecoded)
+    return resultBusData
 
 
 def transformEventsData(apiResponse):

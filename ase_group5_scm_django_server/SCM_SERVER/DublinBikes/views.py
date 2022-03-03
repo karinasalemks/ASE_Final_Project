@@ -33,10 +33,27 @@ def bikeAvailability():
         for stationData in bikeStationData:
             currentDocRef = bikesCollectionRef.document(stationData.station_id)
             batch.update(currentDocRef, stationData.to_dict())
-
         batch.commit()
-        print("Batch Transaction Complete..")
+        print("Bikes Batch Transaction Complete..")
     else:
         print("Response code:-", response.status_code)
     end = time.time()
     print(end - start)
+
+
+def busTripsToFirebase():
+    print("*************** Fetching Dublin Bus API ****************")
+    busResponse = requests.get(apiSource.DUBLIN_BUSES_API['source'])
+    print("*************** Fetching Done ****************")
+    if busResponse.status_code == 200 or busResponse.status_code == 201:
+        busData = transformData(source="DUBLIN_BUS", apiResponse=json.loads(busResponse.text))
+        print("final bus data ============================>", busData)
+        # busCollectionRef = db.collection(u'DublinBus')
+        # batch = db.batch()
+        # for Data in busData:
+        #     currentDocRef = busCollectionRef.document(Data.trip_id)
+        #     batch.update(currentDocRef, Data.to_dict())
+        # batch.commit()
+        print("Bus Batch Transaction Complete..")
+    else:
+        print("Response code:-", busResponse.status_code)
