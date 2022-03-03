@@ -4,6 +4,7 @@ import pandas as pd
 import json
 import requests
 from Server_DataTransformer.Server_DataModel.busModel import TRIP, STOPSEQUENCE
+from Server_DataTransformer.Server_DataModel.eventsModel import EVENTS
 
 # Create your views here.
 def transformBikeData(inputData, isPrimarySource):
@@ -90,8 +91,22 @@ def transformLUASData(apiResponse):
     return "Success"
 
 
-def transformEventsData(apiResponse):
-    return "Success"
+def transformEventsData(inputData):
+    api_response = inputData["_embedded"]["events"]
+    events_list = []
+    try:
+        #For each event in the reponse data, read and get the event details to for EVENTS objects
+        for event in api_response:
+            event_name = event["name"]
+            event_date_time = event["dates"]["start"]["dateTime"]
+            event_location_name = event["_embedded"]["venues"][0]["name"]
+            event_location_longitude = event["_embedded"]["venues"][0]["location"]["longitude"]
+            event_location_latitude = event["_embedded"]["venues"][0]["location"]["latitude"]
+            event_data = EVENTS(event_name, event_date_time, event_location_name, event_location_longitude, event_location_latitude)
+            events_list.append(event_data)
+    except KeyError:
+        print("Error, no key field", KeyError)
+    return events_list
 
 
 DataTransformer = {

@@ -16,8 +16,7 @@ DUBLIN_BUS_HEADER = {
 }
 
 DUBLIN_EVENTS_API = {
-    "PRIMARY": "https://data.smartdublin.ie/dublinbikes-api/last_snapshot/",
-    "SECONDARY": "https://data.smartdublin.ie/dublinbikes-api/last_snapshot/",
+    "PRIMARY": "https://app.ticketmaster.com/discovery/v2/events.json?venueId=",
     "OTHER_SOURCES": [],
 }
 

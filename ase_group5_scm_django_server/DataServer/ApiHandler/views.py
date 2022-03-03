@@ -7,6 +7,8 @@ from Server_DataTransformer.views import transformData
 from django.http import HttpResponse
 import requests
 import json
+import datetime
+from datetime import timedelta
 from Server_DataTransformer.Server_DataModel import serverBikeModel
 
 
@@ -45,3 +47,45 @@ def getBusData(request):
         return JsonResponse(dublinBusData, safe=False)
     else:
         print(response.status_code)
+
+def get_event_id(i):
+    """returns the event id for respective event place"""
+    switcher={
+            "Aviva":"KovZ9177Tn7",
+            "3Arena":"KovZ9177WYV",
+            "RDS":"KovZ9177TAf",
+            "National Stadium":"KovZ9177TZf",
+            "Bord Gais Energy Theatre":"KovZ917AZa7",
+            "Gaiety Theatre":"KovZ9177XT0"
+            }
+    return switcher.get(i,"Invalid Event")
+
+def getEventsData(request):
+    #List of events that are taken for usage
+    popular_events = ["Aviva", "3Arena", "RDS", "National Stadium", "Bord Gais Energy Theatre", "Gaiety Theatre"]
+    #get the current datetime and convert it to a format required for API request
+    today = datetime.datetime.now()
+    today_time = today.strftime("%H:%M:%S")
+    today_date = today.strftime("%Y-%m-%d")
+    formated_date_time = today_date+'T'+today_time+'Z'
+    #get the datetime after 30 days and convert it to a format required for API request
+    month_later = datetime.datetime.now() + timedelta(days=30)
+    month_later_time = month_later.strftime("%H:%M:%S")
+    month_later_date = month_later.strftime("%Y-%m-%d")
+    month_later_formated_date_time = month_later_date + 'T' + month_later_time + 'Z'
+    #list that contains all the details of the event happenings
+    dublinEventsData = []
+    #For every event location get the api response and create the event details
+    for place in popular_events:
+        response = requests.get(Endpoints.DUBLIN_EVENTS_API["PRIMARY"] + get_event_id(place) + "&startDateTime=" + formated_date_time+ "&endDateTime=" + month_later_formated_date_time, headers={
+            # Request headers
+            'Cache-Control': 'no-cache',
+            'x-api-key': 'Od2QOTqrUGW7CPeiRXSgzGv3zGAquRAL',
+            })
+        if (response.status_code == 200):
+            dublinEventsData.append(transformData(source="EVENTS", apiResponse=response.json()))
+        else:
+            print(response.status_code)
+    print("Get Events data done")
+    return JsonResponse(dublinEventsData, safe=False)
+        
