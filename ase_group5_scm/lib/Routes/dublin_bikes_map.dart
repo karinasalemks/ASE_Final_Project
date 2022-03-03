@@ -1,4 +1,5 @@
 import 'package:ase_group5_scm/Components/SideMenu.dart';
+import 'package:ase_group5_scm/DublinBikes/dublin_bikes_usage_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -43,7 +44,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
         .then((myMarkers) {
       if (myMarkers.docs.isNotEmpty) {
         for (int i = 0; i < myMarkers.docs.length; i++) {
-          initMarker(myMarkers.docs[i], myMarkers.docs[i].id,customIcon);
+          initMarker(myMarkers.docs[i], myMarkers.docs[i].id, customIcon);
         }
       }
     });
@@ -57,35 +58,35 @@ class _BikeStationMapState extends State<BikeStationMap> {
     markers.clear();
     for (int i = 0; i < markersList.length; i++) {
       if (dropdownvalue == filterList[0]) {
-
-      if (markersList[i].get("station_occupancy")[0] >= 0.75)
-        initMarker(markersList[i], markersList[i].id,customIcon);
-      else if (markersList[i].get("station_occupancy")[0] >= 0.50)
-        initMarker(markersList[i], markersList[i].id,customIcon_green);
-      else if (markersList[i].get("station_occupancy")[0] <= 0.25)
-        initMarker(markersList[i], markersList[i].id,customIcon_red);
-      else
-        initMarker(markersList[i], markersList[i].id,customIcon_orange);
-    }
-      else if (dropdownvalue == filterList[1] &&
+        if (markersList[i].get("station_occupancy")[0] >= 0.75)
+          initMarker(markersList[i], markersList[i].id, customIcon);
+        else if (markersList[i].get("station_occupancy")[0] >= 0.50)
+          initMarker(markersList[i], markersList[i].id, customIcon_green);
+        else if (markersList[i].get("station_occupancy")[0] <= 0.25)
+          initMarker(markersList[i], markersList[i].id, customIcon_red);
+        else
+          initMarker(markersList[i], markersList[i].id, customIcon_orange);
+      } else if (dropdownvalue == filterList[1] &&
           markersList[i].get("station_occupancy")[0] >= 0.75)
-        initMarker(markersList[i], markersList[i].id,customIcon);
+        initMarker(markersList[i], markersList[i].id, customIcon);
       else if (dropdownvalue == filterList[2] &&
-          markersList[i].get("station_occupancy")[0] >= 0.50 && markersList[i].get("station_occupancy")[0]< 0.75)
-        initMarker(markersList[i], markersList[i].id,customIcon_green);
+          markersList[i].get("station_occupancy")[0] >= 0.50 &&
+          markersList[i].get("station_occupancy")[0] < 0.75)
+        initMarker(markersList[i], markersList[i].id, customIcon_green);
       else if (dropdownvalue == filterList[3] &&
-          markersList[i].get("station_occupancy")[0] <= 0.50 && markersList[i].get("station_occupancy")[0]> 0.25)
-        initMarker(markersList[i], markersList[i].id,customIcon_orange);
+          markersList[i].get("station_occupancy")[0] <= 0.50 &&
+          markersList[i].get("station_occupancy")[0] > 0.25)
+        initMarker(markersList[i], markersList[i].id, customIcon_orange);
       else if (dropdownvalue == filterList[4] &&
           markersList[i].get("station_occupancy")[0] <= 0.25)
-        initMarker(markersList[i], markersList[i].id,customIcon_red);
+        initMarker(markersList[i], markersList[i].id, customIcon_red);
     }
   }
 
   /*
   * Initialized the individual markers and add them to the map of markers
   * */
-  void initMarker (stationData, stationID,inputIcon) {
+  void initMarker(stationData, stationID, inputIcon) {
     var markerIdVal = stationID;
     final MarkerId markerId = MarkerId(markerIdVal);
     var bikeStand = stationData.get("available_bikeStands")[0];
@@ -101,7 +102,8 @@ class _BikeStationMapState extends State<BikeStationMap> {
           double.parse(stationData.get("longitude").toString())),
       infoWindow: InfoWindow(
           title: stationData.get("station_name"),
-          snippet: "Total Stands:$totalBikes\nAvailable Stands: $bikeStand\nAvailable Bikes: $freeBikes"),
+          snippet:
+              "Total Stands:$totalBikes\nAvailable Stands: $bikeStand\nAvailable Bikes: $freeBikes"),
     );
     markers[markerId] = marker;
   }
@@ -130,20 +132,22 @@ class _BikeStationMapState extends State<BikeStationMap> {
     });
   }
 
-  getMapIcon()  async {
-   customIcon = await BitmapDescriptor.fromAssetImage (ImageConfiguration(size: Size(36, 36)),
+  getMapIcon() async {
+    customIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
         'assets/image/bike_station_marker.png');
-   customIcon_orange = await BitmapDescriptor.fromAssetImage (ImageConfiguration(size: Size(36, 36)),
+    customIcon_orange = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
         'assets/image/bike_station_marker_orange.png');
-   customIcon_red = await BitmapDescriptor.fromAssetImage (ImageConfiguration(size: Size(36, 36)),
+    customIcon_red = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
         'assets/image/bike_station_marker_red.png');
-   customIcon_green = await BitmapDescriptor.fromAssetImage (ImageConfiguration(size: Size(36, 36)),
-       'assets/image/bike_station_marker_green.png');
+    customIcon_green = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
+        'assets/image/bike_station_marker_green.png');
   }
 
-
-
-  bikeMapHeaderContainer(heightOfFilter, snapshot){
+  bikeMapHeaderContainer(heightOfFilter, snapshot) {
     return new Container(
         height: heightOfFilter,
         child: Padding(
@@ -175,8 +179,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
                     value: dropdownvalue,
                     icon: Icon(Icons.keyboard_arrow_down),
                     items: filterList.map((String items) {
-                      return DropdownMenuItem(
-                          value: items, child: Text(items));
+                      return DropdownMenuItem(value: items, child: Text(items));
                     }).toList(),
                     onChanged: (String? newValue) {
                       setState(() {
@@ -202,7 +205,10 @@ class _BikeStationMapState extends State<BikeStationMap> {
                     ),
                   ),
                 ),
-                new Image(image:new AssetImage( 'assets/image/bike_station_marker.png'),fit: BoxFit.cover),
+                new Image(
+                    image:
+                        new AssetImage('assets/image/bike_station_marker.png'),
+                    fit: BoxFit.cover),
                 Flexible(
                   fit: FlexFit.loose,
                   child: Padding(
@@ -219,8 +225,10 @@ class _BikeStationMapState extends State<BikeStationMap> {
                     ),
                   ),
                 ),
-                new Image(image:new AssetImage( 'assets/image/bike_station_marker_green.png'),fit: BoxFit.cover),
-
+                new Image(
+                    image: new AssetImage(
+                        'assets/image/bike_station_marker_green.png'),
+                    fit: BoxFit.cover),
                 Flexible(
                   fit: FlexFit.loose,
                   child: Padding(
@@ -237,8 +245,10 @@ class _BikeStationMapState extends State<BikeStationMap> {
                     ),
                   ),
                 ),
-                new Image(image:new AssetImage( 'assets/image/bike_station_marker_orange.png'),fit: BoxFit.cover),
-
+                new Image(
+                    image: new AssetImage(
+                        'assets/image/bike_station_marker_orange.png'),
+                    fit: BoxFit.cover),
                 Flexible(
                   fit: FlexFit.loose,
                   child: Padding(
@@ -255,18 +265,21 @@ class _BikeStationMapState extends State<BikeStationMap> {
                     ),
                   ),
                 ),
-                new Image(image:new AssetImage( 'assets/image/bike_station_marker_red.png'),fit: BoxFit.cover),
+                new Image(
+                    image: new AssetImage(
+                        'assets/image/bike_station_marker_red.png'),
+                    fit: BoxFit.cover),
               ],
             )));
   }
 
-  bikesMapContainer(heightOfFilter, snapshot){
+  bikesMapContainer(heightOfFilter, snapshot) {
     return new Container(
         height: (MediaQuery.of(context).size.height -
-            appBar.preferredSize.height -
-            heightOfFilter) *
+                appBar.preferredSize.height -
+                heightOfFilter) *
             0.90,
-        key:Key("dublin-bikes-map"),
+        key: Key("dublin-bikes-map"),
         child: GoogleMap(
           onMapCreated: onMapCreated,
           myLocationEnabled: true,
@@ -276,9 +289,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
           ),
           markers: Set<Marker>.of(getMarkers().values),
         ));
-
   }
-
 
   bikeMap(heightOfFilter, snapshot) {
     return Column(
@@ -287,7 +298,6 @@ class _BikeStationMapState extends State<BikeStationMap> {
         bikesMapContainer(heightOfFilter, snapshot)
       ],
     );
-
   }
 
   @override
@@ -310,16 +320,15 @@ class _BikeStationMapState extends State<BikeStationMap> {
             //return bikeMap(heightOfFilter, snapshot);
             bool mobile = true;
 
-            if(mobile == true) {
-
+            if (mobile == true) {
               return Column(
                 children: <Widget>[
+                  // DublinBikesUsageChart(snapshot: snapshot),
                   bikeMapHeaderContainer(heightOfFilter, snapshot),
                   bikesMapContainer(heightOfFilter, snapshot)
                 ],
               );
             } else {
-
               //return Web layout
               return Column(
                 children: <Widget>[
@@ -327,9 +336,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
                   bikesMapContainer(heightOfFilter, snapshot)
                 ],
               );
-
             }
-
           } else if (snapshot.hasError) {
             print(snapshot.error);
             return Text("Error pa thambi!");
