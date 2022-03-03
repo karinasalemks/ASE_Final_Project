@@ -16,10 +16,10 @@ class MyTestCase(unittest.TestCase):
     #     response = requests.get(apiSource.DUBLIN_BUSES_API['PRIMARY'])
     #     self.assertEqual(response.status_code, 200)
 
-    # def test_APIresponse_Events(self):
-    #     url = ""
-    #     response = requests.get(url)
-    #     self.assertEqual(response.status_code, 201)
+    def test_APIresponse_Events(self):
+        url = ""
+        response = requests.get(url)
+        self.assertEqual(response.status_code, 201)
 
 
 # if __name__ == '__main__':
