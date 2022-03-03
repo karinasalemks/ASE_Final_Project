@@ -24,8 +24,8 @@ class TRIP:
     def calculateTripDistance(self, stop_sequences):
         total_trip_distance = 0
         for index in range(0, len(stop_sequences) - 2):
-            source_coords = stop_sequences[index].coordinates
-            destination_coords = stop_sequences[index + 1].coordinates
+            source_coords = stop_sequences[index]
+            destination_coords = stop_sequences[index + 1]
 
             # Get the coordinates of the source and destination bus stops
             # source_coords = (source_lat, source_long)
@@ -72,9 +72,9 @@ class STOPSEQUENCE:
                     # bus_arrival_time = stop_dict_value[0]
                     # bus_departure_time = stop_dict_value[1]
                     bus_stop = bus_stops[stop_id]
-                    stop_seq = STOPSEQUENCE(
-                       bus_stop.latitude,bus_stop.longitude)
-                    stop_seq_list.append(stop_seq)
+                    # stop_seq = STOPSEQUENCE(
+                    # bus_stop.latitude,bus_stop.longitude)
+                    stop_seq_list.append((bus_stop.latitude,bus_stop.longitude))
                 else:
                     print("Error - Key tuple is not there: ", key_tuple)
                     continue
