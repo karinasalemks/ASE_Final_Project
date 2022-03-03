@@ -1,0 +1,6 @@
+class DublinBikesUsageChart{
+  DublinBikesUsageChart(DublinBikesSnapshot){
+
+
+  }
+}

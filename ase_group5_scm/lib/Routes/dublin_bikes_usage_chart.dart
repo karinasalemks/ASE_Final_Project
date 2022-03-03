@@ -35,7 +35,7 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
 
   @override
   Widget build(BuildContext context) {
-    void getSationUsageData(stationData) {
+    void getStationUsageData(stationData) {
       var stationName = stationData.get("station_name");
       var stationOccupancy = stationData.get("occupancy_list");
       var lastUpdateTime = stationData.get("harvest_time");
@@ -60,20 +60,34 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasData) {
                 for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                  getSationUsageData(snapshot.data!.docs[i]);
+                  getStationUsageData(snapshot.data!.docs[i]);
                 }
                 var ascStationUsageMap = Map.fromEntries(
                     stationUsageMap.entries.toList()
                       ..sort((e1, e2) => e1.value.compareTo(e2.value)));
-                var decStationUsageMap = Map.fromEntries(
-                    stationUsageMap.entries.toList()
-                      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+
+
+                // var decStationUsageMap = Map.fromEntries(
+                //     stationUsageMap.entries.toList()
+                //       ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+
+
+
                 List<BikeStationUsageData> ascStationUsageMapList = [];
                 ascStationUsageMap.entries.forEach((e) =>
                     ascStationUsageMapList.add(BikeStationUsageData(
                         stationName: e.key, occupancyPercentage: e.value)));
+                // ascStationUsageMapList =
+                //     ascStationUsageMapList.take(10).toList();
+
                 ascStationUsageMapList =
-                    ascStationUsageMapList.take(10).toList();
+                    ascStationUsageMapList.getRange(0,10).toList();
+
+                List<BikeStationUsageData> decStationUsageMapList = [];
+                decStationUsageMapList =
+                    ascStationUsageMapList.reversed.toList().getRange(0, 10).toList();
+
+
                 List<charts.Series<BikeStationUsageData, String>>
                 ascStationUsageMapListSeries = [
                   charts.Series(
@@ -90,12 +104,14 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
                   )
                 ];
 
-                List<BikeStationUsageData> decStationUsageMapList = [];
-                decStationUsageMap.entries.forEach((e) =>
-                    decStationUsageMapList.add(BikeStationUsageData(
-                        stationName: e.key, occupancyPercentage: e.value)));
-                decStationUsageMapList =
-                    decStationUsageMapList.take(10).toList();
+                //List<BikeStationUsageData> decStationUsageMapList = [];
+
+                // decStationUsageMap.entries.forEach((e) =>
+                //     decStationUsageMapList.add(BikeStationUsageData(
+                //         stationName: e.key, occupancyPercentage: e.value)));
+                // decStationUsageMapList =
+                //     decStationUsageMapList.take(10).toList();
+
                 List<charts.Series<BikeStationUsageData, String>>
                 decStationUsageMapListSeries = [
                   charts.Series(

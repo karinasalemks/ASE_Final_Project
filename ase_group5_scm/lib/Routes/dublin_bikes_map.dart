@@ -306,7 +306,30 @@ class _BikeStationMapState extends State<BikeStationMap> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             initAllMarkers(snapshot.data!.docs);
-            return bikeMap(heightOfFilter, snapshot);
+
+            //return bikeMap(heightOfFilter, snapshot);
+            bool mobile = true;
+
+            if(mobile == true) {
+
+              return Column(
+                children: <Widget>[
+                  bikeMapHeaderContainer(heightOfFilter, snapshot),
+                  bikesMapContainer(heightOfFilter, snapshot)
+                ],
+              );
+            } else {
+
+              //return Web layout
+              return Column(
+                children: <Widget>[
+                  bikeMapHeaderContainer(heightOfFilter, snapshot),
+                  bikesMapContainer(heightOfFilter, snapshot)
+                ],
+              );
+
+            }
+
           } else if (snapshot.hasError) {
             print(snapshot.error);
             return Text("Error pa thambi!");
