@@ -1,11 +1,11 @@
-import 'package:ase_group5_scm/Components/SideMenu.dart';
-import 'package:ase_group5_scm/DublinBikes/dublin_bikes_usage_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class BikeStationMap extends StatefulWidget {
-  const BikeStationMap({Key? key}) : super(key: key);
+  final snapshot;
+
+  const BikeStationMap({Key? key, required this.snapshot}) : super(key: key);
 
   @override
   _BikeStationMapState createState() => _BikeStationMapState();
@@ -291,64 +291,25 @@ class _BikeStationMapState extends State<BikeStationMap> {
         ));
   }
 
-  bikeMap(heightOfFilter, snapshot) {
-    return Column(
-      children: <Widget>[
-        bikeMapHeaderContainer(heightOfFilter, snapshot),
-        bikesMapContainer(heightOfFilter, snapshot)
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     var heightOfFilter =
         (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
             0.10;
     //Todo: Refine the code here to stop calling setState method before build.
-    return Scaffold(
-      //appBar: appBar,
-      resizeToAvoidBottomInset: false,
-      drawer: SideMenu(),
-      body: StreamBuilder<QuerySnapshot>(
-        stream:
-            FirebaseFirestore.instance.collection('DublinBikes').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
-            initAllMarkers(snapshot.data!.docs);
-
-            //return bikeMap(heightOfFilter, snapshot);
-            bool mobile = true;
-
-            if (mobile == true) {
-              return Column(
+    return Container(
+      padding: EdgeInsets.all(8),
+      height: MediaQuery.of(context).size.height - heightOfFilter,
+      child: Card(
+          child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
                 children: <Widget>[
                   // DublinBikesUsageChart(snapshot: snapshot),
-                  bikeMapHeaderContainer(heightOfFilter, snapshot),
-                  bikesMapContainer(heightOfFilter, snapshot)
+                  bikeMapHeaderContainer(heightOfFilter, widget.snapshot),
+                  bikesMapContainer(heightOfFilter, widget.snapshot)
                 ],
-              );
-            } else {
-              //return Web layout
-              return Column(
-                children: <Widget>[
-                  bikeMapHeaderContainer(heightOfFilter, snapshot),
-                  bikesMapContainer(heightOfFilter, snapshot)
-                ],
-              );
-            }
-          } else if (snapshot.hasError) {
-            print(snapshot.error);
-            return Text("Error pa thambi!");
-          } else {
-            return Center(
-                child: Transform.scale(
-              scale: 1,
-              child: CircularProgressIndicator(),
-            ));
-          }
-        },
-      ),
+              ))),
     );
   }
 }

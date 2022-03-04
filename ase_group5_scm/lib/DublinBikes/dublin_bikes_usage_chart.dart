@@ -76,6 +76,7 @@ List<charts.Series<BikeStationUsageData, String>> getListSeries(
 class BikeStationUsageData {
   final String stationName;
   final double occupancyPercentage;
+
   BikeStationUsageData({
     required this.stationName,
     required this.occupancyPercentage,
@@ -88,7 +89,7 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
 
   List<bool> isSelected = [true, false];
   late List<charts.Series<BikeStationUsageData, String>>
-  StationUsageMapListSeries;
+      StationUsageMapListSeries;
 
   @override
   void initState() {
@@ -106,8 +107,7 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
       StationUsageMapListSeries = seriesArray[1];
     }
     return Container(
-      height: 600,
-      padding: EdgeInsets.all(20),
+      height: MediaQuery.of(context).size.height * 0.5 - 40,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
