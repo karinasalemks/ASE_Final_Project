@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
+import 'Components/bike_swap_suggestions.dart';
+import 'Components/temp.dart';
 import 'Routes/dublin_bikes_map.dart';
 import 'Routes/intermediate_interface.dart';
 import 'firebase_options.dart';
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        '/': (context) => loginScreen(),
+        '/': (context) => TestScreen(),
         '/dublinBikesMap': (context) => BikeStationMap(),
         '/intermediateUI': (context) => const IntermediateInterface(),
         '/dublinBikesUsageChart': (context) => DublinBikesUsageChart(),

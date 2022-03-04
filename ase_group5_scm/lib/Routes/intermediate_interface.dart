@@ -84,8 +84,8 @@ class _IntermediateInterfaceState extends State<IntermediateInterface> {
               label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.bar_chart),
-              label: 'Bar_chart_placeHolder',
+              icon: Icon(Icons.insights),
+              label: 'insights',
             ),
             // BottomNavigationBarItem(
               //icon: Icon(Icons.map),
