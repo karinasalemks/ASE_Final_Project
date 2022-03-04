@@ -42,11 +42,20 @@ def bikeAvailability():
       #Update Bike station Data
       for stationData in bikeStationData:
           currentDocRef = bikesCollectionRef.document(stationData.station_id) 
-          batch.update(currentDocRef, stationData.to_dict())
+          doc = currentDocRef.get()
+          if doc.exists:
+              batch.update(currentDocRef,stationData.to_dict())
+          else:
+              batch.set(currentDocRef,stationData.to_dict())
 
       #Update Swap Suggestions
-      swap_suggestions_document = bikesCollectionRef.document("bike_swap_suggestions")
-      batch.update(swap_suggestions_document,swap_suggestions)
+      swap_suggestions_collection = db.collection(u'Bikes_Swap_Suggestions')
+      swap_suggestions_document = swap_suggestions_collection.document("bike_swap_suggestions")
+      doc = swap_suggestions_document.get()
+      if doc.exists:
+          batch.update(swap_suggestions_document,swap_suggestions)
+      else:
+          batch.set(swap_suggestions_document,swap_suggestions)
                     
       batch.commit()
       print("Batch Transaction Complete..")

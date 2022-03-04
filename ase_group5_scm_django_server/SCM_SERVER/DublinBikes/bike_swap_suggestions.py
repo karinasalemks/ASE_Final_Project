@@ -86,7 +86,7 @@ def generate_swap_suggestions(bikeStationData,distance_matrix):
 
 def parse_data(station):
     result = {}
-    result['station_name'] = station.name
+    result['station_name'] = station.station_name
     result['occupancy'] = station.occupancy_list[0]
     result['available_bikes'] = station.available_bikes[0]
     return result
