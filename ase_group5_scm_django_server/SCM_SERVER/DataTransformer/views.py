@@ -4,7 +4,6 @@ from predictionApp.views import BikePredictor
 import pandas as pd
 import numpy as np
 import json
-from DataTransformer.DataModel.busModel import TRIP
 
 # Create your views here.
 def transformBikeData(inputData):

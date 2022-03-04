@@ -5,20 +5,10 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 import numpy as np
-from . import Endpoints as apiSource
+from static import Endpoints as apiSource
 import json
-import os, time
-
 from DataTransformer.views import transformData
-
-# replace the key with the groups private key
-privateKeyPath = os.path.join(os.getcwd(), 'static')
-privateKeyPath = os.path.join(privateKeyPath, 'privateKey.json')
-cred_obj = credentials.Certificate(privateKeyPath)
-
-default_app = firebase_admin.initialize_app(cred_obj)
-db = firestore.client()
-
+from static.firebaseInitialization import db
 
 def bikeAvailability():
     start = time.time()
@@ -40,20 +30,3 @@ def bikeAvailability():
     end = time.time()
     print(end - start)
 
-
-def busTripsToFirebase():
-    print("*************** Fetching Dublin Bus API ****************")
-    busResponse = requests.get(apiSource.DUBLIN_BUSES_API['source'])
-    print("*************** Fetching Done ****************")
-    if busResponse.status_code == 200 or busResponse.status_code == 201:
-        busData = transformData(source="DUBLIN_BUS", apiResponse=json.loads(busResponse.text))
-        print("final bus data ============================>", busData)
-        # busCollectionRef = db.collection(u'DublinBus')
-        # batch = db.batch()
-        # for Data in busData:
-        #     currentDocRef = busCollectionRef.document(Data.trip_id)
-        #     batch.update(currentDocRef, Data.to_dict())
-        # batch.commit()
-        print("Bus Batch Transaction Complete..")
-    else:
-        print("Response code:-", busResponse.status_code)
