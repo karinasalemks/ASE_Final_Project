@@ -1,9 +1,23 @@
-from DataTransformer.views import transformBikeData
+from SCM_SERVER.DataTransformer.views import transformBikeData
+from SCM_SERVER.DataTransformer.views import transformEventsData
 import unittest
-from DataTransformer.DataModel.bikeModel import BikeModel
+from SCM_SERVER.DataTransformer.DataModel.bikeModel import BikeModel
 
 
 class TestViews(unittest.TestCase):
+
+    # def test_transform_events_data_primary(self):
+    #     isPrimarySource = True
+    #
+    #     response = [{}]
+    #     result = transformEventsData(response)[0]
+    #     self.assertEqual(isinstance(result.event_name, str), True)
+    #     self.assertEqual(isinstance(result.event_date_time, str), True)
+    #     self.assertEqual(isinstance(result.event_location_name, str), True)
+    #     self.assertEqual(isinstance(result.event_location_longitude, str), True)
+    #     self.assertEqual(isinstance(result.event_location_latitude, str), True)
+    #     # self.assertEqual(isinstance(result.event_list, list), True)
+
     def test_transform_bike_data_primary(self):
         isPrimarySource = True
 
@@ -36,11 +50,11 @@ class TestViews(unittest.TestCase):
     def test_transform_bike_data_not_primary(self):
         isPrimarySource = False
 
-
         response = [
-            {"number": 42, "contract_name": "dublin", "name": "SMITHFIELD NORTH", "address": "Smithfield North", "position": {
-                "lat": 53.349562,
-                "lng": -6.278198},
+            {"number": 42, "contract_name": "dublin", "name": "SMITHFIELD NORTH", "address": "Smithfield North",
+             "position": {
+                 "lat": 53.349562,
+                 "lng": -6.278198},
              "banking": False, "bonus": False, "bike_stands": 30, "available_bike_stands": 15, "available_bikes": 15,
              "status": "OPEN", "last_update": 1643966701000}]
 
