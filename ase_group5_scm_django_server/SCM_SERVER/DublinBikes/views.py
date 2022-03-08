@@ -63,3 +63,4 @@ def bikeAvailability():
       print("Response code:", response.status_code)
     end=time.time()
     print(end-start)   
+    
