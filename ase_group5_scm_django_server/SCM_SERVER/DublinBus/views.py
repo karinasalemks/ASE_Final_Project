@@ -22,3 +22,4 @@ def busTripsToFirebase():
         print("Bus Batch Transaction Complete..")
     else:
         print("Response code:-", busResponse.status_code)
+

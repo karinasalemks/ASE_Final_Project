@@ -1,6 +1,7 @@
 # from pickle import STOP
 import pandas as pd
 import csv
+import json
 
 # from StaticFiles
 
@@ -16,6 +17,8 @@ class BUS_STOP:
         self.name = stop_name
         self.latitude = stop_lat
         self.longitude = stop_lon
+    def toJSON(self):
+        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
 
 def readSTOPSFile(inputFilePath):
@@ -30,7 +33,19 @@ def readSTOPSFile(inputFilePath):
         list_of_stops[stop_id] = newStop
     return list_of_stops
 
+def createStops(inputFilePath):
+    data = pd.read_csv(inputFilePath)
+    stops_list = []
+    for index, row in data.iterrows():
+        stop_id = row['stop_id']
+        stop_name = row['stop_name'].split(", stop ")[0]
+        stop_lat = row['stop_lat']
+        stop_lon = row['stop_lon']
+        newStop = BUS_STOP(stop_id, stop_name, stop_lat, stop_lon)
+        stops_list.append(newStop)
+    return stops_list
 
+stopList = createStops(inputFilePath)
 bus_stops = readSTOPSFile(inputFilePath)
 
 

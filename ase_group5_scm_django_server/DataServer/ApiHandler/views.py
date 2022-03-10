@@ -8,6 +8,7 @@ from django.http import HttpResponse
 import requests
 import json
 from Server_DataTransformer.Server_DataModel import serverBikeModel
+from Server_DataTransformer.models import  bus_stops,stopList
 
 
 def getBikeData(request):
@@ -45,3 +46,11 @@ def getBusData(request):
         return JsonResponse(dublinBusData, safe=False)
     else:
         print(response.status_code)
+
+def getBusStops(request):
+    returnStopList = []
+    for eachBusStop in stopList:
+        busStopJson = eachBusStop.toJSON()
+        returnStopList.append(busStopJson)
+    print(returnStopList)
+    return JsonResponse(returnStopList, safe = False)
