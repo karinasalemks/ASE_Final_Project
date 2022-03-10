@@ -60,9 +60,10 @@ def generate_swap_suggestions(bikeStationData,distance_matrix):
     top_5_free_stations = top_5_free_stations[:5]
     
     result = []
-    result = generate_suggestions(distance_matrix, station_occupancy, station_dict, top_5_occupied_stations,True)
-    result += generate_suggestions(distance_matrix, station_occupancy, station_dict, top_5_free_stations,False)
-    
+    temp={}
+    temp['occupied_stations'] = generate_suggestions(distance_matrix, station_occupancy, station_dict, top_5_occupied_stations,True)
+    temp['free_stations']= generate_suggestions(distance_matrix, station_occupancy, station_dict, top_5_free_stations,False)
+    result.append(temp)
     return result
 
 def generate_suggestions(distance_matrix, station_occupancy, station_dict, target_stations,select_occupied_stations):
