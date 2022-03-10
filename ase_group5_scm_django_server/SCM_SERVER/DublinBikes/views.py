@@ -10,6 +10,7 @@ import json
 from DataTransformer.views import transformData
 from .bike_swap_suggestions import *
 from static.firebaseInitialization import db
+import time
 
 #this method call should be done only once before the server starts
 bike_station_distance_matrix = proprocessBikeStationData()
