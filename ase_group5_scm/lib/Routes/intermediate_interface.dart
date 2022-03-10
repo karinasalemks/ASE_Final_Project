@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'dublin_bikes_map.dart';
 import 'dublin_bikes_usage_chart.dart';
+import 'dublin_buses_map.dart';
 
 List _bikeScreenList = [
   BikeStationMap(),
@@ -10,9 +11,9 @@ List _bikeScreenList = [
 
 //replace the below list values with corresponding nested screen widgets
 List _busesScreenList = [
-  BikeStationMap(),
-  Text(' bus placeholder Text'),
-  Text(' bus placeholder Text')
+  BusStationMap(),
+  // Text(' bus placeholder Text'),
+  // Text(' bus placeholder Text')
 ];
 List _luasScreenList = [
   BikeStationMap(),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'Routes/dublin_bikes_map.dart';
+import 'Routes/dublin_buses_map.dart';
 import 'Routes/intermediate_interface.dart';
 import 'firebase_options.dart';
 import 'Routes/dublin_bikes_usage_chart.dart';
@@ -21,7 +22,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return OverlaySupport.global(child:MaterialApp(
+    return OverlaySupport.global(
+        child: MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
         '/dublinBikesMap': (context) => BikeStationMap(),
         '/intermediateUI': (context) => const IntermediateInterface(),
         '/dublinBikesUsageChart': (context) => DublinBikesUsageChart(),
+        '/dublinBusesMap': (context) => BusStationMap()
       },
     ));
   }
@@ -138,8 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 onPressed: () {
                   Navigator.of(context).pushNamed("/dublinBikesUsageChart");
-                }
-            ),
+                }),
           ],
         ),
       ),
