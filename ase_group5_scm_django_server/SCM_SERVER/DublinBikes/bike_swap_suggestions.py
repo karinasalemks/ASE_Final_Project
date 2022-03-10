@@ -2,7 +2,6 @@ import pandas as pd
 import haversine as hs
 import os
 
-
 def proprocessBikeStationData():
     data = pd.read_csv("static/bike_station_coords.csv")
     data = data.sort_values(by=['Number'])
@@ -37,7 +36,7 @@ def calculate_distance(source_coords,destination_coords):
         return round(distance,2)
 
 def generate_swap_suggestions(bikeStationData,distance_matrix):
-    swap_suggestions = []
+    
     #List of stations with their occupancy
     station_occupancy = {}
     station_dict = {}
@@ -61,27 +60,37 @@ def generate_swap_suggestions(bikeStationData,distance_matrix):
     top_5_occupied_stations = top_5_occupied_stations[-5:]
     top_5_free_stations = top_5_free_stations[:5]
     
+    result = []
+    result = generate_suggestions(distance_matrix, station_occupancy, station_dict, top_5_occupied_stations,True)
+    result.extend(generate_suggestions(distance_matrix, station_occupancy, station_dict, top_5_free_stations,False))
     
+    return result
+
+def generate_suggestions(distance_matrix, swap_suggestions, station_occupancy, station_dict, target_stations,select_occupied__stations):
+    swap_suggestions = []
     #Filter table and find the nearest station for each station
-    for station_id in top_5_occupied_stations:
+    for station_id in target_stations:
         nearest_stations = distance_matrix[station_id]
         for nearest_station in nearest_stations:
             swap_occupancy = station_occupancy[nearest_station]
-            if swap_occupancy <= 0.25:
-                swap_suggestions.append((station_id,nearest_station))
-                break
+            if select_occupied__stations:
+                if swap_occupancy <= 0.25:
+                    swap_suggestions.append((station_id,nearest_station))
+                    break
+            else:
+                if swap_occupancy >= 0.70:
+                    swap_suggestions.append((station_id,nearest_station))
+                    break
     
     result = []
-    #Generate the results
+    #Generate the results for target stations stations
     for suggestion in swap_suggestions:
-        occupied_station = suggestion[0]
+        target_station = suggestion[0]
         suggested_station = suggestion[1]
         temp = {}
-        temp['occupied_station'] = parse_data(station_dict[occupied_station])
+        temp['occupied_station'] = parse_data(station_dict[target_station])
         temp['suggested_station'] = parse_data(station_dict[suggested_station])
         result.append(temp)
-    
-    print(f"Swap Suggestions: {result}")
     return result
 
 def parse_data(station):
