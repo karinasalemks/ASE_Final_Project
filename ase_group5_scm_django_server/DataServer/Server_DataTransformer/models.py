@@ -17,9 +17,13 @@ class BUS_STOP:
         self.name = stop_name
         self.latitude = stop_lat
         self.longitude = stop_lon
-    def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
+    def toJSON(self):
+        bus_stop_data = {}
+        bus_stop_data['name'] = self.name
+        bus_stop_data['latitude'] = self.latitude
+        bus_stop_data['longitude'] = self.longitude
+        return self.stop_id,bus_stop_data
 
 def readSTOPSFile(inputFilePath):
     data = pd.read_csv(inputFilePath)

@@ -5,6 +5,16 @@ from django.http import HttpResponse
 import requests, json
 from static.firebaseInitialization import db
 
+#Bus stop static data needs to be pushed only once to firebase.
+busStopData = requests.get(apiSource.DUBLIN_BUSES_API['busStops'])
+busStopData = json.loads(busStopData.text)
+# data = []
+# for busStop in busStopData:
+#     data.append(busStop)
+result = {'data':[busStopData]}
+db.collection(u'DublinBus').document(u'busStops').set(result)
+print("Bus Batch Transaction Complete..")
+
 # Create your views here.
 def busTripsToFirebase():
     print("*************** Fetching Dublin Bus API ****************")
