@@ -45,7 +45,6 @@ def generate_swap_suggestions(bikeStationData,distance_matrix):
         current_occupancy = station.occupancy_list[0]
         station_occupancy[station_id] = current_occupancy
         station_dict[station_id] = station
-    
     #Select stations for which we need to generate suggestions
     station_occupancy_list = sorted(station_occupancy.items(), key=lambda item: item[1]) 
     
@@ -62,18 +61,23 @@ def generate_swap_suggestions(bikeStationData,distance_matrix):
     
     result = []
     result = generate_suggestions(distance_matrix, station_occupancy, station_dict, top_5_occupied_stations,True)
-    result.extend(generate_suggestions(distance_matrix, station_occupancy, station_dict, top_5_free_stations,False))
+    result += generate_suggestions(distance_matrix, station_occupancy, station_dict, top_5_free_stations,False)
     
     return result
 
-def generate_suggestions(distance_matrix, swap_suggestions, station_occupancy, station_dict, target_stations,select_occupied__stations):
+def generate_suggestions(distance_matrix, station_occupancy, station_dict, target_stations,select_occupied_stations):
     swap_suggestions = []
     #Filter table and find the nearest station for each station
     for station_id in target_stations:
+        #TODO: sync bike_station_coords.csv and API response
+        if station_id not in distance_matrix :
+            continue
         nearest_stations = distance_matrix[station_id]
         for nearest_station in nearest_stations:
+            if nearest_station not in station_occupancy:
+                continue
             swap_occupancy = station_occupancy[nearest_station]
-            if select_occupied__stations:
+            if select_occupied_stations:
                 if swap_occupancy <= 0.25:
                     swap_suggestions.append((station_id,nearest_station))
                     break
