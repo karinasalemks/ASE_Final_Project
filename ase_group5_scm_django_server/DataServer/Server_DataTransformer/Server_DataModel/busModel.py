@@ -19,7 +19,13 @@ class TRIP:
     # method to convert bike model to json
     # https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable :P
     def toJSON(self):
-        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
+        result = {}
+        result["trip_id"] = self.trip_id
+        result["busNo"] = self.busNo
+        result["start_time"] = self.start_time
+        result["stop_sequences"] = self.stop_sequences
+        result["co2Emission"] = self.co2Emission
+        return result
 
     def calculateTripDistance(self, stop_sequences):
         total_trip_distance = 0
@@ -30,7 +36,7 @@ class TRIP:
         return total_trip_distance
 
     def calculate_distance(self, source_coords, destination_coords):
-        distance = abs(hs.haversine(source_coords, destination_coords))
+        distance = abs(hs.haversine((source_coords['latitude'],source_coords['longitude']),(destination_coords['latitude'],destination_coords['longitude'])))
         return round(distance, 2)
 
     def estimate_co2_emission(self, stop_sequences):
@@ -66,7 +72,10 @@ class STOPSEQUENCE:
                     bus_stop = bus_stops[stop_id]
                     # stop_seq = STOPSEQUENCE(
                     # bus_stop.latitude,bus_stop.longitude)
-                    stop_seq_list.append((bus_stop.latitude,bus_stop.longitude))
+                    coords = {}
+                    coords['latitude'] = bus_stop.latitude
+                    coords['longitude'] = bus_stop.latitude
+                    stop_seq_list.append(coords)
                 else:
                     print("Error - Key tuple is not there: ", key_tuple)
                     continue
