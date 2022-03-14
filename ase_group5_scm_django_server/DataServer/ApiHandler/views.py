@@ -41,8 +41,6 @@ def getBusData(request):
     if (response.status_code == 200):
         dublinBusData = transformData(
             source="DUBLIN_BUS", apiResponse=response.json())
-
-        print("bus data done")
         return JsonResponse(dublinBusData, safe=False)
     else:
         print(response.status_code)

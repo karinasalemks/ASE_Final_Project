@@ -12,7 +12,6 @@ def transformBikeData(inputData, isPrimarySource):
 
     if isPrimarySource:
         for apiResponse in inputData:
-            print(apiResponse["station_id"])
             result['station_id'] = str(apiResponse['station_id'])
             result['bike_stands'] = apiResponse['bike_stands']
             result['available_bikes'] = apiResponse['available_bikes']
@@ -79,11 +78,20 @@ def transformBUSData(bus_data, isPrimarySource):
         except IndexError:
             print("Error in TripId, no routes, trip Id: ", trip_update_split)
             continue
-        trip_obj = TRIP(trip_id, bus_entity, start_time, stop_seq_list)
-        jsonObj = trip_obj.toJSON()
-        # trip_obj.estimateCO2()
-        trips_list.append(jsonObj)
+
+        if len(stop_seq_list) >= 3:
+            trip_obj = TRIP(trip_id, bus_entity, start_time, stop_seq_list)
+            jsonObj = trip_obj.toJSON()
+            trips_list.append(jsonObj)
+        #part_of_trips = generate_part_of_trips(trips_list)
     return trips_list
+
+# def generate_part_of_trips(trips_list):
+#     result = {}
+#     for trip in trips_list:
+#         stop_sequence = trip['stop_sequences']
+#         trip_id = trip['trip_id']
+#         for 
 
 
 def transformLUASData(apiResponse):

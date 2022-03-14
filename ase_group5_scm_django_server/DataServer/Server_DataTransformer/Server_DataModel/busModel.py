@@ -30,19 +30,20 @@ class TRIP:
     def calculateTripDistance(self, stop_sequences):
         total_trip_distance = 0
         for index in range(0, len(stop_sequences) - 2):
-            source_coords = stop_sequences[index]
-            destination_coords = stop_sequences[index + 1]
-            total_trip_distance += self.calculate_distance(source_coords, destination_coords)
+            source_bus_stop_id = stop_sequences[index]
+            destination_bus_stop_id = stop_sequences[index + 1]
+            source_bus_stop = (bus_stops[source_bus_stop_id].latitude,bus_stops[source_bus_stop_id].longitude)
+            destination_bus_stop = (bus_stops[destination_bus_stop_id].latitude,bus_stops[destination_bus_stop_id].longitude)
+            total_trip_distance += self.calculate_distance(source_bus_stop,destination_bus_stop)
         return total_trip_distance
 
-    def calculate_distance(self, source_coords, destination_coords):
-        distance = abs(hs.haversine((source_coords['latitude'],source_coords['longitude']),(destination_coords['latitude'],destination_coords['longitude'])))
+    def calculate_distance(self, source_bus_stop,destination_bus_stop):
+        distance = abs(hs.haversine(source_bus_stop,destination_bus_stop))
         return round(distance, 2)
 
     def estimate_co2_emission(self, stop_sequences):
         total_trip_distance = self.calculateTripDistance(stop_sequences)
         return total_trip_distance * DUBLIN_BUS_BASELINE_CO2_EMISSION_UNIT
-
 
 class STOPSEQUENCE:
     """Read data from stop_times.txt and 
@@ -53,7 +54,7 @@ class STOPSEQUENCE:
         # self.bus_stop = bus_stop
         # self.arrival_time = arrival_time
         # self.departure_time = departure_time
-          self.coordinates = (lat,long)
+        self.coordinates = (lat,long)
 
     def getStopSequenceList(stopTimeSequences, route_id, dir):
         """returns a list of STOPSEQUENCE objects for each trip"""
@@ -69,13 +70,12 @@ class STOPSEQUENCE:
                     stop_dict_value = stops_dict[key_tuple]
                     # bus_arrival_time = stop_dict_value[0]
                     # bus_departure_time = stop_dict_value[1]
-                    bus_stop = bus_stops[stop_id]
-                    # stop_seq = STOPSEQUENCE(
-                    # bus_stop.latitude,bus_stop.longitude)
-                    coords = {}
-                    coords['latitude'] = bus_stop.latitude
-                    coords['longitude'] = bus_stop.latitude
-                    stop_seq_list.append(coords)
+                    if stop_id in bus_stops:
+                        bus_stop = bus_stops[stop_id]
+                        _,data = bus_stop.toJSON()
+                        # stop_seq = STOPSEQUENCE(
+                        # bus_stop.latitude,bus_stop.longitude)
+                        stop_seq_list.append(data['stop_id'])
                 else:
                     print("Error - Key tuple is not there: ", key_tuple)
                     continue
