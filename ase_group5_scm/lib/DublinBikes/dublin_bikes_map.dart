@@ -145,6 +145,9 @@ class _BikeStationMapState extends State<BikeStationMap> {
     customIcon_green = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
         'assets/image/bike_station_marker_green.png');
+    if (widget.snapshot.docs.length > 0) {
+      initAllMarkers(widget.snapshot.docs);
+    }
   }
 
   bikeMapHeaderContainer(heightOfFilter, snapshot) {
@@ -184,7 +187,8 @@ class _BikeStationMapState extends State<BikeStationMap> {
                     onChanged: (String? newValue) {
                       setState(() {
                         dropdownvalue = newValue!;
-                        initAllMarkers(snapshot.data!.docs);
+                        initAllMarkers(snapshot.docs);
+                        // initAllMarkers(snapshot.data!.docs);
                       });
                     },
                   ),
@@ -297,6 +301,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
         (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
             0.10;
     //Todo: Refine the code here to stop calling setState method before build.
+
     return Container(
       padding: EdgeInsets.all(8),
       height: MediaQuery.of(context).size.height - heightOfFilter,

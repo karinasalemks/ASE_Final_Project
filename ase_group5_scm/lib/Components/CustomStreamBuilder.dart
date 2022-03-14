@@ -1,6 +1,6 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
-import 'package:ase_group5_scm/DublinBikes/dublin_bikes_usage_chart.dart';
 import 'package:ase_group5_scm/DublinBikes/dublin_bikes_map.dart';
+import 'package:ase_group5_scm/DublinBikes/dublin_bikes_usage_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +38,10 @@ class CustomStreamBuilder extends StatelessWidget {
         if (snapshot.hasData) {
           switch (viewName) {
             case AppConstants.DUBLIN_BIKES_MAP_VIEW:
-              return BikeStationMap(snapshot: snapshot);
+              return BikeStationMap(snapshot: snapshot.data);
             case AppConstants.DUBLIN_BIKES_CHARTS_VIEW:
               return DublinBikesUsageChart(
-                snapshot: snapshot,
+                snapshot: snapshot.data,
               );
             case AppConstants.DUBLIN_BIKES_SWAPS_VIEW:
               //TODO:add swaps here

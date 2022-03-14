@@ -1,16 +1,18 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
 import 'package:ase_group5_scm/Components/CustomStreamBuilder.dart';
+import 'package:ase_group5_scm/Components/IndexNum.dart';
+import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:ase_group5_scm/Components/Utils.dart';
 import 'package:flutter/material.dart';
-import 'package:ase_group5_scm/Components/SideMenu.dart';
 
+IndexNum indexNum = new IndexNum();
 List _bikeScreenList = [
   CustomStreamBuilder(
-    collectionName: AppConstants.DUBLIN_BIKES_COLLECTION,
-    viewName: AppConstants.DUBLIN_BIKES_MAP_VIEW,),
+      collectionName: AppConstants.DUBLIN_BIKES_COLLECTION,
+      viewName: AppConstants.DUBLIN_BIKES_MAP_VIEW),
   CustomStreamBuilder(
-    collectionName: AppConstants.DUBLIN_BIKES_COLLECTION,
-    viewName: AppConstants.DUBLIN_BIKES_CHARTS_VIEW,),
+      collectionName: AppConstants.DUBLIN_BIKES_COLLECTION,
+      viewName: AppConstants.DUBLIN_BIKES_CHARTS_VIEW),
 ];
 
 //replace the below list values with corresponding nested screen widgets
@@ -27,7 +29,6 @@ List _eventScreenList = [
   Text(' event placeholder Text')
 ];
 
-
 /*
 * IntermediateInterface is a StatefulWidget class that provides the functionality of bottom navigation bar
 * to navigate among different screens for a single indicator entity.
@@ -36,10 +37,12 @@ class DublinBikesDashboardMobile extends StatefulWidget {
   const DublinBikesDashboardMobile({Key? key}) : super(key: key);
 
   @override
-  _DublinBikesDashboardMobileState createState() => _DublinBikesDashboardMobileState();
+  _DublinBikesDashboardMobileState createState() =>
+      _DublinBikesDashboardMobileState();
 }
 
-class _DublinBikesDashboardMobileState extends State<DublinBikesDashboardMobile> {
+class _DublinBikesDashboardMobileState
+    extends State<DublinBikesDashboardMobile> {
   int _selectedIndex = 0;
   String? selectedSideMenu;
 
@@ -89,8 +92,8 @@ class _DublinBikesDashboardMobileState extends State<DublinBikesDashboardMobile>
               label: 'Bar_chart_placeHolder',
             ),
             // BottomNavigationBarItem(
-              //icon: Icon(Icons.map),
-              // label: 'Heat Map placeHolder',
+            //icon: Icon(Icons.map),
+            // label: 'Heat Map placeHolder',
             //),
           ],
           currentIndex: _selectedIndex,
