@@ -1,11 +1,9 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
 import 'package:ase_group5_scm/Components/CustomStreamBuilder.dart';
-import 'package:ase_group5_scm/Components/IndexNum.dart';
 import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:ase_group5_scm/Components/Utils.dart';
 import 'package:flutter/material.dart';
 
-IndexNum indexNum = new IndexNum();
 List _bikeScreenList = [
   CustomStreamBuilder(
       collectionName: AppConstants.DUBLIN_BIKES_COLLECTION,

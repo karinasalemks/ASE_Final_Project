@@ -1,4 +1,5 @@
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -14,8 +15,6 @@ class DublinBikesUsageChart extends StatefulWidget {
 
 Map getStationUsageData(snapshot) {
   Map stationUsageMap = new Map<String, double>();
-  Map stationInitialNameMap = new Map<String, double>();
-  // for (int i = 0; i < snapshot.data!.docs.length; i++) {
   for (int i = 0; i < snapshot.docs.length; i++) {
     var stationName = snapshot.docs[i].get("station_name");
     var stationOccupancy = snapshot.docs[i].get("occupancy_list");
@@ -48,65 +47,21 @@ List sortStationMaps(Map stationUsageMap) {
       BikeStationUsageData(stationName: e.key, occupancyPercentage: e.value)));
 
   ascStationUsageList = stationUsageList.getRange(0, 10).toList();
-  //TODO: figure out how to stop the original list from changing
-  List<BikeStationUsageData> initAscStationUsageList = [];
-  initAscStationUsageList = getInitializedStationName([...ascStationUsageList]);
 
   descStationUsageList = stationUsageList.reversed.toList().take(10).toList();
-  List<BikeStationUsageData> initDescStationUsageList =
-      getInitializedStationName(descStationUsageList);
 
-  // List<charts.Series<BikeStationUsageData, String>> ascStationUsageSeries =
-  //     getListSeries(initAscStationUsageList);
-  // List<charts.Series<BikeStationUsageData, String>> decStationUsageSeries =
-  //     getListSeries(initDescStationUsageList);
-
-  // var seriesArray = [ascStationUsageSeries, decStationUsageSeries];
-  // var seriesArray = [decStationUsageSeries, ascStationUsageSeries];
-  var seriesArray = [
-    initAscStationUsageList,
-    initDescStationUsageList,
-    ascStationUsageList,
-    descStationUsageList
-  ];
+  var seriesArray = [ascStationUsageList, descStationUsageList];
   return seriesArray;
 }
 
-List<BikeStationUsageData> getInitializedStationName(
-    List<BikeStationUsageData> stationUsageList) {
-  List<BikeStationUsageData> initStationUsageList = [];
-  for (var i = 0; i < stationUsageList.length; i++) {
-    BikeStationUsageData bikeStationUsageData = stationUsageList[i];
-    var stationName = bikeStationUsageData.stationName.split(" ");
-    var stationInitials = "";
-    for (var i = 0; i < stationName.length; i++) {
-      stationInitials += stationName[i][0];
-    }
-    bikeStationUsageData.stationName = stationInitials;
-    bikeStationUsageData.occupancyPercentage =
-        bikeStationUsageData.occupancyPercentage == null
-            ? 0
-            : bikeStationUsageData.occupancyPercentage;
-    initStationUsageList.add(bikeStationUsageData);
+String getInitials(String sName) {
+  //get the initials of the station name
+  var stationName = sName.split(" ");
+  var stationInitials = "";
+  for (var i = 0; i < stationName.length; i++) {
+    stationInitials += stationName[i][0];
   }
-  return initStationUsageList;
-}
-
-List<charts.Series<BikeStationUsageData, String>> getListSeries(
-    List<BikeStationUsageData> stationUsageMapList) {
-  List<charts.Series<BikeStationUsageData, String>> stationUsageMapListSeries =
-      [
-    charts.Series(
-      id: "Bike Usage Percentage",
-      data: stationUsageMapList,
-      domainFn: (BikeStationUsageData stationUsageMapListSeries, _) =>
-          stationUsageMapListSeries.stationName,
-      measureFn: (BikeStationUsageData stationUsageMapListSeries, _) =>
-          stationUsageMapListSeries.occupancyPercentage,
-      // stationUsageMapListSeries.occupancyPercentage,
-    )
-  ];
-  return stationUsageMapListSeries;
+  return stationInitials;
 }
 
 class BikeStationUsageData {
@@ -124,10 +79,8 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
   bool toogleState = false;
 
   List<bool> isSelected = [true, false];
-  late List<charts.Series<BikeStationUsageData, String>>
-      StationUsageMapListSeries;
+
   late List<BikeStationUsageData> stationUsageList;
-  late List<BikeStationUsageData> stationFullNameList;
   late TooltipBehavior _tooltipBehavior;
 
   @override
@@ -141,15 +94,8 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
     Map stationUsageMap = getStationUsageData(widget.snapshot);
     var seriesArray = sortStationMaps(stationUsageMap);
     if (isSelected[0]) {
-      // StationUsageMapListSeries = [];
-      // StationUsageMapListSeries = seriesArray[0];
-      stationFullNameList = seriesArray[2];
-
       stationUsageList = seriesArray[0];
     } else {
-      // StationUsageMapListSeries = [];
-      // StationUsageMapListSeries = seriesArray[1];
-      stationFullNameList = seriesArray[3];
       stationUsageList = seriesArray[1];
     }
     _tooltipBehavior = TooltipBehavior(
@@ -158,11 +104,14 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
         builder: (dynamic data, dynamic point, dynamic series, int pointIndex,
             int seriesIndex) {
           return Container(
+              padding: const EdgeInsets.all(3),
               child: Text(
-            'PointIndex : ${stationFullNameList[pointIndex].stationName}',
-            style: TextStyle(color: Colors.white),
-          ));
+                'Station Name : ${stationUsageList[pointIndex].stationName} \n'
+                'Station Occupancy: ${stationUsageList[pointIndex].occupancyPercentage.toStringAsFixed(1)}%',
+                style: TextStyle(color: Colors.white, fontSize: 13),
+              ));
         });
+
     return Container(
       height: MediaQuery.of(context).size.height * 0.5 - 40,
       // width: 100,
@@ -176,38 +125,29 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
               ),
               Expanded(
                 child: SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
+                  primaryXAxis: CategoryAxis(
+                      labelRotation: 30,
+                      majorGridLines: MajorGridLines(width: 0)),
+                  primaryYAxis: NumericAxis(
+                      majorGridLines: MajorGridLines(width: 0),
+                      maximum: stationUsageList
+                          .map<double>((e) => e.occupancyPercentage)
+                          .reduce(max)),
                   tooltipBehavior: _tooltipBehavior,
                   series: <ColumnSeries<BikeStationUsageData, String>>[
                     ColumnSeries<BikeStationUsageData, String>(
-                      // Binding the chartData to the dataSource of the column series.
                       dataSource: stationUsageList,
-                      name: 'BikeStationUsageData',
-                      // xValueMapper: (BikeStationUsageData sales, _) => sales.stationName,
-                      xValueMapper: (BikeStationUsageData sales, _) =>
-                          sales.stationName,
-                      yValueMapper: (BikeStationUsageData sales, _) =>
-                          sales.occupancyPercentage,
+                      xValueMapper:
+                          (BikeStationUsageData bikeStationUsageData, _) =>
+                              getInitials(bikeStationUsageData.stationName),
+                      yValueMapper:
+                          (BikeStationUsageData bikeStationUsageData, _) =>
+                              bikeStationUsageData.occupancyPercentage,
                       enableTooltip: true,
-                      // dataLabelSettings: DataLabelSettings(isVisible: true),
                     ),
                   ],
                 ),
               ),
-              // Expanded(
-              //   child: charts.BarChart(
-              //     StationUsageMapListSeries,
-              //     animate: false,
-              //     defaultRenderer: new charts.BarRendererConfig(
-              //       maxBarWidthPx: 10,
-              //       strokeWidthPx: 1.0,
-              //       barGroupInnerPaddingPx: 0,
-              //     ),
-              //     domainAxis: charts.OrdinalAxisSpec(
-              //       renderSpec: charts.SmallTickRendererSpec(labelRotation: 60),
-              //     ),
-              //   ),
-              // ),
               new Row(
                 children: <Widget>[
                   ToggleButtons(

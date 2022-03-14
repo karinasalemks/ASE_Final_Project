@@ -1,5 +1,4 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
-import 'package:ase_group5_scm/Components/IndexNum.dart';
 import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:ase_group5_scm/Components/Utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,8 +18,6 @@ class DublinBikesDashboardWeb extends StatefulWidget {
 }
 
 class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
-  IndexNum indexNum = new IndexNum();
-
   StreamBuilder<Object?> combinedStreams() {
     Stream<QuerySnapshot> map = FirebaseFirestore.instance
         .collection(AppConstants.DUBLIN_BIKES_COLLECTION)
