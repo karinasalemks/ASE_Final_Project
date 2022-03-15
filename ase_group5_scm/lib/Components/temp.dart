@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'bike_swap_suggestions.dart';
-import 'dataTable.dart';
 class TestScreen extends StatelessWidget {
   const TestScreen({Key? key}) : super(key: key);
 
@@ -18,7 +17,6 @@ class TestScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            BikeSwapSuggestions(),
             BikeSwapSuggestions(),
           ],
         ),

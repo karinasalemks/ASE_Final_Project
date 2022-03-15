@@ -11,26 +11,32 @@ class BikeSwapSuggestions extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Colors.amber,
+        color: Color(0xFF05BEF6),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
+
       child: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('Bikes_Swap_Suggestions').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
-              var bike_swap_suggestions = snapshot.data!.docs[0].get("swap_suggestions");
+               var bike_swap_suggestions = snapshot.data!.docs[0].get("swap_suggestions")[0];
+
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                SizedBox(
+                    width: double.infinity,
+                    child: generateDataTable2(bike_swap_suggestions["occupied_stations"]),
+                  ),
                   SizedBox(
                     width: double.infinity,
-                    child: generateDataTable(bike_swap_suggestions),
+                    child: generateDataTable(bike_swap_suggestions["free_stations"]),
                   ),
                 ],
               );
             }
             else{
-              return Text("Shubham is going to do PHD");
+              return Text("Shubham");
             }
           }
       ),
@@ -38,10 +44,15 @@ class BikeSwapSuggestions extends StatelessWidget {
   }
 }
 
+
+//  for occupied stations
+
 DataTable2 generateDataTable(bike_swap_suggestions){
   return DataTable2(
       columnSpacing: 16.0,
+
       columns: [
+
         DataColumn(
           label: Text("Source Station"),
         ),
@@ -52,6 +63,24 @@ DataTable2 generateDataTable(bike_swap_suggestions){
       rows: List.generate(5, (index) => generateSuggestionRow(bike_swap_suggestions[index])),
   );
 }
+
+// for free stations
+DataTable2 generateDataTable2(bike_swap_suggestions){
+  return DataTable2(
+    columnSpacing: 16.0,
+    columns: [
+      DataColumn(
+        label: Text("Swap Suggestions"),
+      ),
+      DataColumn(
+        label: Text("Source Station"),
+      ),
+    ],
+    rows: List.generate(5, (index) => generateSuggestionRow(bike_swap_suggestions[index])),
+  );
+}
+
+
 
 DataRow generateSuggestionRow(swap_suggestions){
   var source_station = swap_suggestions["occupied_station"];
