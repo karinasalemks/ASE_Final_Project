@@ -1,9 +1,6 @@
-from django.shortcuts import render
 from Server_DataTransformer.Server_DataModel.serverBikeModel import BikeModel
 import pandas as pd
-import json
-import requests
-from Server_DataTransformer.Server_DataModel.busModel import TRIP, STOPSEQUENCE
+from Server_DataTransformer.Server_DataModel.busModel import *
 
 # Create your views here.
 def transformBikeData(inputData, isPrimarySource):
@@ -58,9 +55,14 @@ def transformBUSData(bus_data, isPrimarySource):
         trip_update_split = trip_id.split(".")
         try:
             route_id = trip_update_split[2]
+
+            #Filter route associated with dublin bus, else return. 
+            if route_id not in routes_list:
+                continue
+
             # splitting the route id to get the bus entity (bus number)
             route_split = route_id.split("-")
-            bus_entity = route_split[2]
+            bus_entity = route_split[1]
             trip_entity = tripUpdate['Trip']
             start_time = trip_entity['StartTime']
             """ 
@@ -76,10 +78,10 @@ def transformBUSData(bus_data, isPrimarySource):
                     print("Error, no 'StopTimeUpdate' field", tripUpdate)
                     continue
         except IndexError:
-            print("Error in TripId, no routes, trip Id: ", trip_update_split)
+            print("Error in TripId, no routes, trip Id: ", trip_id,trip_update_split)
             continue
 
-        if len(stop_seq_list) >= 3:
+        if len(stop_seq_list) >= 0:
             trip_obj = TRIP(trip_id, bus_entity, start_time, stop_seq_list)
             jsonObj = trip_obj.toJSON()
             trips_list.append(jsonObj)

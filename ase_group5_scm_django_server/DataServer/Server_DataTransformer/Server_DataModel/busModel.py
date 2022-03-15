@@ -1,11 +1,33 @@
 import haversine as hs
-from math import sin, cos, sqrt, atan2, radians
-import json
-from ..models import stops_dict, bus_stops
+import pandas as pd
+import haversine as hs
+import csv
+
+stopsTimeFilePath = "Server_DataTransformer/StaticFiles/stop_times.csv"
+inputFilePath = "Server_DataTransformer/StaticFiles/stops.csv"
+routesFilePath = "Server_DataTransformer/StaticFiles/routes.csv"
 
 DUBLIN_BUS_BASELINE_CO2_EMISSION_UNIT = 1450
 LUAS_BASELINE_CO2_EMISSION_UNIT = 14640
 
+class BUS_STOP:
+    """Read stops.txt file and create objects"""
+
+    def __init__(self, stop_id, stop_name, stop_lat, stop_lon,distance_from_spire):
+        self.stop_id = stop_id
+        self.name = stop_name
+        self.latitude = stop_lat
+        self.longitude = stop_lon
+        self.distance_from_spire = distance_from_spire
+
+    def toJSON(self):
+        bus_stop_data = {}
+        bus_stop_data['stop_id'] = self.stop_id
+        #bus_stop_data['name'] = self.name
+        bus_stop_data['latitude'] = self.latitude
+        bus_stop_data['longitude'] = self.longitude
+        bus_stop_data['distance_from_spire'] = self.distance_from_spire
+        return self.stop_id,bus_stop_data
 
 class TRIP:
 
@@ -62,23 +84,75 @@ class STOPSEQUENCE:
         for stopSequence in stopTimeSequences:
             try:
                 stop_id = stopSequence['StopId']
-                # create tuple of "<route_id>,<stop_id>,<direction>"
-                key_tuple = (route_id, stop_id, dir)
-                # stop_seq_id = stopSequence['StopSequence']
-                # check if the create key tuple exits in the stops_dict
-                if (key_tuple in stops_dict):
-                    stop_dict_value = stops_dict[key_tuple]
-                    # bus_arrival_time = stop_dict_value[0]
-                    # bus_departure_time = stop_dict_value[1]
-                    if stop_id in bus_stops:
-                        bus_stop = bus_stops[stop_id]
-                        _,data = bus_stop.toJSON()
-                        # stop_seq = STOPSEQUENCE(
-                        # bus_stop.latitude,bus_stop.longitude)
-                        stop_seq_list.append(data['stop_id'])
+                if stop_id in bus_stops:
+                    bus_stop = bus_stops[stop_id]
+                    _,data = bus_stop.toJSON()
+                    stop_seq_list.append(data['stop_id'])
                 else:
-                    print("Error - Key tuple is not there: ", key_tuple)
+                    print("Error - Key tuple is not there: ", stop_id)
                     continue
             except IndexError:
                 continue
         return stop_seq_list
+
+def readSTOPSFile(inputFilePath):
+    data = pd.read_csv(inputFilePath)
+    list_of_stops = {}
+    for index, row in data.iterrows():
+        stop_id = row['stop_id']
+        stop_name = row['stop_name'].split(", stop ")[0]
+        stop_lat = row['stop_lat']
+        stop_lon = row['stop_lon']
+        distance_from_spire = calculate_distance_from_spire(stop_lat,stop_lon)
+        if distance_from_spire <= 50:
+            newStop = BUS_STOP(stop_id, stop_name, stop_lat, stop_lon,distance_from_spire)
+            list_of_stops[stop_id] = newStop
+    return list_of_stops
+
+def calculate_distance_from_spire(stop_lat,stop_lon):
+    spireLocation = (53.34995225574133, -6.260263222038029)
+    result = hs.haversine((stop_lat,stop_lon),spireLocation)
+    return result
+
+def readStopTimesFile(inputFilePath):
+    """Create a stops dictionary from the stop_times.csv"""
+    stops_dict = {}
+    with open(inputFilePath) as stop_times:
+        csv_reader = csv.reader(stop_times)
+        # trip_id,arrival_time,departure_time,stop_id
+        included_cols = [0, 1, 2, 3]
+        for row in csv_reader:
+            content = list(row[i] for i in included_cols)
+            # split the trip_id to get route_id and direction
+            content_split = content[0].split(".")
+            try:
+                # Tuple of "<route_id>,<stop_id>,<direction>"
+                key_tuple = (content_split[2], content[3], content_split[4])
+                # Value of [<arrival_time>, <departure_time>]
+                value = [content[1], content[2]]
+                stops_dict[key_tuple] = value
+            except IndexError:
+                continue
+    return stops_dict
+
+def readROUTESFile(inputFilePath):
+    data = pd.read_csv(inputFilePath)
+    routes_list = {}
+    for index, row in data.iterrows():
+        route_id = row['route_id']
+        routes_list[route_id] = True
+    return routes_list
+
+def read_static_files():    
+    print("[INFO] Loading Stops")
+    bus_stops = readSTOPSFile(inputFilePath)
+
+    print("[INFO] Loading Stops Times...")
+    stops_dict = readStopTimesFile(stopsTimeFilePath)
+
+    print("[INFO] Loading Routes...")
+    routes_list = readROUTESFile(routesFilePath)
+
+    return bus_stops,stops_dict,routes_list
+
+bus_stops,stops_dict,routes_list = read_static_files()
