@@ -61,6 +61,7 @@ def get_event_id(i):
     return switcher.get(i,"Invalid Event")
 
 def getEventsData(request):
+    print("**** getEventsData")
     #List of events that are taken for usage
     popular_events = ["Aviva", "3Arena", "RDS", "National Stadium", "Bord Gais Energy Theatre", "Gaiety Theatre"]
     #get the current datetime and convert it to a format required for API request
@@ -77,13 +78,13 @@ def getEventsData(request):
     dublinEventsData = []
     #For every event location get the api response and create the event details
     for place in popular_events:
-        response = requests.get(Endpoints.DUBLIN_EVENTS_API["PRIMARY"] + get_event_id(place) + "&startDateTime=" + formated_date_time+ "&endDateTime=" + month_later_formated_date_time, headers={
+        response = requests.get(Endpoints.DUBLIN_EVENTS_API["PRIMARY"] + get_event_id(place) + "&startDateTime=" + formated_date_time+ "&endDateTime=" + month_later_formated_date_time + "&apikey=Od2QOTqrUGW7CPeiRXSgzGv3zGAquRAL", headers={
             # Request headers
             'Cache-Control': 'no-cache',
             'x-api-key': 'Od2QOTqrUGW7CPeiRXSgzGv3zGAquRAL',
             })
         if (response.status_code == 200):
-            dublinEventsData.append(transformData(source="EVENTS", apiResponse=response.json()))
+            dublinEventsData.append(transformData(source="DUBLIN_EVENTS", apiResponse=response.json()))
         else:
             print(response.status_code)
     print("Get Events data done")
