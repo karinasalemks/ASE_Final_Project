@@ -24,7 +24,8 @@ def proprocessBikeStationData():
             distance = calculate_distance(source,destination)
             distance_vector.append((stations_list[i],distance))
         distance_vector = sorted(distance_vector, key=lambda item: item[1])
-        nearest_stations = [station_id for station_id,_ in distance_vector]
+        # changed station_id,_ with station_id since required Id and distance
+        nearest_stations = [station_id for station_id in distance_vector]
         distance_matrix[station_id] = nearest_stations
     return distance_matrix
 
@@ -73,18 +74,20 @@ def generate_suggestions(distance_matrix, station_occupancy, station_dict, targe
         #TODO: sync bike_station_coords.csv and API response
         if station_id not in distance_matrix :
             continue
-        nearest_stations = distance_matrix[station_id]
-        for nearest_station in nearest_stations:
+
+        nearest_stations= distance_matrix[station_id]
+    
+        for nearest_station, distance in nearest_stations:
             if nearest_station not in station_occupancy:
                 continue
             swap_occupancy = station_occupancy[nearest_station]
             if select_occupied_stations:
                 if swap_occupancy <= 0.25:
-                    swap_suggestions.append((station_id,nearest_station))
+                    swap_suggestions.append((station_id,nearest_station,distance))
                     break
             else:
                 if swap_occupancy >= 0.70:
-                    swap_suggestions.append((station_id,nearest_station))
+                    swap_suggestions.append((station_id,nearest_station,distance))
                     break
     
     result = []
@@ -92,9 +95,10 @@ def generate_suggestions(distance_matrix, station_occupancy, station_dict, targe
     for suggestion in swap_suggestions:
         target_station = suggestion[0]
         suggested_station = suggestion[1]
+        distance= suggestion[2]
         temp = {}
-        temp['occupied_station'] = parse_data(station_dict[target_station])
-        temp['suggested_station'] = parse_data(station_dict[suggested_station])
+        temp['occupied_station'] = parse_data(station_dict[target_station],distance)
+        temp['suggested_station'] = parse_data(station_dict[suggested_station],distance)
         result.append(temp)
     return result
 
@@ -103,4 +107,5 @@ def parse_data(station):
     result['station_name'] = station.station_name
     result['occupancy'] = station.occupancy_list[0]
     result['available_bikes'] = station.available_bikes[0]
+    result['distance']=distance
     return result
