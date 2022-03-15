@@ -59,7 +59,8 @@ String getInitials(String sName) {
   var stationName = sName.split(" ");
   var stationInitials = "";
   for (var i = 0; i < stationName.length; i++) {
-    stationInitials += stationName[i][0];
+    //check if first letter in word is a bracket, take the second letter
+    stationInitials += stationName[i][0]=='('?stationName[i][1]:stationName[i][0];
   }
   return stationInitials;
 }
