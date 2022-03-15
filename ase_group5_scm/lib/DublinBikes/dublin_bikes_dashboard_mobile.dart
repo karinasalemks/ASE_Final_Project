@@ -1,4 +1,5 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
+import 'package:ase_group5_scm/Components/CustomIcons.dart';
 import 'package:ase_group5_scm/Components/CustomStreamBuilder.dart';
 import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:ase_group5_scm/Components/Utils.dart';
@@ -11,20 +12,43 @@ List _bikeScreenList = [
   CustomStreamBuilder(
       collectionName: AppConstants.DUBLIN_BIKES_COLLECTION,
       viewName: AppConstants.DUBLIN_BIKES_CHARTS_VIEW),
+  CustomStreamBuilder(
+      collectionName: AppConstants.BIKES_SWAPS_COLLECTION,
+      viewName: AppConstants.DUBLIN_BIKES_SWAPS_VIEW),
 ];
 
 //replace the below list values with corresponding nested screen widgets
 List _busesScreenList = [
-  Text(' bus placeholder Text'),
-  Text(' bus placeholder Text')
+  CustomStreamBuilder(
+      collectionName: AppConstants.DUBLIN_BUS_COLLECTION,
+      viewName: AppConstants.DUBLIN_BUS_MAP_VIEW),
+  CustomStreamBuilder(
+      collectionName: AppConstants.DUBLIN_BUS_COLLECTION,
+      viewName: AppConstants.DUBLIN_BUS_CO2_VIEW),
+  CustomStreamBuilder(
+      collectionName: AppConstants.DUBLIN_BUS_COLLECTION,
+      viewName: AppConstants.DUBLIN_BUS_REROUTE_VIEW),
 ];
+
 List _luasScreenList = [
-  Text(' luas Placeholder Text'),
-  Text(' luas placeholder Text')
+  CustomStreamBuilder(
+      collectionName: AppConstants.DUBLIN_LUAS_COLLECTION,
+      viewName: AppConstants.DUBLIN_LUAS_MAP_VIEW),
+  CustomStreamBuilder(
+      collectionName: AppConstants.DUBLIN_LUAS_COLLECTION,
+      viewName: AppConstants.DUBLIN_LUAS_ELEC_VIEW),
 ];
+
 List _eventScreenList = [
-  Text(' event Placeholder Text'),
-  Text(' event placeholder Text')
+  CustomStreamBuilder(
+      collectionName: AppConstants.DUBLIN_EVENTS_COLLECTION,
+      viewName: AppConstants.DUBLIN_EVENTS_MAP_VIEW),
+  CustomStreamBuilder(
+      collectionName: AppConstants.DUBLIN_EVENTS_COLLECTION,
+      viewName: AppConstants.DUBLIN_EVENTS_BUS_SUG_VIEW),
+  CustomStreamBuilder(
+      collectionName: AppConstants.DUBLIN_EVENTS_COLLECTION,
+      viewName: AppConstants.DUBLIN_EVENTS_FORECAST_VIEW),
 ];
 
 /*
@@ -46,10 +70,10 @@ class _DublinBikesDashboardMobileState
 
   //map that holds all the individual screen lists in corresponding keys
   var _children = {
-    "Dublin Bikes": _bikeScreenList,
-    "Buses": _busesScreenList,
-    "Luas": _luasScreenList,
-    "Events": _eventScreenList
+    AppConstants.DUBLIN_BIKES: _bikeScreenList,
+    AppConstants.DUBLIN_BUSES: _busesScreenList,
+    AppConstants.DUBLIN_LUAS: _luasScreenList,
+    AppConstants.DUBLIN_EVENTS: _eventScreenList
   };
 
   void _onItemTapped(int index) {
@@ -77,8 +101,7 @@ class _DublinBikesDashboardMobileState
   BottomNavigationBar getNavigationBarWidget(String indicator) {
     BottomNavigationBar barToReturn;
     switch (indicator) {
-      //add future indicators as new case here
-      default:
+      case AppConstants.DUBLIN_BIKES:
         barToReturn = BottomNavigationBar(
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -89,10 +112,91 @@ class _DublinBikesDashboardMobileState
               icon: Icon(Icons.bar_chart),
               label: 'Bar_chart_placeHolder',
             ),
-            // BottomNavigationBarItem(
-            //icon: Icon(Icons.map),
-            // label: 'Heat Map placeHolder',
-            //),
+            BottomNavigationBarItem(
+            icon: Icon(Icons.compare_arrows),
+            label: 'swaps',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+        );
+        return barToReturn;
+      case AppConstants.DUBLIN_BUSES:
+        barToReturn = BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.directions_bus),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              // icon: Icon(IconData(0xf04d0, fontFamily: 'MaterialIcons')),
+              icon: Icon(CustomIcons.co2),
+              label: 'co2',
+            ),
+            BottomNavigationBarItem(
+            icon: Icon(IconData(0xe624, fontFamily: 'MaterialIcons')),
+            label: 'Bus rerouting',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.amber[800],
+          onTap: _onItemTapped,
+        );
+        return barToReturn;
+        case AppConstants.DUBLIN_LUAS:
+          barToReturn = BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.tram),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.bolt),
+                label: 'electricty',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.amber[800],
+            onTap: _onItemTapped,
+          );
+          return barToReturn;
+        case AppConstants.DUBLIN_EVENTS:
+          barToReturn = BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(IconData(0xf06bb, fontFamily: 'MaterialIcons')),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.directions_bus),
+                label: 'bus frequency',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.info),
+                label: 'forecast',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            selectedItemColor: Colors.amber[800],
+            onTap: _onItemTapped,
+          );
+          return barToReturn;
+      default:
+        barToReturn = BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(IconData(0xf06bb, fontFamily: 'MaterialIcons')),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.directions_bus),
+              label: 'bus frequency',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.info),
+              label: 'forecast',
+            ),
           ],
           currentIndex: _selectedIndex,
           selectedItemColor: Colors.amber[800],

@@ -28,7 +28,7 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
     return StreamBuilder(
         stream: CombineLatestStream.list([
           map,
-          swaps,
+          swaps
         ]),
         builder: (context, combinedSnapshot) {
           if (combinedSnapshot.hasData) {

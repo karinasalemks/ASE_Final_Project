@@ -112,6 +112,22 @@ class _SideMenuState extends State<SideMenu> {
             },
           ),
           ListTile(
+            title: Text('Events',
+                style: TextStyle(
+                    color: sideMenuIndex == 2 ? Colors.blue : Colors.black)),
+            tileColor: sideMenuIndex == 2 ? color : null,
+            onTap: () {
+              setState(() {
+                sideMenuIndex = 2;
+              });
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.of(context)
+                  .pushNamed("/bikesDashboard", arguments: "Events");
+            },
+          ),
+          ListTile(
             title: Text('Log out'),
             onTap: () {
               // Update the state of the app
