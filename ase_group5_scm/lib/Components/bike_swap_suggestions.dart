@@ -26,7 +26,10 @@ class BikeSwapSuggestions extends StatelessWidget {
                 children: [
                   SizedBox(
                   child: Container(
+
                     padding: EdgeInsets.all(5.0),
+
+                  
                     width: double.infinity,
                     child: generateDataTable2(bike_swap_suggestions["occupied_stations"]),
                     color: Color(0xFF9CBFC9),
@@ -38,7 +41,9 @@ class BikeSwapSuggestions extends StatelessWidget {
                   ),
                   SizedBox(
                   child: Container(
+
                     padding: EdgeInsets.all(5.0),
+
                     width: double.infinity,
                     child: generateDataTable(bike_swap_suggestions["free_stations"]),
                     color: Color(0xFF9CBFC9),
