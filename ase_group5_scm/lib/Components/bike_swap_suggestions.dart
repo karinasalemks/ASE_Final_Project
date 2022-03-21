@@ -11,7 +11,7 @@ class BikeSwapSuggestions extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: Color(0xFF05BEF6),
+        color: Color(0xFF9CBFC9),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
 
@@ -32,6 +32,7 @@ class BikeSwapSuggestions extends StatelessWidget {
                     width: double.infinity,
                     child: generateDataTable(bike_swap_suggestions["free_stations"]),
                   ),
+
                 ],
               );
             }
@@ -57,6 +58,9 @@ DataTable2 generateDataTable(bike_swap_suggestions){
           label: Text("Source Station"),
         ),
         DataColumn(
+          label: Text("Distance"),
+        ),
+        DataColumn(
           label: Text("Swap Suggestions"),
         ),
       ],
@@ -71,6 +75,9 @@ DataTable2 generateDataTable2(bike_swap_suggestions){
     columns: [
       DataColumn(
         label: Text("Swap Suggestions"),
+      ),
+      DataColumn(
+        label: Text("Distance"),
       ),
       DataColumn(
         label: Text("Source Station"),
@@ -91,6 +98,8 @@ DataRow generateSuggestionRow(swap_suggestions){
   var dst_station_name = dst_station["station_name"];
   var dst_station_occupancy = dst_station["occupancy"];
   var dst_station_ab = dst_station["available_bikes"];
+  var distance=source_station["distance"];
+
   return DataRow(
     cells: [
       DataCell(
@@ -104,6 +113,15 @@ DataRow generateSuggestionRow(swap_suggestions){
                 Text("Occupancy: $source_station_occupancy | Available Bikes: $source_station_ab")
               ],
             ),
+          ],
+        ),
+      ),
+      DataCell(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text("$distance Km"),
           ],
         ),
       ),
