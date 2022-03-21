@@ -35,6 +35,8 @@ dependencies:
   charts_flutter: ^0.12.0
   firebase_auth: ^3.3.5
   overlay_support: ^1.2.1
+  flutter_polyline_points: ^1.0.0
+
 
 dependency_overrides:
   cloud_functions_platform_interface: 5.0.21
@@ -61,6 +63,7 @@ flutter:
     - assets/image/bike_station_marker_orange.png
     - assets/image/bike_station_marker_red.png
     - assets/image/bike_station_marker_green.png
+    - assets/image/bus_station_marker.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

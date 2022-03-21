@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 class BusStationMap extends StatefulWidget {
   const BusStationMap({Key? key}) : super(key: key);
@@ -15,8 +16,16 @@ class _BusStationMapState extends State<BusStationMap> {
   late BitmapDescriptor customIcon;
   bool mapToggle = false;
   var currentLocation;
+  late Map<dynamic, dynamic> dataset;
   late GoogleMapController mapController;
+  double _originLatitude = 53.3397, _originLongitude = -6.2566;
+  double _destLatitude = 53.3492, _destLongitude = -6.2596;
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  Map<PolylineId, Polyline> polylines = {};
+  List<LatLng> polylineCoordinates = [];
+  PolylinePoints polylinePoints = PolylinePoints();
+  String googleAPiKey = "Please provide your api key";
+
   AppBar appBar = AppBar(
     title: Text("Dublin Bus Map"),
   );
@@ -39,9 +48,16 @@ class _BusStationMapState extends State<BusStationMap> {
 
   void initAllMarkers(var markersList) {
     // markers.clear();
-    Map<dynamic, dynamic> dataset = markersList[0]['data'][0];
+     dataset = markersList[0]['data'][0];
     // var dataset = markersList[0][0];
     dataset.forEach((k,v) => initMarker(v['name'], v['latitude'], v['longitude'], k, customIcon));
+
+     // var dataset_trips= markersList[1]['data'];
+     // for(int i=0;i<dataset_trips.length;i++){
+     //   var routes=dataset_trips[i]['stop_sequences'];
+     //   for(int j=0;)
+     // }
+
   }
 
   void initMarker(
@@ -77,6 +93,14 @@ class _BusStationMapState extends State<BusStationMap> {
     setState(() {
       mapToggle = true;
     });
+    /// origin marker
+    _addMarker(LatLng(_originLatitude, _originLongitude), "origin",
+        BitmapDescriptor.defaultMarker);
+
+    /// destination marker
+    _addMarker(LatLng(_destLatitude, _destLongitude), "destination",
+        BitmapDescriptor.defaultMarkerWithHue(90));
+    _getPolyline();
   }
 
   void onMapCreated(controller) {
@@ -84,11 +108,40 @@ class _BusStationMapState extends State<BusStationMap> {
       mapController = controller;
     });
   }
+  _addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
+    MarkerId markerId = MarkerId(id);
+    Marker marker =
+    Marker(markerId: markerId, icon: descriptor, position: position);
+    markers[markerId] = marker;
+  }
+
+  _addPolyLine() {
+    PolylineId id = PolylineId("poly");
+    Polyline polyline = Polyline(
+        polylineId: id, color: Colors.red, points: polylineCoordinates);
+    polylines[id] = polyline;
+    setState(() {});
+  }
+
+  _getPolyline() async {
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        googleAPiKey,
+        PointLatLng(_originLatitude, _originLongitude),
+        PointLatLng(_destLatitude, _destLongitude),
+        travelMode: TravelMode.driving,
+        wayPoints: []);
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    }
+    _addPolyLine();
+  }
 
   getMapIcon() async {
     customIcon = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
-        'assets/image/bike_station_marker.png');
+        'assets/image/bus_station_marker.png');
   }
 
   @override
@@ -149,6 +202,7 @@ class _BusStationMapState extends State<BusStationMap> {
                         zoom: 15.0,
                       ),
                       markers: Set<Marker>.of(getMarkers().values),
+                      polylines: Set<Polyline>.of(polylines.values),
                     )),
               ],
             );
