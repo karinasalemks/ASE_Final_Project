@@ -1,30 +1,28 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
 import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:ase_group5_scm/Components/Utils.dart';
-import 'package:ase_group5_scm/DublinBikes/dublin_bikes_map.dart';
-import 'package:ase_group5_scm/DublinBikes/dublin_bikes_usage_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-class DublinBusDashboardWeb extends StatefulWidget {
-  const DublinBusDashboardWeb({Key? key}) : super(key: key);
+class LuasDashboardWeb extends StatefulWidget {
+  const LuasDashboardWeb({Key? key}) : super(key: key);
 
   @override
-  _DublinBusDashboardWebState createState() =>
-      _DublinBusDashboardWebState();
+  _LuasDashboardWebState createState() =>
+      _LuasDashboardWebState();
 }
 
-class _DublinBusDashboardWebState extends State<DublinBusDashboardWeb> {
+class _LuasDashboardWebState extends State<LuasDashboardWeb> {
   StreamBuilder<Object?> combinedStreams() {
-    Stream<QuerySnapshot> busStream = FirebaseFirestore.instance
+    Stream<QuerySnapshot> luasStream = FirebaseFirestore.instance
         .collection(AppConstants.DUBLIN_LUAS_COLLECTION)
         .snapshots();
     //If needed, add other streams here
     return StreamBuilder(
         stream: CombineLatestStream.list([
-          busStream
+          luasStream
         ]),
         builder: (context, combinedSnapshot) {
           if (combinedSnapshot.hasData) {

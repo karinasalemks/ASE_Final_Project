@@ -47,22 +47,52 @@ List sortStationMaps(Map stationUsageMap) {
       BikeStationUsageData(stationName: e.key, occupancyPercentage: e.value)));
 
   ascStationUsageList = stationUsageList.getRange(0, 10).toList();
+  //TODO: figure out how to stop the original list from changing
+  List<BikeStationUsageData> initAscStationUsageList = [];
+  initAscStationUsageList = getInitializedStationName([...ascStationUsageList]);
 
   descStationUsageList = stationUsageList.reversed.toList().take(10).toList();
+  List<BikeStationUsageData> initDescStationUsageList =
+  getInitializedStationName(descStationUsageList);
 
-  var seriesArray = [ascStationUsageList, descStationUsageList];
+  // List<charts.Series<BikeStationUsageData, String>> ascStationUsageSeries =
+  //     getListSeries(initAscStationUsageList);
+  // List<charts.Series<BikeStationUsageData, String>> decStationUsageSeries =
+  //     getListSeries(initDescStationUsageList);
+
+  // var seriesArray = [ascStationUsageSeries, decStationUsageSeries];
+  // var seriesArray = [decStationUsageSeries, ascStationUsageSeries];
+  var seriesArray = [
+    initAscStationUsageList,
+    initDescStationUsageList,
+    ascStationUsageList,
+    descStationUsageList
+  ];
   return seriesArray;
 }
 
-String getInitials(String sName) {
-  //get the initials of the station name
-  var stationName = sName.split(" ");
-  var stationInitials = "";
-  for (var i = 0; i < stationName.length; i++) {
-    //check if first letter in word is a bracket, take the second letter
-    stationInitials += stationName[i][0]=='('?stationName[i][1]:stationName[i][0];
+// TODO: Need unique Names passed to Charts. Try getting first word and then initials. Also parenthesis bug. Kevin&Karina
+List<BikeStationUsageData> getInitializedStationName(
+    List<BikeStationUsageData> stationUsageList) {
+  List<BikeStationUsageData> initStationUsageList = [];
+  for (var i = 0; i < stationUsageList.length; i++) {
+    BikeStationUsageData bikeStationUsageData = new BikeStationUsageData(stationName: stationUsageList[i].stationName, occupancyPercentage:  stationUsageList[i].occupancyPercentage);
+    var stationName = bikeStationUsageData.stationName.split(" ");
+    print(stationName);
+    var stationInitials = "";
+    for (var i = 0; i < stationName.length; i++) {
+      if(i < 2) {
+        stationInitials += stationName[i][0];
+      }
+    }
+    bikeStationUsageData.stationName = stationInitials;
+    bikeStationUsageData.occupancyPercentage =
+    bikeStationUsageData.occupancyPercentage == null
+        ? 0
+        : bikeStationUsageData.occupancyPercentage;
+    initStationUsageList.add(bikeStationUsageData);
   }
-  return stationInitials;
+  return initStationUsageList;
 }
 
 class BikeStationUsageData {
@@ -82,6 +112,7 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
   List<bool> isSelected = [true, false];
 
   late List<BikeStationUsageData> stationUsageList;
+  late List<BikeStationUsageData> stationFullNameList;
   late TooltipBehavior _tooltipBehavior;
 
   @override
@@ -95,8 +126,15 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
     Map stationUsageMap = getStationUsageData(widget.snapshot);
     var seriesArray = sortStationMaps(stationUsageMap);
     if (isSelected[0]) {
+      // StationUsageMapListSeries = [];
+      // StationUsageMapListSeries = seriesArray[0];
+      stationFullNameList = seriesArray[2];
+
       stationUsageList = seriesArray[0];
     } else {
+      // StationUsageMapListSeries = [];
+      // StationUsageMapListSeries = seriesArray[1];
+      stationFullNameList = seriesArray[3];
       stationUsageList = seriesArray[1];
     }
     _tooltipBehavior = TooltipBehavior(
@@ -107,7 +145,7 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
           return Container(
               padding: const EdgeInsets.all(3),
               child: Text(
-                'Station Name : ${stationUsageList[pointIndex].stationName} \n'
+                'Station Name : ${stationFullNameList[pointIndex].stationName} \n'
                 'Station Occupancy: ${stationUsageList[pointIndex].occupancyPercentage.toStringAsFixed(1)}%',
                 style: TextStyle(color: Colors.white, fontSize: 13),
               ));
@@ -140,7 +178,7 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
                       dataSource: stationUsageList,
                       xValueMapper:
                           (BikeStationUsageData bikeStationUsageData, _) =>
-                              getInitials(bikeStationUsageData.stationName),
+                              bikeStationUsageData.stationName,
                       yValueMapper:
                           (BikeStationUsageData bikeStationUsageData, _) =>
                               bikeStationUsageData.occupancyPercentage,

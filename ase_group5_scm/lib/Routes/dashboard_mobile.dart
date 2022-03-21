@@ -55,16 +55,16 @@ List _eventScreenList = [
 * IntermediateInterface is a StatefulWidget class that provides the functionality of bottom navigation bar
 * to navigate among different screens for a single indicator entity.
 * */
-class DublinBikesDashboardMobile extends StatefulWidget {
-  const DublinBikesDashboardMobile({Key? key}) : super(key: key);
+class DashboardMobile extends StatefulWidget {
+  const DashboardMobile({Key? key}) : super(key: key);
 
   @override
-  _DublinBikesDashboardMobileState createState() =>
-      _DublinBikesDashboardMobileState();
+  _DashboardMobileState createState() =>
+      _DashboardMobileState();
 }
 
-class _DublinBikesDashboardMobileState
-    extends State<DublinBikesDashboardMobile> {
+class _DashboardMobileState
+    extends State<DashboardMobile> {
   int _selectedIndex = 0;
   String? selectedSideMenu;
 

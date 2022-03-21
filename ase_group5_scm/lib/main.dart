@@ -4,7 +4,10 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-import 'DublinBikes/dublin_bikes_dashboard_mobile.dart';
+import 'Routes/dashboard_mobile.dart';
+import 'DublinBuses/dublin_bus_dashboard_web.dart';
+import 'Events/events_dashboard_web.dart';
+import 'Luas/luas_dashboard_web.dart';
 import 'Routes/login.dart';
 import 'firebase_options.dart';
 
@@ -43,9 +46,18 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (context) => loginScreen(),
-        '/bikesDashboard': (context) =>
+        '/DublinBikesDashboard': (context) =>
             //kIsWeb is a bool from flutter returns true if the platform is web
-            kIsWeb ? DublinBikesDashboardWeb() : const DublinBikesDashboardMobile()
+            kIsWeb ? DublinBikesDashboardWeb() : const DashboardMobile(),
+        '/DublinBusDashboard': (context) =>
+            //kIsWeb is a bool from flutter returns true if the platform is web
+            kIsWeb ? DublinBusDashboardWeb() : const DashboardMobile(),
+        '/LuasDashboard': (context) =>
+            //kIsWeb is a bool from flutter returns true if the platform is web
+            kIsWeb ? LuasDashboardWeb() : const DashboardMobile(),
+        '/EventsDashboard': (context) =>
+            //kIsWeb is a bool from flutter returns true if the platform is web
+            kIsWeb ? EventsDashboardWeb() : const DashboardMobile()
       },
     ));
   }

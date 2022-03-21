@@ -76,11 +76,11 @@ class _SideMenuState extends State<SideMenu> {
               // ...
               // Then close the drawer
               Navigator.of(context)
-                  .pushNamed("/bikesDashboard", arguments: "Dublin Bikes");
+                  .pushNamed("/DublinBikesDashboard", arguments: "Dublin Bikes");
             },
           ),
           ListTile(
-            title: Text('Buses',
+            title: Text('Dublin Bus',
                 style: TextStyle(
                     color: sideMenuIndex == 1 ? Colors.blue : Colors.black)),
             tileColor: sideMenuIndex == 1 ? color : null,
@@ -92,7 +92,7 @@ class _SideMenuState extends State<SideMenu> {
               // ...
               // Then close the drawer
               Navigator.of(context)
-                  .pushNamed("/bikesDashboard", arguments: "Buses");
+                  .pushNamed("/DublinBusDashboard", arguments: "Buses");
             },
           ),
           ListTile(
@@ -108,23 +108,23 @@ class _SideMenuState extends State<SideMenu> {
               // ...
               // Then close the drawer
               Navigator.of(context)
-                  .pushNamed("/bikesDashboard", arguments: "Luas");
+                  .pushNamed("/LuasDashboard", arguments: "Luas");
             },
           ),
           ListTile(
             title: Text('Events',
                 style: TextStyle(
-                    color: sideMenuIndex == 2 ? Colors.blue : Colors.black)),
-            tileColor: sideMenuIndex == 2 ? color : null,
+                    color: sideMenuIndex == 3 ? Colors.blue : Colors.black)),
+            tileColor: sideMenuIndex == 3 ? color : null,
             onTap: () {
               setState(() {
-                sideMenuIndex = 2;
+                sideMenuIndex = 3;
               });
               // Update the state of the app
               // ...
               // Then close the drawer
               Navigator.of(context)
-                  .pushNamed("/bikesDashboard", arguments: "Events");
+                  .pushNamed("/EventsDashboard", arguments: "Events");
             },
           ),
           ListTile(
