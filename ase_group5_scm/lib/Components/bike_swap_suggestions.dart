@@ -16,23 +16,39 @@ class BikeSwapSuggestions extends StatelessWidget {
       ),
 
       child: StreamBuilder<QuerySnapshot>(
-        stream: FirebaseFirestore.instance.collection('Bikes_Swap_Suggestions').snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          stream: FirebaseFirestore.instance.collection('Bikes_Swap_Suggestions').snapshots(),
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
-               var bike_swap_suggestions = snapshot.data!.docs[0].get("swap_suggestions")[0];
+              var bike_swap_suggestions = snapshot.data!.docs[0].get("swap_suggestions")[0];
 
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                SizedBox(
+                  SizedBox(
+                  child: Container(
+                  constraints: BoxConstraints.expand(
+                    height: Theme.of(context).textTheme.headline4!.fontSize! * 1.1 + 200.0,
+                  ),
                     width: double.infinity,
                     child: generateDataTable2(bike_swap_suggestions["occupied_stations"]),
+                    color: Color(0xFF9CBFC9),
+                    alignment: Alignment.center,
+                  )
                   ),
                   SizedBox(
+                    height:20
+                  ),
+                  SizedBox(
+                  child: Container(
+                  constraints: BoxConstraints.expand(
+                  height: Theme.of(context).textTheme.headline4!.fontSize! * 1.1 + 200.0,
+                  ),
                     width: double.infinity,
                     child: generateDataTable(bike_swap_suggestions["free_stations"]),
+                    color: Color(0xFF9CBFC9),
+                    alignment: Alignment.center,
                   ),
-
+                  )
                 ],
               );
             }
@@ -50,27 +66,39 @@ class BikeSwapSuggestions extends StatelessWidget {
 
 DataTable2 generateDataTable(bike_swap_suggestions){
   return DataTable2(
-      columnSpacing: 16.0,
+    border: TableBorder(top:BorderSide(color: Colors.black, width: 3),
+        bottom: BorderSide(color: Colors.black, width: 3),
+        horizontalInside: BorderSide(color: Colors.black, width: 1),
+        verticalInside: BorderSide(color: Colors.black, width: 1),
+        left:BorderSide(color: Colors.black, width: 3),
+        right:BorderSide(color: Colors.black, width: 3),),
+    columnSpacing: 16.0,
 
-      columns: [
+    columns: [
 
-        DataColumn(
-          label: Text("Source Station"),
-        ),
-        DataColumn(
-          label: Text("Distance"),
-        ),
-        DataColumn(
-          label: Text("Swap Suggestions"),
-        ),
-      ],
-      rows: List.generate(5, (index) => generateSuggestionRow(bike_swap_suggestions[index])),
+      DataColumn(
+        label: Text("Source Station"),
+      ),
+      DataColumn(
+        label: Text("Distance"),
+      ),
+      DataColumn(
+        label: Text("Swap Suggestions"),
+      ),
+    ],
+    rows: List.generate(5, (index) => generateSuggestionRow(bike_swap_suggestions[index])),
   );
 }
 
 // for free stations
 DataTable2 generateDataTable2(bike_swap_suggestions){
   return DataTable2(
+    border: TableBorder(top:BorderSide(color: Colors.black, width: 3),
+      bottom: BorderSide(color: Colors.black, width: 3),
+      horizontalInside: BorderSide(color: Colors.black, width: 1),
+      verticalInside: BorderSide(color: Colors.black, width: 1),
+      left:BorderSide(color: Colors.black, width: 3),
+      right:BorderSide(color: Colors.black, width: 3),),
     columnSpacing: 16.0,
     columns: [
       DataColumn(
@@ -101,44 +129,44 @@ DataRow generateSuggestionRow(swap_suggestions){
   var distance=source_station["distance"];
 
   return DataRow(
-    cells: [
-      DataCell(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(source_station_name),
-            Row(
-              children: [
-                Text("Occupancy: $source_station_occupancy | Available Bikes: $source_station_ab")
-              ],
-            ),
-          ],
+      cells: [
+        DataCell(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(source_station_name),
+              Row(
+                children: [
+                  Text("Occupancy: $source_station_occupancy | Available Bikes: $source_station_ab")
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-      DataCell(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text("$distance Km"),
-          ],
+        DataCell(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text("$distance Km"),
+            ],
+          ),
         ),
-      ),
-      DataCell(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(dst_station_name),
-            Row(
-              children: [
-                Text("Occupancy: $dst_station_occupancy | Available Bikes: $dst_station_ab")
-              ],
-            ),
-          ],
+        DataCell(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(dst_station_name),
+              Row(
+                children: [
+                  Text("Occupancy: $dst_station_occupancy | Available Bikes: $dst_station_ab")
+                ],
+              ),
+            ],
+          ),
         ),
-      ),
-    ]
+      ]
   );
 }
