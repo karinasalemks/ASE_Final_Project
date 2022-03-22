@@ -82,7 +82,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       signIn(userNameController.text, passwordController.text)
                           .then((result) {
                         if (result == "success") {
-                          Navigator.of(context).pushNamed("/intermediateUI",arguments: "Dublin Bikes");
+                          Navigator.of(context).pushNamed("/DublinBikesDashboard",arguments: "Dublin Bikes");
                         } else if (result == "network-request-failed") {
                           return showSimpleNotification(
                               Text(
@@ -119,7 +119,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     cursor: SystemMouseCursors.click,
                     child: new GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/intermediateUI",arguments: "Dublin Bikes");
+                        Navigator.pushNamed(context, "/DublinBikesDashboard",arguments: "Dublin Bikes");
                       },
                       child: new Text(
                         "Continue as a guest",

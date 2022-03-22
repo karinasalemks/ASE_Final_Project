@@ -35,6 +35,8 @@ dependencies:
   charts_flutter: ^0.12.0
   firebase_auth: ^3.3.5
   overlay_support: ^1.2.1
+  rxdart: ^0.27.3
+  syncfusion_flutter_charts: ^19.4.55
 
 dependency_overrides:
   cloud_functions_platform_interface: 5.0.21

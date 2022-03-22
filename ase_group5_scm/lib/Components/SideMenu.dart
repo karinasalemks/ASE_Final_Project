@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 var sideMenuIndex = 0;
+
 class SideMenu extends StatefulWidget {
   const SideMenu({Key? key}) : super(key: key);
 
@@ -17,13 +18,14 @@ class _SideMenuState extends State<SideMenu> {
       : FirebaseAuth.instance.currentUser?.email;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  void dispose() {
+    // TODO: implement dispose
     setState(() {
-      sideMenuIndex == null?0:sideMenuIndex;
+      sideMenuIndex = 0;
     });
+    super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -49,8 +51,7 @@ class _SideMenuState extends State<SideMenu> {
                             'https://source.unsplash.com/50x50/?portrait',
                           ),
                         ),
-                      )
-                  ),
+                      )),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Text(
@@ -63,10 +64,10 @@ class _SideMenuState extends State<SideMenu> {
                 ],
               )),
           ListTile(
-            title: Text('Dublin Bikes',style:TextStyle(
-              color: sideMenuIndex == 0 ?Colors.blue:Colors.black
-            )),
-            tileColor: sideMenuIndex == 0 ?color:null,
+            title: Text('Dublin Bikes',
+                style: TextStyle(
+                    color: sideMenuIndex == 0 ? Colors.blue : Colors.black)),
+            tileColor: sideMenuIndex == 0 ? color : null,
             onTap: () {
               setState(() {
                 sideMenuIndex = 0;
@@ -74,14 +75,15 @@ class _SideMenuState extends State<SideMenu> {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.of(context).pushNamed("/intermediateUI",arguments: "Dublin Bikes");
+              Navigator.of(context)
+                  .pushNamed("/DublinBikesDashboard", arguments: "Dublin Bikes");
             },
           ),
           ListTile(
-            title: Text('Buses',style:TextStyle(
-                color: sideMenuIndex == 1 ?Colors.blue:Colors.black
-            )),
-            tileColor: sideMenuIndex == 1 ?color:null,
+            title: Text('Dublin Bus',
+                style: TextStyle(
+                    color: sideMenuIndex == 1 ? Colors.blue : Colors.black)),
+            tileColor: sideMenuIndex == 1 ? color : null,
             onTap: () {
               setState(() {
                 sideMenuIndex = 1;
@@ -89,22 +91,40 @@ class _SideMenuState extends State<SideMenu> {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.of(context).pushNamed("/intermediateUI",arguments: "Buses");
+              Navigator.of(context)
+                  .pushNamed("/DublinBusDashboard", arguments: "Buses");
             },
           ),
           ListTile(
-            title: Text('Luas',style:TextStyle(
-                color: sideMenuIndex == 2 ?Colors.blue:Colors.black
-            )),
-            tileColor: sideMenuIndex == 2 ?color:null,
-            onTap: (){
+            title: Text('Luas',
+                style: TextStyle(
+                    color: sideMenuIndex == 2 ? Colors.blue : Colors.black)),
+            tileColor: sideMenuIndex == 2 ? color : null,
+            onTap: () {
               setState(() {
                 sideMenuIndex = 2;
               });
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.of(context).pushNamed("/intermediateUI",arguments: "Luas");
+              Navigator.of(context)
+                  .pushNamed("/LuasDashboard", arguments: "Luas");
+            },
+          ),
+          ListTile(
+            title: Text('Events',
+                style: TextStyle(
+                    color: sideMenuIndex == 3 ? Colors.blue : Colors.black)),
+            tileColor: sideMenuIndex == 3 ? color : null,
+            onTap: () {
+              setState(() {
+                sideMenuIndex = 3;
+              });
+              // Update the state of the app
+              // ...
+              // Then close the drawer
+              Navigator.of(context)
+                  .pushNamed("/EventsDashboard", arguments: "Events");
             },
           ),
           ListTile(
@@ -116,11 +136,8 @@ class _SideMenuState extends State<SideMenu> {
               Navigator.pushNamedAndRemoveUntil(context, "/", (r) => false);
             },
           ),
-
         ],
       ),
     );
   }
 }
-
-
