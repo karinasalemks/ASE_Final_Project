@@ -48,6 +48,7 @@ def transformBUSData(bus_data, isPrimarySource):
     # read bus data from request api
     bus_delays_list = bus_data["Entity"]
     trips_list = []
+    stop_seq_list = []
     for trip in bus_delays_list:
         tripUpdate = trip['TripUpdate']
         trip_id = trip['Id']
@@ -85,15 +86,29 @@ def transformBUSData(bus_data, isPrimarySource):
             trip_obj = TRIP(trip_id, bus_entity, start_time, stop_seq_list)
             jsonObj = trip_obj.toJSON()
             trips_list.append(jsonObj)
-        #part_of_trips = generate_part_of_trips(trips_list)
-    return trips_list
+    part_of_trips = generate_part_of_trips(trips_list)
+    result = {}
+    result["trips_list"] = trips_list
+    result["part_of_trips"] = part_of_trips
+    return result
 
-# def generate_part_of_trips(trips_list):
-#     result = {}
-#     for trip in trips_list:
-#         stop_sequence = trip['stop_sequences']
-#         trip_id = trip['trip_id']
-#         for 
+def generate_part_of_trips(trips_list):
+    part_of_trips = {}
+    for trip in trips_list:
+        stop_sequence = trip['stop_sequences']
+        for stop_id in stop_sequence:
+            if stop_id in part_of_trips:
+                part_of_trips[stop_id] += 1
+            else:
+                part_of_trips[stop_id] = 1
+    part_of_trips = sorted(part_of_trips.items(), key=lambda x: x[1], reverse=True)
+    result = {}
+    for item in part_of_trips:
+        stop_id = item[0]
+        value = item[1]
+        if value >= 10:
+         result[stop_id] = value
+    return result
 
 
 def transformLUASData(apiResponse):

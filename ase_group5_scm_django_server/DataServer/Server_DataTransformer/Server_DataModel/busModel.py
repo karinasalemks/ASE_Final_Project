@@ -23,7 +23,7 @@ class BUS_STOP:
     def toJSON(self):
         bus_stop_data = {}
         bus_stop_data['stop_id'] = self.stop_id
-        #bus_stop_data['name'] = self.name
+        bus_stop_data['name'] = self.name
         bus_stop_data['latitude'] = self.latitude
         bus_stop_data['longitude'] = self.longitude
         bus_stop_data['distance_from_spire'] = self.distance_from_spire

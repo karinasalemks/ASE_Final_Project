@@ -24,9 +24,14 @@ def busTripsToFirebase():
     if busResponse.status_code == 200 or busResponse.status_code == 201:
         #busData = transformData(source="DUBLIN_BUS", apiResponse=json.loads(busResponse.text))
         busData = json.loads(busResponse.text)
-        print(len(busData))
-        result = {'data':busData}
+
+        #Update trips collection
+        result = {'data':busData['trips_list']}
         db.collection(u'DublinBus').document(u'trips').set(result)
+
+        #Update part_of_trips collection
+        result = {'data':busData['part_of_trips']}
+        db.collection(u'DublinBus').document(u'busiest_stops').set(result)
     else:
         print("Response code:-", busResponse.status_code)
 
