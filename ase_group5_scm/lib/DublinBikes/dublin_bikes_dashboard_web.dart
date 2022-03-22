@@ -1,6 +1,7 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
 import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:ase_group5_scm/Components/Utils.dart';
+import 'package:ase_group5_scm/DublinBikes/bike_swap_suggestions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,7 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
           if (combinedSnapshot.hasData) {
             var snapshotList = combinedSnapshot.data as List<QuerySnapshot>;
             var snapshot = snapshotList[0];
+            var swapsnapshot = snapshotList[1];
             return IntrinsicHeight(
                 child: Row(
                     mainAxisSize: MainAxisSize.max, // match parent
@@ -53,8 +55,8 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
                           DublinBikesUsageChart(
                             snapshot: snapshot,
                           ),
-                          DublinBikesUsageChart(
-                            snapshot: snapshot,
+                          BikeSwapSuggestions(
+                            snapshot: swapsnapshot,
                           )
                         ],
                       ),

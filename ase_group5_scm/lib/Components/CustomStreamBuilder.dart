@@ -1,4 +1,5 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
+import 'package:ase_group5_scm/DublinBikes/bike_swap_suggestions.dart';
 import 'package:ase_group5_scm/DublinBikes/dublin_bikes_map.dart';
 import 'package:ase_group5_scm/DublinBikes/dublin_bikes_usage_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -9,7 +10,7 @@ class CustomStreamBuilder extends StatelessWidget {
   final String collectionName;
   final String viewName;
 
-/*   CustomStreamBuilder takes a Firebase collection name and a 'view' name,
+/*   ONLY FOR MOBILE: CustomStreamBuilder takes a Firebase collection name and a 'view' name,
    and uses them to return a Flutter Container to display the required info.*/
 
   const CustomStreamBuilder(
@@ -71,7 +72,7 @@ class CustomStreamBuilder extends StatelessWidget {
               );
             case AppConstants.DUBLIN_BIKES_SWAPS_VIEW:
               //TODO:add swaps here
-              return Text("swaps");
+              return BikeSwapSuggestions(snapshot: snapshot.data);
             case AppConstants.DUBLIN_BUS_MAP_VIEW:
             //TODO:add DublinBus Map here
               return Text("Dublin Bus Map");
