@@ -7,6 +7,7 @@ from static.firebaseInitialization import db
 
 #Bus stop static data needs to be pushed only once to firebase.
 # busStopData = requests.get(apiSource.DUBLIN_BUSES_API['busStops'])
+# print(busStopData)
 # busStopData = json.loads(busStopData.text)
 # data = []
 # # for busStop in busStopData:

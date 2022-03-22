@@ -36,6 +36,6 @@ def getBusData(request):
 def getBusStops(request):
     returnStopList = {}
     for bus_stop in bus_stops.items():
-        stop_id,busStopJson = bus_stop.toJSON()
+        stop_id,busStopJson = bus_stop[1].toJSON()
         returnStopList[stop_id]=busStopJson
     return JsonResponse(returnStopList, safe = False)
