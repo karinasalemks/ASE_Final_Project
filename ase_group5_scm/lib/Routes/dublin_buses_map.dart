@@ -13,12 +13,18 @@ class BusStationMap extends StatefulWidget {
 }
 
 class _BusStationMapState extends State<BusStationMap> {
-  late BitmapDescriptor customIcon;
+  late BitmapDescriptor low;
+  late BitmapDescriptor medium;
+  late BitmapDescriptor high;
+  late BitmapDescriptor higher;
+  late BitmapDescriptor highest;
   bool mapToggle = false;
   var currentLocation;
   late Map<dynamic, dynamic> dataset;
+  late Map<dynamic, dynamic> dataset_busiest_trips;
   late var dataset_trip_list;
   late GoogleMapController mapController;
+  bool flag=false;
 
   double _originLatitude = 53.3397, _originLongitude = -6.2566;
   double _destLatitude = 53.3492, _destLongitude = -6.2596;
@@ -43,40 +49,65 @@ class _BusStationMapState extends State<BusStationMap> {
           var station_longitude = element.value().get('longitude');
           var station_name = element.value().get('name');
           initMarker(station_name, station_latitude, station_longitude,
-              station_id, customIcon);
+              station_id, low);
         });
       }
     });
   }
 
+
   void initAllMarkers(var markersList) {
-    // markers.clear();
+    markers.clear();
      dataset = markersList[0]['data'][0];
-    // var dataset = markersList[0][0];
-    dataset.forEach((k,v) => initMarker(v['name'], v['latitude'], v['longitude'], k, customIcon));
-    dataset_trip_list = markersList[2]['data'][0]['stop_sequences'];
+      //var dataset = markersList[0][0];
 
-     double origin_lat= dataset[dataset_trip_list[0]]['latitude'];
-     double origin_longi= dataset[dataset_trip_list[0]]['longitude'];
+      dataset.forEach((k,v) => initMarker(v['name'], v['latitude'], v['longitude'], k, medium));
+      dataset_busiest_trips=markersList[1]['data'];
 
-     double dest_lat= dataset[dataset_trip_list[dataset_trip_list.length-1]]['latitude'];
-     double dest_longi= dataset[dataset_trip_list[dataset_trip_list.length-1]]['longitude'];
-    List wayPoint = [];
-    for(int i=1;i<dataset_trip_list.length-1;i++){
-      double lat= dataset[dataset_trip_list[i]]['latitude'];
-      double longi= dataset[dataset_trip_list[i]]['longitude'];
-      wayPoint.add(PolylineWayPoint(location: '$lat,$longi',stopOver: true));
-    }
-    _getPolyline(origin_lat, origin_longi, dest_lat, dest_longi, wayPoint);
+      dataset_busiest_trips.forEach((k,v) => add_new_marker(k,v));
+       // dataset_trip_list = markersList[2]['data'][0]['stop_sequences'];
+       //
+       // double origin_lat = dataset[dataset_trip_list[0]]['latitude'];
+       // double origin_longi = dataset[dataset_trip_list[0]]['longitude'];
+       //
+       // double dest_lat = dataset[dataset_trip_list[dataset_trip_list.length -
+       //     1]]['latitude'];
+       // double dest_longi = dataset[dataset_trip_list[dataset_trip_list.length -
+       //     1]]['longitude'];
+       // List<PolylineWayPoint> wayPoint = [];
+       // for (int i = 1; i < dataset_trip_list.length-1; i++) {
+       //   double lat = dataset[dataset_trip_list[i]]['latitude'];
+       //   double longi = dataset[dataset_trip_list[i]]['longitude'];
+       //   print(lat);
+       //   print(longi);
+       //   wayPoint.add(
+       //       PolylineWayPoint(location: '$lat,$longi', stopOver: true));
+       // }
+       //
+       // _getPolyline(origin_lat, origin_longi, dest_lat, dest_longi, wayPoint);
 
-     // var dataset_trips= markersList[1]['data'];
-     // for(int i=0;i<dataset_trips.length;i++){
-     //   var routes=dataset_trips[i]['stop_sequences'];
-     //   for(int j=0;)
-     // }
+       // var dataset_trips= markersList[1]['data'];
+       // for(int i=0;i<dataset_trips.length;i++){
+       //   var routes=dataset_trips[i]['stop_sequences'];
+       //   for(int j=0;)
+       // }
 
   }
+  void add_new_marker(var id, var buses){
+    if(buses>=10 && buses<=15){
+      initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, high);
 
+    }
+    else if(buses<=20){
+      initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, higher);
+    }
+    else{
+      initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, highest);
+
+    }
+
+
+  }
   void initMarker(
       station_name, station_latitude, station_longitude, stationID, inputIcon) {
     var markerIdVal = stationID;
@@ -106,11 +137,11 @@ class _BusStationMapState extends State<BusStationMap> {
   void initState() {
     getMapIcon();
     //getMarkerData();
-
+    super.initState();
     setState(() {
       mapToggle = true;
     });
-    super.initState();
+
     /// origin marker
    // _getPolyline();
 
@@ -147,12 +178,12 @@ class _BusStationMapState extends State<BusStationMap> {
     /// destination marker
     _addMarker(LatLng(dest_lati, dest_longi), "destination",
         BitmapDescriptor.defaultMarkerWithHue(90));
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+    PolylineResult result = polylinePoints.getRouteBetweenCoordinates(
         googleAPiKey,
         PointLatLng(orig_lati,orig_longi),
         PointLatLng(dest_lati,dest_longi),
         travelMode: TravelMode.driving,
-        wayPoints: wayPointList);
+        wayPoints: wayPointList) as PolylineResult;
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
@@ -162,9 +193,21 @@ class _BusStationMapState extends State<BusStationMap> {
   }
 
   getMapIcon() async {
-    customIcon = await BitmapDescriptor.fromAssetImage(
+    low = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
-        'assets/image/bus_station_marker.png');
+        'assets/image/bus-station_marker_0.png');
+    medium = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
+        'assets/image/bus-station_marker_1.png');
+    high= await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
+        'assets/image/bus-station_marker_2.png');
+    higher = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
+        'assets/image/bus-station_marker_3.png');
+    highest = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
+        'assets/image/bus-station_marker_4.png');
   }
 
   @override
@@ -226,7 +269,7 @@ class _BusStationMapState extends State<BusStationMap> {
                       ),
                       // polylines: polyline,
                       markers: Set<Marker>.of(getMarkers().values),
-                      polylines: Set<Polyline>.of(polylines.values),
+                      // polylines: Set<Polyline>.of(polylines.values),
                     )),
               ],
             );
