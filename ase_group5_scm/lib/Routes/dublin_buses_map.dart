@@ -39,18 +39,19 @@ class _BusStationMapState extends State<BusStationMap> {
     title: Text("Dublin Bus Map"),
   );
 
-  getMarkerData() async {
+  getMarkerData() {
     FirebaseFirestore.instance.collection('DublinBus').get().then((myMarkers) {
       if (myMarkers.docs.isNotEmpty) {
-        Map<dynamic, dynamic> dataset = myMarkers.docs[0].get(0);
-        dataset.entries.forEach((element) {
-          var station_id = element.key();
-          var station_latitude = element.value().get('latitude');
-          var station_longitude = element.value().get('longitude');
-          var station_name = element.value().get('name');
-          initMarker(station_name, station_latitude, station_longitude,
-              station_id, low);
-        });
+        // Map<dynamic, dynamic> dataset = myMarkers.docs[0].get(0);
+        // dataset.entries.forEach((element) {
+        //   var station_id = element.key();
+        //   var station_latitude = element.value().get('latitude');
+        //   var station_longitude = element.value().get('longitude');
+        //   var station_name = element.value().get('name');
+        //   initMarker(station_name, station_latitude, station_longitude,
+        //       station_id, low);
+        // });
+      initAllMarkers(myMarkers.docs);
       }
     });
   }
@@ -61,37 +62,38 @@ class _BusStationMapState extends State<BusStationMap> {
      dataset = markersList[0]['data'][0];
       //var dataset = markersList[0][0];
 
-      dataset.forEach((k,v) => initMarker(v['name'], v['latitude'], v['longitude'], k, medium));
+      //dataset.forEach((k,v) => initMarker(v['name'], v['latitude'], v['longitude'], k, medium));
       dataset_busiest_trips=markersList[1]['data'];
 
       dataset_busiest_trips.forEach((k,v) => add_new_marker(k,v));
-       // dataset_trip_list = markersList[2]['data'][0]['stop_sequences'];
-       //
-       // double origin_lat = dataset[dataset_trip_list[0]]['latitude'];
-       // double origin_longi = dataset[dataset_trip_list[0]]['longitude'];
-       //
-       // double dest_lat = dataset[dataset_trip_list[dataset_trip_list.length -
-       //     1]]['latitude'];
-       // double dest_longi = dataset[dataset_trip_list[dataset_trip_list.length -
-       //     1]]['longitude'];
-       // List<PolylineWayPoint> wayPoint = [];
-       // for (int i = 1; i < dataset_trip_list.length-1; i++) {
-       //   double lat = dataset[dataset_trip_list[i]]['latitude'];
-       //   double longi = dataset[dataset_trip_list[i]]['longitude'];
-       //   print(lat);
-       //   print(longi);
-       //   wayPoint.add(
-       //       PolylineWayPoint(location: '$lat,$longi', stopOver: true));
-       // }
-       //
-       // _getPolyline(origin_lat, origin_longi, dest_lat, dest_longi, wayPoint);
+      for(int i=5;i<15;i++) {
+        dataset_trip_list = markersList[2]['data'][i]['stop_sequences'];
 
-       // var dataset_trips= markersList[1]['data'];
-       // for(int i=0;i<dataset_trips.length;i++){
-       //   var routes=dataset_trips[i]['stop_sequences'];
-       //   for(int j=0;)
-       // }
+        double origin_lat = dataset[dataset_trip_list[0]]['latitude'];
+        double origin_longi = dataset[dataset_trip_list[0]]['longitude'];
 
+        double dest_lat = dataset[dataset_trip_list[dataset_trip_list.length -
+            1]]['latitude'];
+        double dest_longi = dataset[dataset_trip_list[dataset_trip_list.length -
+            1]]['longitude'];
+        // List<PolylineWayPoint> wayPoint = [];
+        // for (int i = 1; i < dataset_trip_list.length - 1; i++) {
+        //   double lat = dataset[dataset_trip_list[i]]['latitude'];
+        //   double longi = dataset[dataset_trip_list[i]]['longitude'];
+        //   print(lat);
+        //   print(longi);
+        //   wayPoint.add(
+        //       PolylineWayPoint(location: '$lat,$longi', stopOver: true));
+        // }
+
+        _getPolyline(origin_lat, origin_longi, dest_lat, dest_longi);
+
+        // var dataset_trips= markersList[1]['data'];
+        // for(int i=0;i<dataset_trips.length;i++){
+        //   var routes=dataset_trips[i]['stop_sequences'];
+        //   for(int j=0;)
+        // }
+      }
   }
   void add_new_marker(var id, var buses){
     if(buses>=10 && buses<=15){
@@ -136,7 +138,7 @@ class _BusStationMapState extends State<BusStationMap> {
   @override
   void initState() {
     getMapIcon();
-    //getMarkerData();
+    getMarkerData();
     super.initState();
     setState(() {
       mapToggle = true;
@@ -162,6 +164,7 @@ class _BusStationMapState extends State<BusStationMap> {
   }
 
   _addPolyLine() {
+    print('Hello Inside _addPolyLine Function');
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
         polylineId: id, color: Colors.red, points: polylineCoordinates);
@@ -169,8 +172,8 @@ class _BusStationMapState extends State<BusStationMap> {
     setState(() {});
   }
 
-  _getPolyline(var orig_lati,var orig_longi,var dest_lati, var dest_longi, var wayPointList) async {
-    print('Hello Inside result');
+  _getPolyline(var orig_lati,var orig_longi,var dest_lati, var dest_longi) async {
+    print('Hello Inside _getPolyLine Function');
 
     _addMarker(LatLng(orig_lati, orig_longi), "origin",
         BitmapDescriptor.defaultMarker);
@@ -178,12 +181,12 @@ class _BusStationMapState extends State<BusStationMap> {
     /// destination marker
     _addMarker(LatLng(dest_lati, dest_longi), "destination",
         BitmapDescriptor.defaultMarkerWithHue(90));
-    PolylineResult result = polylinePoints.getRouteBetweenCoordinates(
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleAPiKey,
         PointLatLng(orig_lati,orig_longi),
         PointLatLng(dest_lati,dest_longi),
-        travelMode: TravelMode.driving,
-        wayPoints: wayPointList) as PolylineResult;
+        travelMode: TravelMode.transit);
+        //wayPoints: wayPointList);
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
@@ -224,7 +227,7 @@ class _BusStationMapState extends State<BusStationMap> {
         stream: FirebaseFirestore.instance.collection('DublinBus').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            initAllMarkers(snapshot.data!.docs);
+            // initAllMarkers(snapshot.data!.docs);
             return Column(
               children: <Widget>[
                 new Container(
@@ -269,7 +272,7 @@ class _BusStationMapState extends State<BusStationMap> {
                       ),
                       // polylines: polyline,
                       markers: Set<Marker>.of(getMarkers().values),
-                      // polylines: Set<Polyline>.of(polylines.values),
+                       polylines: Set<Polyline>.of(polylines.values),
                     )),
               ],
             );
