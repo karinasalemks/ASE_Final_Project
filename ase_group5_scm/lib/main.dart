@@ -1,3 +1,4 @@
+import 'package:ase_group5_scm/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ase_group5_scm/constants/style.dart';
@@ -9,10 +10,9 @@ import 'package:ase_group5_scm/pages/authentication/authentication.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'firebase_options.dart';
 import 'routing/routes.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

@@ -6,9 +6,9 @@ class InfoCard extends StatelessWidget {
   final String value;
   final Color topColor;
   final bool isActive;
-  final VoidCallback onTap;
+  final void Function()? onTap;
 
-  const InfoCard({Key ?key,required this.title,required this.value, this.isActive = false,required this.onTap, this.topColor=  const Color(0xFF3C19C0)})
+  const InfoCard({Key? key,required this.title,required this.value, this.isActive = false,required this.onTap, this.topColor=Colors.black45})
       : super(key: key);
 
   @override

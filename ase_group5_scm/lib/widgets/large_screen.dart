@@ -3,7 +3,7 @@ import 'package:ase_group5_scm/helpers/local_navigator.dart';
 import 'package:ase_group5_scm/widgets/side_menu.dart';
 
 class LargeScreen extends StatelessWidget {
-  const LargeScreen({ Key ?key }) : super(key: key);
+  const LargeScreen({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

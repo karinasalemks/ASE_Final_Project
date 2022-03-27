@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AuthenticationPage extends StatelessWidget {
-  const AuthenticationPage({Key ?key}) : super(key: key);
+  const AuthenticationPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(

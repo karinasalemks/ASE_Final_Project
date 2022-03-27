@@ -6,9 +6,9 @@ import 'package:ase_group5_scm/widgets/vertical_menu_item.dart';
 
 class SideMenuItem extends StatelessWidget {
   final String itemName;
-  final VoidCallback onTap;
+  final void Function()? onTap;
 
-  const SideMenuItem({ Key ?key,required this.itemName,required this.onTap }) : super(key: key);
+  const SideMenuItem({ Key? key,required this.itemName,required this.onTap }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

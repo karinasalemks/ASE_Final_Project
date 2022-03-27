@@ -6,9 +6,9 @@ class InfoCardSmall extends StatelessWidget {
   final String title;
   final String value;
   final bool isActive;
-  final VoidCallback onTap;
+  final void Function()? onTap;
 
-  const InfoCardSmall({Key ?key,required this.title,required this.value, this.isActive = false,required this.onTap})
+  const InfoCardSmall({Key? key,required this.title,required this.value, this.isActive = false,required this.onTap})
       : super(key: key);
 
   @override

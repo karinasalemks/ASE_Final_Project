@@ -14,7 +14,7 @@ AppBar(
             ),
           ],
         ) : IconButton(icon: Icon(Icons.menu), onPressed: (){
-          key.currentState?.openDrawer();
+          key.currentState!.openDrawer();
         }),
         title: Container(
           child: Row(
@@ -23,9 +23,11 @@ AppBar(
                 visible: !ResponsiveWidget.isSmallScreen(context),
                 child: CustomText(text: "insights!", color: lightGrey, size: 24, weight: FontWeight.bold,)),
               Expanded(child: Container()),
+              IconButton(icon: Icon(Icons.settings, color: dark,), onPressed: (){}),
 
               Stack(
                 children: [
+                  IconButton(icon: Icon(Icons.notifications, color: dark.withOpacity(.7),), onPressed: (){}),
                   Positioned(
                     top: 7,
                     right: 7,
@@ -48,7 +50,8 @@ AppBar(
                       height: 22,
                       color: lightGrey,
                     ),
-              CustomText(text: "Santos Enoque", color: lightGrey,),
+              SizedBox(width: 24,),
+              CustomText(text: "YPKM", color: lightGrey,),
               SizedBox(width: 16,),
               Container(
                   decoration: BoxDecoration(

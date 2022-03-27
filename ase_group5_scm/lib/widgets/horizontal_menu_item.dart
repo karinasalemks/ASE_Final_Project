@@ -7,8 +7,8 @@ import 'custom_text.dart';
 
 class HorizontalMenuItem extends StatelessWidget {
     final String itemName;
-  final VoidCallback onTap;
-  const HorizontalMenuItem({ Key ?key, this.itemName="", required this.onTap }) : super(key: key);
+  final void Function()? onTap;
+  const HorizontalMenuItem({ Key? key, this.itemName="", this.onTap }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

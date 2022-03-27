@@ -19,7 +19,6 @@ class SiteLayout extends StatelessWidget {
         child: SideMenu(),
       ),
       body: ResponsiveWidget(
-        key: scaffoldKey,
         largeScreen: LargeScreen(),
       smallScreen: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
