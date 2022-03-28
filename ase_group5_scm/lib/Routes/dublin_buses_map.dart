@@ -1,6 +1,9 @@
+import 'dart:html';
 import 'dart:js';
+import 'dart:ui';
 
 import 'package:ase_group5_scm/Components/SideMenu.dart';
+import 'package:ase_group5_scm/Routes/Heatmap.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -304,14 +307,18 @@ class _BusStationMapState extends State<BusStationMap> {
       body: Center(
         child: RaisedButton(
           onPressed: () {
-            var dog = new Dog("Bear", 12);
-            dog.bark();
-            print(dog.age);
-            print(dog.name);
-            dog.jump(allowInterop((int height) {
-              print(height);
-            }));
-            dog.sleep(Options(bed: true, hardness: "Soft"));
+            // var dog = new Dog("Bear", 12);
+            // dog.bark();
+            // print(dog.age);
+            // print(dog.name);
+            // dog.jump(allowInterop((int height) {
+            //   print(height);
+            // }));
+            // dog.sleep(Options(bed: true, hardness: "Soft"));
+            final heat = Heatmap();
+            // window.Heatmap=Heatmap();
+            // window.Heatmap=Heatmap();
+            heat.initMap();
           },
         ),
       ),
