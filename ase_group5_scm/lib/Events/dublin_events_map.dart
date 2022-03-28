@@ -24,9 +24,9 @@ class _EventLocationMapState extends State<EventLocationMap> {
   late BitmapDescriptor customIcon_green;
   bool mapToggle = false;
   var currentLocation;
-  var filterList = [
+  static final filterList = [
     'All Upcoming Events',
-    'Filter By Date',
+    //'Filter By Date',
     'Next 1 Week',
     'Next 2 Weeks',
     'Next 3 Weeks'
@@ -44,16 +44,16 @@ class _EventLocationMapState extends State<EventLocationMap> {
 
   //is not used.
   getMarkerData() async {
-    /*FirebaseFirestore.instance
-        .collection('DublinBikes')
-        .get()
-        .then((myMarkers) {
-      if (myMarkers.docs.isNotEmpty) {
-        for (int i = 0; i < myMarkers.docs.length; i++) {
-          initMarker(myMarkers.docs[i], myMarkers.docs[i].id, customIcon);
-        }
-      }
-    });*/
+    var noOfDays = 30;
+    if (dropdownvalue == filterList[0]) {
+      noOfDays = 30;
+    } else if (dropdownvalue == filterList[1]) {
+      noOfDays = 7;
+    } else if (dropdownvalue == filterList[2]) {
+      noOfDays = 14;
+    } else if (dropdownvalue == filterList[3]) {
+      noOfDays = 21;
+    }
     customIcon_red = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
         'assets/image/bike_station_marker_red.png');
@@ -67,20 +67,24 @@ class _EventLocationMapState extends State<EventLocationMap> {
         var location_name = eventList[i].get("location_name");
         var date = eventList[i].get("date");
         var dateTime = DateTime.parse(date);
-        var dateFormat = DateFormat("yy-MM-dd");
-        var timeFormat = DateFormat("HH:mm:ss");
-        var formattedDate = dateFormat.format(dateTime);
-        var formattedTime = timeFormat.format(dateTime);
-        /*print("dateTime:" + date);
-        print("date:"+ dateFormat.format(dateTime));
-        print("time:"+ timeFormat.format(dateTime));*/
-        if (locationName.contains(location_name)) {
-          var index = locationName.indexOf(location_name);
-          events[index] += "Date: $formattedDate\nTime: $formattedTime\nEvent: $eventName<br /><br />";
-        } else {
-          locationName.add(location_name);
-          events.add("Date: $formattedDate\nTime: $formattedTime\nEvent: $eventName<br /><br />");
-          location.add([eventList[i].get("longitude"), eventList[i].get("latitude")]);
+        var currentDate = DateTime.now();
+        if (dateTime.difference(currentDate).inDays >= 0 && dateTime.difference(currentDate).inDays <= noOfDays) {
+          var dateFormat = DateFormat("yy-MM-dd");
+          var timeFormat = DateFormat("HH:mm:ss");
+          var formattedDate = dateFormat.format(dateTime);
+          var formattedTime = timeFormat.format(dateTime);
+
+          if (locationName.contains(location_name)) {
+            var index = locationName.indexOf(location_name);
+            events[index] +=
+                "Date: $formattedDate\nTime: $formattedTime\nEvent: $eventName<br /><br />";
+          } else {
+            locationName.add(location_name);
+            events.add(
+                "Date: $formattedDate\nTime: $formattedTime\nEvent: $eventName<br /><br />");
+            location.add(
+                [eventList[i].get("longitude"), eventList[i].get("latitude")]);
+          }
         }
       }
       for (int i = 0; i < locationName.length; i++) {
@@ -99,93 +103,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
       markerId: markerId,
       icon: customIcon_red,
       position: LatLng(double.parse(lat_long[0]), double.parse(lat_long[1])),
-      infoWindow: InfoWindow(
-          title: location,
-          snippet:
-          eventList),
-    );
-    markers[markerId] = marker;
-  }
-
-  /*
-  * This function initializes all the markers from the data received from firebase
-  * it is also used in filtering based on station occupancy
-  * */
-  void initAllMarkers(var markersList) {
-    markers.clear();
-    for (int i = 0; i < markersList.length; i++) {
-      if (dropdownvalue == filterList[0]) {
-        if (markersList[i].get("station_occupancy")[0] >= 0.75)
-          initMarker(markersList[i], markersList[i].id, customIcon);
-        else if (markersList[i].get("station_occupancy")[0] >= 0.50)
-          initMarker(markersList[i], markersList[i].id, customIcon_green);
-        else if (markersList[i].get("station_occupancy")[0] <= 0.25)
-          initMarker(markersList[i], markersList[i].id, customIcon_red);
-        else
-          initMarker(markersList[i], markersList[i].id, customIcon_orange);
-      } else if (dropdownvalue == filterList[1] &&
-          markersList[i].get("station_occupancy")[0] >= 0.75)
-        initMarker(markersList[i], markersList[i].id, customIcon);
-      else if (dropdownvalue == filterList[2] &&
-          markersList[i].get("station_occupancy")[0] >= 0.50 &&
-          markersList[i].get("station_occupancy")[0] < 0.75)
-        initMarker(markersList[i], markersList[i].id, customIcon_green);
-      else if (dropdownvalue == filterList[3] &&
-          markersList[i].get("station_occupancy")[0] <= 0.50 &&
-          markersList[i].get("station_occupancy")[0] > 0.25)
-        initMarker(markersList[i], markersList[i].id, customIcon_orange);
-      else if (dropdownvalue == filterList[4] &&
-          markersList[i].get("station_occupancy")[0] <= 0.25)
-        initMarker(markersList[i], markersList[i].id, customIcon_red);
-    }
-  }
-
-  /*
-  * Initialized the individual markers and add them to the map of markers
-  * */
-  void initMarker(stationData, stationID, inputIcon) {
-    var markerIdVal = stationID;
-    final MarkerId markerId = MarkerId(markerIdVal);
-    var bikeStand = stationData.get("available_bikeStands")[0];
-    var freeBikes = stationData.get("available_bikes")[0];
-    var totalBikes = bikeStand + freeBikes;
-    bikeStand = bikeStand.toString();
-    freeBikes = freeBikes.toString();
-    totalBikes = totalBikes.toString();
-    final Marker marker = Marker(
-      markerId: markerId,
-      icon: inputIcon,
-      position: LatLng(double.parse(stationData.get("latitude").toString()),
-          double.parse(stationData.get("longitude").toString())),
-      infoWindow: InfoWindow(
-          title: stationData.get("station_name"),
-          snippet:
-          "Total Stands:$totalBikes\nAvailable Stands: $bikeStand\nAvailable Bikes: $freeBikes"),
-    );
-    markers[markerId] = marker;
-  }
-
-  /*
-  * Initialized the individual markers and add them to the map of markers
-  * */
-  Future<void> initEventMarker(stationData, stationID, inputIcon) async {
-    var markerIdVal = stationID;
-    final MarkerId markerId = MarkerId(markerIdVal);
-    var bikeStand = stationData.get("available_bikeStands")[0];
-    var freeBikes = stationData.get("available_bikes")[0];
-    var totalBikes = bikeStand + freeBikes;
-    bikeStand = bikeStand.toString();
-    freeBikes = freeBikes.toString();
-    totalBikes = totalBikes.toString();
-    final Marker marker = Marker(
-      markerId: markerId,
-      icon: inputIcon,
-      position: LatLng(double.parse(stationData.get("latitude").toString()),
-          double.parse(stationData.get("longitude").toString())),
-      infoWindow: InfoWindow(
-          title: stationData.get("station_name"),
-          snippet:
-          "Total Stands:$totalBikes\nAvailable Stands: $bikeStand\nAvailable Bikes: $freeBikes"),
+      infoWindow: InfoWindow(title: location, snippet: eventList),
     );
     markers[markerId] = marker;
   }
@@ -215,55 +133,8 @@ class _EventLocationMapState extends State<EventLocationMap> {
     });
   }
 
-  getMapIcon() async {
-    customIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(36, 36)),
-        'assets/image/bike_station_marker.png');
-    customIcon_orange = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(36, 36)),
-        'assets/image/bike_station_marker_orange.png');
-    customIcon_red = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(36, 36)),
-        'assets/image/bike_station_marker_red.png');
-    customIcon_green = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(36, 36)),
-        'assets/image/bike_station_marker_green.png');
-    if (widget.snapshot.docs.length > 0) {
-      initAllMarkers(widget.snapshot.docs);
-    }
-  }
-
   eventMapHeaderContainer(heightOfFilter, snapshot) {
-    _selectDate(BuildContext context) async {
-      /*DateTime? newSelectedDate = await showDatePicker(
-          context: context,
-          initialDate: _selectedDate != null ? _selectedDate : DateTime.now(),
-          firstDate: DateTime(2000),
-          lastDate: DateTime(2040),
-          builder: (BuildContext context, Widget child) {
-            return Theme(
-              data: ThemeData.dark().copyWith(
-                colorScheme: ColorScheme.dark(
-                  primary: Colors.deepPurple,
-                  onPrimary: Colors.white,
-                  surface: Colors.blueGrey,
-                  onSurface: Colors.yellow,
-                ),
-                dialogBackgroundColor: Colors.blue[500],
-              ),
-              child: child,
-            );
-          });
 
-      if (newSelectedDate != null) {
-        _selectedDate = newSelectedDate;
-        _textEditingController
-          ..text = DateFormat.yMMMd().format(_selectedDate)
-          ..selection = TextSelection.fromPosition(TextPosition(
-              offset: _textEditingController.text.length,
-              affinity: TextAffinity.upstream));
-      }*/
-    }
     return new Container(
         height: heightOfFilter,
         child: Padding(
@@ -300,8 +171,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
                     onChanged: (String? newValue) {
                       setState(() {
                         dropdownvalue = newValue!;
-                        //initAllMarkers(snapshot.docs);
-                        // initAllMarkers(snapshot.data!.docs);
+                        getMarkerData();
                       });
                     },
                   ),
@@ -316,25 +186,20 @@ class _EventLocationMapState extends State<EventLocationMap> {
                     child: TextField(
                       controller: _textEditingController,
                       onTap: () {
-                        _selectDate(context);
+                        //_selectDate(context);
                       },
                     ),
-
                   ),
                 ),
               ],
             )));
-
-
   }
-
-
 
   eventsMapContainer(heightOfFilter, snapshot) {
     return new Container(
         height: (MediaQuery.of(context).size.height -
-            appBar.preferredSize.height -
-            heightOfFilter) *
+                appBar.preferredSize.height -
+                heightOfFilter) *
             0.90,
         key: Key("dublin-events-map"),
         child: GoogleMap(
