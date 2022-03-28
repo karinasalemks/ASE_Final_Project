@@ -5,8 +5,8 @@ class EVENTS:
         self.name = inputData["event_name"]
         self.date = inputData["event_date_time"]
         self.location_name = inputData["event_location_name"]
-        self.latitude = inputData["event_location_longitude"]
-        self.longitude = inputData["event_location_latitude"]
+        self.latitude = inputData["event_location_latitude"]
+        self.longitude = inputData["event_location_longitude"]
 
     # method to convert events model to json
     # https://stackoverflow.com/questions/3768895/how-to-make-a-class-json-serializable :P
