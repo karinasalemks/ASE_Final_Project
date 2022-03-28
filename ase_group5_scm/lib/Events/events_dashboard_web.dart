@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'dublin_events_map.dart';
 
 class EventsDashboardWeb extends StatefulWidget {
   const EventsDashboardWeb({Key? key}) : super(key: key);
@@ -15,6 +17,12 @@ class EventsDashboardWeb extends StatefulWidget {
 }
 
 class _EventsDashboardWebState extends State<EventsDashboardWeb> {
+  late GoogleMapController mapController;
+
+  AppBar appBar = AppBar(
+    title: Text("Dublin Events Map"),
+  );
+
   StreamBuilder<Object?> combinedStreams() {
     Stream<QuerySnapshot> eventsStream = FirebaseFirestore.instance
         .collection(AppConstants.DUBLIN_EVENTS_COLLECTION)
@@ -25,6 +33,9 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
           eventsStream
         ]),
         builder: (context, combinedSnapshot) {
+          var heightOfFilter =
+              (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
+                  0.10;
           if (combinedSnapshot.hasData) {
             var snapshotList = combinedSnapshot.data as List<QuerySnapshot>;
             var snapshot = snapshotList[0];
@@ -37,8 +48,17 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
                       Expanded(
                         //Return the required Container (same as in CustomStreamBuilder) here
                         //child: BikeStationMap(snapshot: snapshot),
-                        child: Text("1st Widget"),
-                        flex: 2,
+                        /*child: GoogleMap(
+                  onMapCreated: onMapCreated,
+                  myLocationEnabled: true,
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(53.344007, -6.266802),
+                    zoom: 15.0,
+                  ),*/
+                child: EventLocationMap(snapshot: snapshot),
+                flex: 2,
+
+                        //flex: 2,
                       ),
                       Expanded(
                         child: Container(
@@ -70,5 +90,11 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
         appBar: AppBar(title: Text(Utils.getAppBarTitle(context))),
         drawer: SideMenu(),
         body: combinedStreams());
+  }
+
+  void onMapCreated(controller) {
+    setState(() {
+      mapController = controller;
+    });
   }
 }
