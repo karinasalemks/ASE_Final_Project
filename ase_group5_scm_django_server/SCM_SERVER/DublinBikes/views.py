@@ -5,20 +5,15 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 import numpy as np
-from . import Endpoints as apiSource
+from static import Endpoints as apiSource
 import json
-import os, time
-
 from DataTransformer.views import transformData
+from .bike_swap_suggestions import *
+from static.firebaseInitialization import db
+import time
 
-# replace the key with the groups private key
-privateKeyPath = os.path.join(os.getcwd(), 'static')
-privateKeyPath = os.path.join(privateKeyPath, 'privateKey.json')
-cred_obj = credentials.Certificate(privateKeyPath)
-
-default_app = firebase_admin.initialize_app(cred_obj)
-db = firestore.client()
-
+#this method call should be done only once before the server starts
+bike_station_distance_matrix = proprocessBikeStationData()
 
 def bikeAvailability():
     start = time.time()
@@ -26,17 +21,34 @@ def bikeAvailability():
     response = requests.get(apiSource.DUBLIN_BIKES_API['source'])
 
     if response.status_code == 200 or response.status_code == 201:
-        # prediction engine call and transforming data
-        bikeStationData = transformData(apiResponse=json.loads(response.text))
-        bikesCollectionRef = db.collection(u'DublinBikes')
-        batch = db.batch()
-        for stationData in bikeStationData:
-            currentDocRef = bikesCollectionRef.document(stationData.station_id)
-            batch.update(currentDocRef, stationData.to_dict())
+      # prediction engine call and transforming data
+      bikeStationData = transformData(apiResponse=json.loads(response.text))
+      #Once the data is transformed we need to generate swap suggestions:
+      swap_suggestions = {"swap_suggestions":generate_swap_suggestions(bikeStationData,bike_station_distance_matrix)}
+      bikesCollectionRef= db.collection(u'DublinBikes')
+      batch = db.batch()
 
-        batch.commit()
-        print("Batch Transaction Complete..")
+      #Update Bike station Data
+      for stationData in bikeStationData:
+          currentDocRef = bikesCollectionRef.document(stationData.station_id) 
+          doc = currentDocRef.get()
+          if doc.exists:
+              batch.update(currentDocRef,stationData.to_dict())
+          else:
+              batch.set(currentDocRef,stationData.to_dict())
+
+      #Update Swap Suggestions
+      swap_suggestions_collection = db.collection(u'Bikes_Swap_Suggestions')
+      swap_suggestions_document = swap_suggestions_collection.document("bike_swap_suggestions")
+      doc = swap_suggestions_document.get()
+      if doc.exists:
+          batch.update(swap_suggestions_document,swap_suggestions)
+      else:
+          batch.set(swap_suggestions_document,swap_suggestions)
+                    
+      batch.commit()
+      print("Batch Transaction Complete..")
     else:
-        print("Response code:-", response.status_code)
-    end = time.time()
-    print(end - start)
+      print("Response code:", response.status_code)
+    end=time.time()
+    print(end-start)   

@@ -21,7 +21,7 @@ class BikeModel:
         result = {}
         result['station_id'] = self.station_id
         result['available_bikes'] = self.available_bikes
-        result['available_bike_stands']=self.available_bike_stands
+        result['available_bikeStands']=self.available_bike_stands
         result['bike_stands'] = self.bike_stands
         result['harvest_time'] = self.harvest_time
         result['latitude'] = self.latitude
