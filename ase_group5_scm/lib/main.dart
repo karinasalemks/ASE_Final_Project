@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:ase_group5_scm/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:ase_group5_scm/constants/style.dart';
 import 'package:ase_group5_scm/controllers/menu_controller.dart';
@@ -9,7 +12,9 @@ import 'package:ase_group5_scm/pages/404/error.dart';
 import 'package:ase_group5_scm/pages/authentication/authentication.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:sentry/sentry.dart';
+import 'package:logging/logging.dart';
+import 'package:sentry_logging/sentry_logging.dart';
 import 'routing/routes.dart';
 
 void main() async {
@@ -17,15 +22,39 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   Get.put(MenuController());
   Get.put(NavigationController());
-  runApp(MyApp());
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  // runZonedGuarded(() {
+  //   runApp(MyApp());
+  // },FirebaseCrashlytics.instance.recordError);
+
+  await Sentry.init(
+        (options) {
+      options.dsn = 'https://196a333bf5c14388afe655880a46ad6f@o1180578.ingest.sentry.io/6293439';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.addIntegration(LoggingIntegration());
+    },
+    appRunner: () => runApp(MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
+  final log = Logger('main.dart');
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
+    log.info('started the main app!');
+    // try {
+    //   throw Exception();
+    // } catch (error, stackTrace) {
+    //   log.severe('an error!', error, stackTrace);
+    // }
+    log.info('building main material app!');
     return GetMaterialApp(
       initialRoute: authenticationPageRoute,
       unknownRoute: GetPage(name: '/not-found', page: () => PageNotFound(), transition: Transition.fadeIn),

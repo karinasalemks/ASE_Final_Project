@@ -1,6 +1,4 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
-import 'package:ase_group5_scm/Components/SideMenu.dart';
-import 'package:ase_group5_scm/Components/Utils.dart';
 import 'package:ase_group5_scm/pages/DublinBikes/widgets/drivers_table.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,16 +7,17 @@ import 'package:rxdart/rxdart.dart';
 
 import 'dublin_bikes_map.dart';
 import 'dublin_bikes_usage_chart.dart';
+import 'package:logging/logging.dart';
 
 class DublinBikesDashboardWeb extends StatefulWidget {
   const DublinBikesDashboardWeb({Key? key}) : super(key: key);
-
   @override
   _DublinBikesDashboardWebState createState() =>
       _DublinBikesDashboardWebState();
 }
 
 class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
+  final log = Logger('dublin_bikes_dashboard.dart');
   StreamBuilder<Object?> combinedStreams() {
     Stream<QuerySnapshot> map = FirebaseFirestore.instance
         .collection(AppConstants.DUBLIN_BIKES_COLLECTION)
@@ -84,6 +83,7 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
 
   @override
   Widget build(BuildContext context) {
+    log.info('entered dublin bikes web dashboard');
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(

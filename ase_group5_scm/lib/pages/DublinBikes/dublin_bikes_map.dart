@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:logging/logging.dart';
 
 class BikeStationMap extends StatefulWidget {
   final snapshot;
@@ -217,6 +218,13 @@ class _BikeStationMapState extends State<BikeStationMap> {
 
   @override
   Widget build(BuildContext context) {
+    final log = new Logger("dublin_bikes_map");
+    log.info('Inside bikes Map ');
+    try {
+      throw Exception();
+    } catch (error, stackTrace) {
+      log.severe('test error on dublin Bikes map', error, stackTrace);
+    }
     var heightOfFilter =
         (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
             0.10;
