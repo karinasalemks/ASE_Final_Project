@@ -4,6 +4,8 @@ import pandas as pd
 import json
 import requests
 from Server_DataTransformer.Server_DataModel.busModel import TRIP, STOPSEQUENCE
+import xml.etree.ElementTree as ET
+import numpy as np
 
 # Create your views here.
 def transformBikeData(inputData, isPrimarySource):
@@ -93,14 +95,86 @@ def transformLUASData(apiResponse):
 def transformEventsData(apiResponse):
     return "Success"
 
+def transformWeatherForecastData(weatherXML, weatherWarning):
+    weather_dict = {}
+    if(weatherXML != ""):
+        forecast_root = ET.fromstring(weatherXML.content)
+        hour_dict = {}
+        time_dict = {}
+        for time in forecast_root.find("product").findall("time"):
+            location = time.find("location")
+            if time.get("from") == time.get("to"):
+                temp_unit = time.find(
+                    "location").find(
+                    "temperature").get(
+                    "unit")
+                time_dict["temperature"] = location.find("temperature").get("value") + " " + temp_unit
+                # The SI unit for wind speed is m/s. In order to convert to km/h the value must be multiplied by 3.6
+                time_dict["windSpeed"] = format(float(location.find("windSpeed").get("mps")) * 3.6,
+                                                '.2f') + " km/h"
+                time_dict["cloudiness"] = location.find("cloudiness").get("percent") + "%"
+            else:
+                rainfall_unit = location.find("precipitation").get("unit")
+                time_dict["rainfall"] = location.find("precipitation").get("value") + " " + rainfall_unit
+
+                # TODO: check if probability is from 0-100 or 0-1
+                if (location.find("precipitation").get("probability")) != None:
+                    time_dict["rainfall_prob"] = location.find("precipitation").get("probability")
+                else:
+                    time_dict["rainfall_prob"] = 0.0
+                hour_dict[time.get('to')] = time_dict
+                time_dict = {}
+        dates_key = np.unique([keys.split('T')[0] for keys in hour_dict.keys()])
+        for i in dates_key:
+            day_temp = [float(value.get("temperature").split(" ")[0]) for key, value in hour_dict.items() if
+                        i in key.lower()]
+            day_wind_speed = [float(value.get("windSpeed").split(" ")[0]) for key, value in hour_dict.items() if
+                              i in key.lower()]
+            day_cloudiness = [float(value.get("cloudiness").split("%")[0]) for key, value in hour_dict.items() if
+                              i in key.lower()]
+            day_rainfall = [float(value.get("rainfall").split(" ")[0]) for key, value in hour_dict.items() if
+                            i in key.lower()]
+            day_rain_prob = [float(value.get("rainfall_prob")) for key, value in hour_dict.items() if i in key.lower()]
+            max_temp_value = max(day_temp)
+            min_temp_value = min(day_temp)
+            max_wind_speed = max(day_wind_speed)
+            max_cloudiness = max(day_cloudiness)
+            max_rain_prob = max(day_rain_prob)
+            day_rainfall = sum(day_rainfall)
+            weather_dict[i] = {"min_temp": min_temp_value, "max_temp": max_temp_value,
+                               "wind_speed": max_wind_speed,
+                               "cloudiness": max_cloudiness, "rain_prob": max_rain_prob, "rainfall": day_rainfall}
+    if len(weatherWarning)>0:
+        # TODO: covert the onset and expiry date from utc to gmt
+        onsetDate = weatherWarning[0]["onset"].split("T")[0]
+        expiryDate = weatherWarning[0]["expiry"].split("T")[0]
+        warning_dates_range = pd.date_range(onsetDate, expiryDate, freq='D').strftime("%Y-%m-%d").tolist()
+        weather_warning_dict = {'level': weatherWarning[0]['level'], 'type': weatherWarning[0]['type'],
+                                'certainty': weatherWarning[0]['certainty'], 'status': weatherWarning[0]['status'],
+                                'headline': weatherWarning[0]['headline'],
+                                'description': weatherWarning[0]['description'],
+                                'onset': weatherWarning[0]['onset'], 'expiry': weatherWarning[0]['expiry']}
+        for date_range in warning_dates_range:
+            if date_range in weather_dict:
+                temp = weather_dict[date_range]
+                temp['warning'] = weather_warning_dict
+            else:
+                temp={}
+                temp['warning'] = weather_warning_dict
+            weather_dict[date_range] = temp
+    return weather_dict
 
 DataTransformer = {
     "DUBLIN_BIKES": transformBikeData,
     "DUBLIN_BUS": transformBUSData,
     "DUBLIN_LUAS": transformLUASData,
     "DUBLIN_EVENTS": transformEventsData,
+    "DUBLIN_WEATHER_FORECAST": transformWeatherForecastData,
 }
 
 
 def transformData(source="DUBLIN_BIKES", apiResponse={}, isPrimarySource=True):
     return DataTransformer.get(source)(apiResponse, isPrimarySource)
+
+def transformWeatherData(weatherXML, weatherWarning, isPrimarySource=True):
+   return transformWeatherForecastData(weatherXML,weatherWarning,isPrimarySource)

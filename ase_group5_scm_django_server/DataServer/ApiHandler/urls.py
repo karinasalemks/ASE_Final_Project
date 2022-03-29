@@ -7,5 +7,6 @@ urlpatterns = [
     # url to get bike data
     path('bikes/', views.getBikeData),
     # add  url patterns for bus, luas and events here
-    path('bustrips/', views.getBusData)
+    path('bustrips/', views.getBusData),
+    path('weatherForecast/', views.aggregateWeatherForecast)
 ]
