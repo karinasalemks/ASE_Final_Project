@@ -35,6 +35,7 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
           if (combinedSnapshot.hasData) {
             var snapshotList = combinedSnapshot.data as List<QuerySnapshot>;
             var snapshot = snapshotList[0];
+            var swapSnapshot = snapshotList[1];
             return Container(
                 child: new SingleChildScrollView(
                   child: Column(
@@ -67,8 +68,12 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
                             ),
                           ],
                       ),
-                      DriversTable(),
-                      DriversTable(),
+                      DriversTable(
+                        snapshot: swapSnapshot
+                      ),
+                      DriversTable(
+                          snapshot: swapSnapshot
+                      ),
                     ],
                   ),
                 ));

@@ -5,9 +5,21 @@ import 'package:ase_group5_scm/constants/style.dart';
 import 'package:ase_group5_scm/widgets/custom_text.dart';
 
 /// Example without datasource
-class DriversTable extends StatelessWidget {
+class DriversTable extends StatefulWidget {
+  final snapshot;
+  const DriversTable({Key? key, required this.snapshot}) : super(key: key);
+
+  @override
+  _DriversTableState createState() => _DriversTableState();
+  }
+
+  class _DriversTableState extends State<DriversTable>{
+
   @override
   Widget build(BuildContext context) {
+    var bike_swap_suggestions = widget.snapshot.docs[0].get("swap_suggestions")[0]['free_stations'];
+
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -40,26 +52,62 @@ class DriversTable extends StatelessWidget {
               ],
               rows: List<DataRow>.generate(
                   5,
-                  (index) => DataRow(cells: [
-                        DataCell(CustomText(text: "Santos Enoque")),
-                        DataCell(CustomText(text: "New yourk city")),
-                        DataCell(Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              Icons.social_distance,
-                              color: Colors.deepOrange,
-                              size: 18,
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            CustomText(
-                              text: "4.5",
-                            )
-                          ],
-                        )),
-                      ]))),
-    );
+                  (index) => generateSuggestionRow(bike_swap_suggestions[index])),
+    ));
   }
 }
+
+DataRow generateSuggestionRow(swap_suggestions){
+  var source_station = swap_suggestions["occupied_station"];
+  var source_station_name = source_station["station_name"];
+  var source_station_occupancy = source_station["occupancy"];
+  var source_station_ab = source_station["available_bikes"];
+  var dst_station = swap_suggestions["suggested_station"];
+  var dst_station_occupancy = dst_station["occupancy"];
+  var dst_station_ab = dst_station["available_bikes"];
+  var dst_station_name = dst_station["station_name"];
+  var distance=source_station["distance"].toString();
+
+  return DataRow(
+      cells: [
+        DataCell( Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(source_station_name),
+            Row(
+              children: [
+                Text("Occupancy: $source_station_occupancy | Available Bikes: $source_station_ab")
+              ],
+            ),
+          ],
+        )),
+       DataCell(Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+            Text(dst_station_name),
+            Row(
+            children: [
+            Text("Occupancy: $dst_station_occupancy | Available Bikes: $dst_station_ab")
+              ],
+             ),
+            ],
+           ),
+        ),
+        DataCell(Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.social_distance,
+              color: Colors.deepOrange,
+              size: 18,
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            Text(distance)
+          ],
+        )
+       )]);
+ }
