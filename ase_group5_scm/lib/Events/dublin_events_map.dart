@@ -83,7 +83,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
             events.add(
                 "Date: $formattedDate\nTime: $formattedTime\nEvent: $eventName<br /><br />");
             location.add(
-                [eventList[i].get("longitude"), eventList[i].get("latitude")]);
+                [eventList[i].get("latitude"), eventList[i].get("longitude")]);
           }
         }
       }
@@ -113,7 +113,6 @@ class _EventLocationMapState extends State<EventLocationMap> {
   * it was being called before the StreamBuilder was done building
   * */
   Map<MarkerId, Marker> getMarkers() {
-    print("return marker_length" + (markers.length).toString());
     return markers;
   }
 
