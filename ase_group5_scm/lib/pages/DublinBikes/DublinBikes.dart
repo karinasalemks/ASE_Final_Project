@@ -2,7 +2,7 @@ import 'package:ase_group5_scm/pages/DublinBikes/dublin_bikes_dashboard_web.dart
 import 'package:flutter/material.dart';
 import 'package:ase_group5_scm/constants/controllers.dart';
 import 'package:ase_group5_scm/helpers/reponsiveness.dart';
-import 'package:ase_group5_scm/pages/DublinBikes/widgets/drivers_table.dart';
+import 'package:ase_group5_scm/pages/DublinBikes/widgets/swap_suggestions_table.dart';
 import 'package:ase_group5_scm/widgets/custom_text.dart';
 import 'package:get/get.dart';
 

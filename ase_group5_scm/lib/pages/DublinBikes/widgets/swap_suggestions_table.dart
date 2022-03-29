@@ -5,19 +5,26 @@ import 'package:ase_group5_scm/constants/style.dart';
 import 'package:ase_group5_scm/widgets/custom_text.dart';
 
 /// Example without datasource
-class DriversTable extends StatefulWidget {
+class SwapSuggestionTable extends StatefulWidget {
   final snapshot;
-  const DriversTable({Key? key, required this.snapshot}) : super(key: key);
+  final String dataKey;
+  const SwapSuggestionTable({Key? key, required this.snapshot, required this.dataKey}) : super(key: key);
 
   @override
-  _DriversTableState createState() => _DriversTableState();
+  _SwapSuggestionTableState createState() => _SwapSuggestionTableState();
   }
 
-  class _DriversTableState extends State<DriversTable>{
+  class _SwapSuggestionTableState extends State<SwapSuggestionTable>{
 
   @override
   Widget build(BuildContext context) {
-    var bike_swap_suggestions = widget.snapshot.docs[0].get("swap_suggestions")[0]['free_stations'];
+    var table_title = widget.dataKey;
+    if(table_title == "free_stations"){
+      table_title = "Free Stations";
+    }else{
+      table_title = "Occupied Stations";
+    }
+    var bike_swap_suggestions = widget.snapshot.docs[0].get("swap_suggestions")[0][widget.dataKey];
 
 
     return Container(
@@ -34,26 +41,57 @@ class DriversTable extends StatefulWidget {
       ),
       padding: const EdgeInsets.all(16),
       margin: EdgeInsets.only(bottom: 30),
-      child: DataTable2(
-              columnSpacing: 12,
-              horizontalMargin: 12,
-              minWidth: 600,
-              columns: [
-                DataColumn2(
-                  label: Text("Source Station"),
-                  size: ColumnSize.L,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              SizedBox(
+                width: 10,
+              ),
+              CustomText(
+                text: "Swap Suggestions for $table_title",
+                color: Colors.black,
+                weight: FontWeight.bold,
+              ),
+            ]
+          ),
+          DataTable2(
+            columnSpacing: 12,
+            horizontalMargin: 12,
+            minWidth: 600,
+            columns: [
+              DataColumn2(
+                label: CustomText(
+                  text: "Source Station",
+                  color: Colors.black,
+                  weight: FontWeight.bold,
                 ),
-                DataColumn(
-                  label: Text('Swap Suggestion'),
+                size: ColumnSize.L,
+              ),
+              DataColumn2(
+                label: CustomText(
+                  text: "Swap Suggestion",
+                  color: Colors.black,
+                  weight: FontWeight.bold,
                 ),
-                DataColumn(
-                  label: Text('Distance'),
+                size: ColumnSize.L,
+              ),
+              DataColumn2(
+                label: CustomText(
+                  text: "Distance",
+                  color: Colors.black,
+                  weight: FontWeight.bold,
                 ),
-              ],
-              rows: List<DataRow>.generate(
-                  5,
-                  (index) => generateSuggestionRow(bike_swap_suggestions[index])),
-    ));
+                size: ColumnSize.L,
+              ),
+            ],
+            rows: List<DataRow>.generate(
+                5,
+                    (index) => generateSuggestionRow(bike_swap_suggestions[index])),
+          ),
+        ],
+      ));
   }
 }
 

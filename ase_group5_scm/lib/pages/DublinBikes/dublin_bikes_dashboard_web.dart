@@ -1,7 +1,7 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
 import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:ase_group5_scm/Components/Utils.dart';
-import 'package:ase_group5_scm/pages/DublinBikes/widgets/drivers_table.dart';
+import 'package:ase_group5_scm/pages/DublinBikes/widgets/swap_suggestions_table.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,11 +68,14 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
                             ),
                           ],
                       ),
-                      DriversTable(
-                        snapshot: swapSnapshot
+                      SwapSuggestionTable(
+                        snapshot: swapSnapshot,
+                        dataKey: "free_stations",
+
                       ),
-                      DriversTable(
-                          snapshot: swapSnapshot
+                      SwapSuggestionTable(
+                          snapshot: swapSnapshot,
+                          dataKey: "occupied_stations",
                       ),
                     ],
                   ),
