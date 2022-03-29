@@ -98,10 +98,10 @@ class SwapSuggestionTable extends StatefulWidget {
 DataRow generateSuggestionRow(swap_suggestions){
   var source_station = swap_suggestions["occupied_station"];
   var source_station_name = source_station["station_name"];
-  var source_station_occupancy = source_station["occupancy"];
+  var source_station_occupancy = (source_station["occupancy"]*100).round();
   var source_station_ab = source_station["available_bikes"];
   var dst_station = swap_suggestions["suggested_station"];
-  var dst_station_occupancy = dst_station["occupancy"];
+  var dst_station_occupancy = (dst_station["occupancy"]*100).round();
   var dst_station_ab = dst_station["available_bikes"];
   var dst_station_name = dst_station["station_name"];
   var distance=source_station["distance"].toString();
@@ -115,7 +115,7 @@ DataRow generateSuggestionRow(swap_suggestions){
             Text(source_station_name),
             Row(
               children: [
-                Text("Occupancy: $source_station_occupancy | Available Bikes: $source_station_ab")
+                Text("Occupancy: $source_station_occupancy% | Available Bikes: $source_station_ab")
               ],
             ),
           ],
@@ -127,7 +127,7 @@ DataRow generateSuggestionRow(swap_suggestions){
             Text(dst_station_name),
             Row(
             children: [
-            Text("Occupancy: $dst_station_occupancy | Available Bikes: $dst_station_ab")
+            Text("Occupancy: $dst_station_occupancy% | Available Bikes: $dst_station_ab")
               ],
              ),
             ],
