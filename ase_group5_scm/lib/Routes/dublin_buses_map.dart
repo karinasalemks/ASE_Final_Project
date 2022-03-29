@@ -31,9 +31,11 @@ class _BusStationMapState extends State<BusStationMap> {
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   Map<PolylineId, Polyline> polylines = {};
+  Map<CircleId, Circle> _circles = {};
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
   String googleAPiKey = "AIzaSyAGUwl_spXiMnoxkDmPpAj0sVsfccchDjY";
+  var _circleIdCounter = 0;
 
   AppBar appBar = AppBar(
     title: Text("Dublin Bus Map"),
@@ -96,15 +98,18 @@ class _BusStationMapState extends State<BusStationMap> {
       }
   }
   void add_new_marker(var id, var buses){
+    _setCircles(LatLng(dataset[id]['latitude'], dataset[id]['longitude']),buses*5);
     if(buses>=10 && buses<=15){
       initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, high);
 
     }
     else if(buses<=20){
       initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, higher);
+
     }
     else{
       initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, highest);
+
 
     }
 
@@ -162,7 +167,21 @@ class _BusStationMapState extends State<BusStationMap> {
     Marker(markerId: markerId, icon: descriptor, position: position);
     markers[markerId] = marker;
   }
-
+  void _setCircles(LatLng point,var rad) {
+    final String circleIdVal = 'circle_id_$_circleIdCounter';
+    _circleIdCounter++;
+    print(
+        'Circle | Latitude: ${point.latitude}  Longitude: ${point.longitude}  Radius: 10');
+    CircleId id=CircleId(circleIdVal);
+    _circles[id]=Circle(
+        circleId: CircleId(circleIdVal),
+        center: point,
+        radius: rad,
+        fillColor: Colors.redAccent.withOpacity(0.5),
+        strokeWidth: 3,
+        strokeColor: Colors.redAccent);
+    setState(() {});
+  }
   _addPolyLine() {
     print('Hello Inside _addPolyLine Function');
     PolylineId id = PolylineId("poly");
@@ -175,12 +194,12 @@ class _BusStationMapState extends State<BusStationMap> {
   _getPolyline(var orig_lati,var orig_longi,var dest_lati, var dest_longi) async {
     print('Hello Inside _getPolyLine Function');
 
-    _addMarker(LatLng(orig_lati, orig_longi), "origin",
-        BitmapDescriptor.defaultMarker);
+    // _addMarker(LatLng(orig_lati, orig_longi), "origin",
+    //     BitmapDescriptor.defaultMarker);
 
     /// destination marker
-    _addMarker(LatLng(dest_lati, dest_longi), "destination",
-        BitmapDescriptor.defaultMarkerWithHue(90));
+    // _addMarker(LatLng(dest_lati, dest_longi), "destination",
+    //     BitmapDescriptor.defaultMarkerWithHue(90));
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleAPiKey,
         PointLatLng(orig_lati,orig_longi),
@@ -273,6 +292,7 @@ class _BusStationMapState extends State<BusStationMap> {
                       // polylines: polyline,
                       markers: Set<Marker>.of(getMarkers().values),
                        polylines: Set<Polyline>.of(polylines.values),
+                      circles: Set<Circle>.of(_circles.values),
                     )),
               ],
             );
