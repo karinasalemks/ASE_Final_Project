@@ -53,11 +53,12 @@ def getTimeStrings():
     endTimeString = endTime.strftime("%Y-%m-%dT") + "23:59"
     return startTimeString, endTimeString
 
+
 def aggregateWeatherForecast():
     weather_warning = getWeatherWarning()
     weather_forecast = getWeatherForecast()
     weather_data = transformWeatherData(weatherXML=weather_forecast, weatherWarning=weather_warning)
-    return weather_data
+    return JsonResponse(weather_data, safe=False)
 
 
 def getWeatherForecast():

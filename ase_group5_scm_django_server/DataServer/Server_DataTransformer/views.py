@@ -1,5 +1,5 @@
 from Server_DataTransformer.Server_DataModel.serverBikeModel import BikeModel
-import pandas as pdz
+import pandas as pd
 import json
 import requests
 from Server_DataTransformer.Server_DataModel.busModel import TRIP, STOPSEQUENCE
