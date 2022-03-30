@@ -59,7 +59,7 @@ class SwapSuggestionTable extends StatefulWidget {
           DataTable2(
             columnSpacing: 12,
             horizontalMargin: 12,
-            minWidth: 600,
+            minWidth: 900,
             columns: [
               DataColumn2(
                 label: CustomText(
@@ -69,14 +69,6 @@ class SwapSuggestionTable extends StatefulWidget {
                 ),
                 size: ColumnSize.L,
               ),
-              DataColumn2(
-                label: CustomText(
-                  text: "",
-                  color: Colors.black,
-                  weight: FontWeight.bold,
-                ),
-                size: ColumnSize.S,
-                ),
               DataColumn2(
                 label: CustomText(
                   text: "Swap Suggestion",
@@ -91,7 +83,7 @@ class SwapSuggestionTable extends StatefulWidget {
                   color: Colors.black,
                   weight: FontWeight.bold,
                 ),
-                size: ColumnSize.S,
+                size: ColumnSize.L,
               ),
             ],
             rows: List<DataRow>.generate(
@@ -128,42 +120,36 @@ DataRow generateSuggestionRow(swap_suggestions,key){
             ),
           ],
         )),
-
-        DataCell(Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-           if (key!='free_stations')...[
-             Icon(
-               Icons.arrow_forward,
-               color: Colors.deepOrange,
-               size: 18,
-             )] else...[Icon(
-             Icons.arrow_back,
-             color: Colors.deepOrange,
-             size: 18,
-           )
-
-           ]
-           ,
-            SizedBox(
+          DataCell(Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (key!='free_stations')...[
+                Icon(
+                  Icons.arrow_forward,
+                  color: Colors.deepOrange,
+                  size: 18,
+                )] else...[Icon(
+                Icons.arrow_back,
+                color: Colors.deepOrange,
+                size: 18,
+              )],
+              SizedBox(
               width: 5,
-            ),
-          ],
-        )
-        ),
-        DataCell(Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-            Text(dst_station_name),
-            Row(
-            children: [
-            Text("Occupancy: $dst_station_occupancy% | Available Bikes: $dst_station_ab")
-              ],
-             ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                Text(dst_station_name),
+                Row(
+                children: [
+                Text("Occupancy: $dst_station_occupancy% | Available Bikes: $dst_station_ab")
+                ],
+                ),
+                ],
+              ),
             ],
-           ),
-        ),
+          ),),
         DataCell(Row(
           mainAxisSize: MainAxisSize.min,
           children: [
