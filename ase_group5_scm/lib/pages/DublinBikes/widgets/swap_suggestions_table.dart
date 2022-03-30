@@ -71,6 +71,14 @@ class SwapSuggestionTable extends StatefulWidget {
               ),
               DataColumn2(
                 label: CustomText(
+                  text: "",
+                  color: Colors.black,
+                  weight: FontWeight.bold,
+                ),
+                size: ColumnSize.S,
+                ),
+              DataColumn2(
+                label: CustomText(
                   text: "Swap Suggestion",
                   color: Colors.black,
                   weight: FontWeight.bold,
@@ -83,19 +91,19 @@ class SwapSuggestionTable extends StatefulWidget {
                   color: Colors.black,
                   weight: FontWeight.bold,
                 ),
-                size: ColumnSize.L,
+                size: ColumnSize.S,
               ),
             ],
             rows: List<DataRow>.generate(
                 5,
-                    (index) => generateSuggestionRow(bike_swap_suggestions[index])),
+                    (index) => generateSuggestionRow(bike_swap_suggestions[index],widget.dataKey)),
           ),
         ],
       ));
   }
 }
 
-DataRow generateSuggestionRow(swap_suggestions){
+DataRow generateSuggestionRow(swap_suggestions,key){
   var source_station = swap_suggestions["occupied_station"];
   var source_station_name = source_station["station_name"];
   var source_station_occupancy = (source_station["occupancy"]*100).round();
@@ -105,7 +113,7 @@ DataRow generateSuggestionRow(swap_suggestions){
   var dst_station_ab = dst_station["available_bikes"];
   var dst_station_name = dst_station["station_name"];
   var distance=source_station["distance"].toString();
-
+  var a = 'arrow_forward';
   return DataRow(
       cells: [
         DataCell( Column(
@@ -120,7 +128,30 @@ DataRow generateSuggestionRow(swap_suggestions){
             ),
           ],
         )),
-       DataCell(Column(
+
+        DataCell(Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+           if (key!='free_stations')...[
+             Icon(
+               Icons.arrow_forward,
+               color: Colors.deepOrange,
+               size: 18,
+             )] else...[Icon(
+             Icons.arrow_back,
+             color: Colors.deepOrange,
+             size: 18,
+           )
+
+           ]
+           ,
+            SizedBox(
+              width: 5,
+            ),
+          ],
+        )
+        ),
+        DataCell(Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
