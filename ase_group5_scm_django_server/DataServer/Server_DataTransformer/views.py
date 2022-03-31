@@ -206,4 +206,4 @@ def transformData(source="DUBLIN_BIKES", apiResponse={}, isPrimarySource=True):
     return DataTransformer.get(source)(apiResponse, isPrimarySource)
 
 def transformWeatherData(weatherXML, weatherWarning, isPrimarySource=True):
-   return transformWeatherForecastData(weatherXML,weatherWarning,isPrimarySource)
+   return transformWeatherForecastData(weatherXML,weatherWarning)

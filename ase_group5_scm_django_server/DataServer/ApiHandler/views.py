@@ -5,7 +5,7 @@ from django.http import HttpResponse
 import requests
 import json
 from Server_DataTransformer.Server_DataModel import serverBikeModel
-from datetime import datetime, timezone
+from datetime import datetime,timezone,timedelta
 from Server_DataTransformer.Server_DataModel.busModel import bus_stops
 
 
@@ -47,14 +47,14 @@ def getBusStops(request):
 
 def getTimeStrings():
     startTime = datetime.now(timezone.utc)
-    numDays = datetime.timedelta(days=30)
+    numDays = timedelta(days=30)
     endTime = startTime + numDays
     startTimeString = startTime.strftime("%Y-%m-%dT%H:%M")
     endTimeString = endTime.strftime("%Y-%m-%dT") + "23:59"
     return startTimeString, endTimeString
 
 
-def aggregateWeatherForecast():
+def aggregateWeatherForecast(request):
     weather_warning = getWeatherWarning()
     weather_forecast = getWeatherForecast()
     weather_data = transformWeatherData(weatherXML=weather_forecast, weatherWarning=weather_warning)
