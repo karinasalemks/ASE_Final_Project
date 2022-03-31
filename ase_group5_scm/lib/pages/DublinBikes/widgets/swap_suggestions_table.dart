@@ -59,7 +59,7 @@ class SwapSuggestionTable extends StatefulWidget {
           DataTable2(
             columnSpacing: 12,
             horizontalMargin: 12,
-            minWidth: 900,
+            minWidth: 950,
             columns: [
               DataColumn2(
                 label: CustomText(
@@ -125,14 +125,28 @@ DataRow generateSuggestionRow(swap_suggestions,key){
             children: [
               if (key!='free_stations')...[
                 Icon(
+                  Icons.directions_bike,
+                  color: Colors.deepOrange,
+                  size: 18,
+                ),
+                Icon(
                   Icons.arrow_forward,
                   color: Colors.deepOrange,
                   size: 18,
-                )] else...[Icon(
+                )
+                ] else...[
+                Icon(
                 Icons.arrow_back,
                 color: Colors.deepOrange,
                 size: 18,
-              )],
+              ),Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(3.14),
+                    child :Icon(
+                      Icons.directions_bike,
+                      color: Colors.deepOrange,
+                      size: 18,
+                    ))],
               SizedBox(
               width: 5,
               ),
