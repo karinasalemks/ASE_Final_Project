@@ -75,7 +75,7 @@ def getWeatherForecast():
 def getWeatherWarning():
     response = requests.get(Endpoints.WEATHER_WARNING_API["PRIMARY"])
     if (response.status_code == 200):
-        return response
+        return response.json()
     else:
         print(response.status_code)
         return []
