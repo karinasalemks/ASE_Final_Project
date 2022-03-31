@@ -5,7 +5,6 @@ import pandas as pd
 import numpy as np
 import json
 
-
 # Create your views here.
 def transformBikeData(inputData):
     # result = {}
@@ -39,7 +38,11 @@ def transformLUASData(apiResponse):
 
 
 def transformBUSData(apiResponse):
-    return "Success"
+    resultBusData = []
+    for eachValue in apiResponse:
+        jsonDecoded = json.loads(eachValue)
+        resultBusData.append(jsonDecoded)
+    return resultBusData
 
 
 def transformEventsData(apiResponse):

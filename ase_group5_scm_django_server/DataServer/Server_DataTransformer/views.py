@@ -1,9 +1,6 @@
-from django.shortcuts import render
 from Server_DataTransformer.Server_DataModel.serverBikeModel import BikeModel
 import pandas as pd
-import json
-import requests
-from Server_DataTransformer.Server_DataModel.busModel import TRIP, STOPSEQUENCE
+from Server_DataTransformer.Server_DataModel.busModel import *
 
 # Create your views here.
 def transformBikeData(inputData, isPrimarySource):
@@ -12,7 +9,6 @@ def transformBikeData(inputData, isPrimarySource):
 
     if isPrimarySource:
         for apiResponse in inputData:
-            print(apiResponse["station_id"])
             result['station_id'] = str(apiResponse['station_id'])
             result['bike_stands'] = apiResponse['bike_stands']
             result['available_bikes'] = apiResponse['available_bikes']
@@ -52,6 +48,7 @@ def transformBUSData(bus_data, isPrimarySource):
     # read bus data from request api
     bus_delays_list = bus_data["Entity"]
     trips_list = []
+    stop_seq_list = []
     for trip in bus_delays_list:
         tripUpdate = trip['TripUpdate']
         trip_id = trip['Id']
@@ -59,9 +56,14 @@ def transformBUSData(bus_data, isPrimarySource):
         trip_update_split = trip_id.split(".")
         try:
             route_id = trip_update_split[2]
+
+            #Filter route associated with dublin bus, else return. 
+            if route_id not in routes_list:
+                continue
+
             # splitting the route id to get the bus entity (bus number)
             route_split = route_id.split("-")
-            bus_entity = route_split[2]
+            bus_entity = route_split[1]
             trip_entity = tripUpdate['Trip']
             start_time = trip_entity['StartTime']
             """ 
@@ -77,13 +79,36 @@ def transformBUSData(bus_data, isPrimarySource):
                     print("Error, no 'StopTimeUpdate' field", tripUpdate)
                     continue
         except IndexError:
-            print("Error in TripId, no routes, trip Id: ", trip_update_split)
+            print("Error in TripId, no routes, trip Id: ", trip_id,trip_update_split)
             continue
-        trip_obj = TRIP(trip_id, bus_entity, start_time, stop_seq_list)
-        jsonObj = trip_obj.toJSON()
-        # trip_obj.estimateCO2()
-        trips_list.append(jsonObj)
-    return trips_list
+
+        if len(stop_seq_list) >= 0:
+            trip_obj = TRIP(trip_id, bus_entity, start_time, stop_seq_list)
+            jsonObj = trip_obj.toJSON()
+            trips_list.append(jsonObj)
+    part_of_trips = generate_part_of_trips(trips_list)
+    result = {}
+    result["trips_list"] = trips_list
+    result["part_of_trips"] = part_of_trips
+    return result
+
+def generate_part_of_trips(trips_list):
+    part_of_trips = {}
+    for trip in trips_list:
+        stop_sequence = trip['stop_sequences']
+        for stop_id in stop_sequence:
+            if stop_id in part_of_trips:
+                part_of_trips[stop_id] += 1
+            else:
+                part_of_trips[stop_id] = 1
+    part_of_trips = sorted(part_of_trips.items(), key=lambda x: x[1], reverse=True)
+    result = {}
+    for item in part_of_trips:
+        stop_id = item[0]
+        value = item[1]
+        if value >= 10:
+         result[stop_id] = value
+    return result
 
 
 def transformLUASData(apiResponse):
