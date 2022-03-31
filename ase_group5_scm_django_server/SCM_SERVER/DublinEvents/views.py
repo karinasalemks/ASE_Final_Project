@@ -16,16 +16,14 @@ def eventsDataCreate(request):
         eventsData = json.loads(response.text)
         eventsCollectionRef = db.collection(u'DublinEvents')
         batch = db.batch()
-        print(eventsData[0][0]);
         for location in eventsData:
-            for event in location:
-                jsonEvent = json.loads(event);
-                currentDocRef = eventsCollectionRef.document(jsonEvent['name'])
-                doc = currentDocRef.get()
-                if doc.exists:
-                    batch.update(currentDocRef, jsonEvent)
-                else:
-                    batch.set(currentDocRef, jsonEvent)
+            jsonEvent = json.loads(location[0]);
+            currentDocRef = eventsCollectionRef.document(jsonEvent['location_name'])
+            doc = currentDocRef.get()
+            if doc.exists:
+                batch.update(currentDocRef, jsonEvent)
+            else:
+                batch.set(currentDocRef, jsonEvent)
         batch.commit()
         print("Batch Transaction Complete..")
     else:

@@ -93,18 +93,21 @@ def transformLUASData(apiResponse):
 
 def transformEventsData(inputData, isPrimarySource):
     api_response = inputData["_embedded"]["events"]
-    result = {}
     events_list = []
+    events_list_loc = []
+    events_header = {}
     try:
-        #For each event in the reponse data, read and get the event details to for EVENTS objects
+        events_header["event_location_name"] = api_response[0]["_embedded"]["venues"][0]["name"]
+        events_header["event_location_longitude"] = api_response[0]["_embedded"]["venues"][0]["location"]["longitude"]
+        events_header["event_location_latitude"] = api_response[0]["_embedded"]["venues"][0]["location"]["latitude"]
         for event in api_response:
-            result["event_name"] = event["name"]
-            result["event_date_time"] = event["dates"]["start"]["dateTime"]
-            result["event_location_name"] = event["_embedded"]["venues"][0]["name"]
-            result["event_location_longitude"] = event["_embedded"]["venues"][0]["location"]["longitude"]
-            result["event_location_latitude"] = event["_embedded"]["venues"][0]["location"]["latitude"]
-            event_data = EVENTS(result)
-            events_list.append(event_data.toJSON())
+            date = event["dates"]["start"]["dateTime"]
+            event_name = event["name"]
+            events_list_loc.append([date, event_name])
+        
+        events_header["events"] = dict(events_list_loc)
+        events_header_Data = EVENTS(events_header)
+        events_list.append(events_header_Data.toJSON())
     except KeyError:
         print("Error, no key field", KeyError)
     return events_list
