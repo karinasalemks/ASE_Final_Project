@@ -21,3 +21,17 @@ def getLuasData():
 
     else:
         print("Response code:-", luasResponse.status_code)
+
+def getLuasStopsData():
+    print("*************** Fetching Dublin Luas Stops API ****************")
+    luasResponse = requests.get(apiSource.DUBLIN_LUAS_API['stops'])
+    print("*************** Fetching Done ****************")
+    if luasResponse.status_code == 200 or luasResponse.status_code == 201:
+        luasData = json.loads(luasResponse.text)
+        #Update trips collection
+        result = {'data':luasData}
+        db.collection(u'DublinLuas').document(u'luasStops').set(result)
+
+    else:
+        print("Response code:-", luasResponse.status_code)
+

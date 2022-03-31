@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from Server_DataTransformer.views import transformData
 import requests
 from Server_DataTransformer.Server_DataModel.busModel import bus_stops
+from Server_DataTransformer.Server_DataModel.luasModel import luas_stops
 import xml.etree.ElementTree as ET
 import time
 
@@ -55,7 +56,7 @@ luasStops = ["The Point","Spencer Dock","Mayor Square - NCI","George's Dock","Co
 luasStopsCode = ["TPT","SDK","MYS","GDK","CON","BUS","ABB","JER","FOU","SMI","MUS","HEU","JAM","FAT","RIA","SUI",
 	"GOL","DRI","FET","CVN","CIT","FOR","SAG","DEP","BRO","CAB","PHI","GRA","BRD","DOM","PAR","OUP","OGP","MAR","WES","TRY","DAW",
 	"STS","HAR","CHA","RAN","BEE","COW","MIL","WIN","DUN","BAL","KIL","STI","SAN","CPK","GLE","GAL","LEO","BAW","RCC","CCK","BRE",
-	"LAU","CHE","BRI","BLA","BLU","KYL","RED","KIN","BEL","COO","HOS","TAL"]
+        "LAU","CHE","BRI","BLA","BLU","KYL","RED","KIN","BEL","COO","HOS","TAL"]
 
 def getLuasData(request):
     start = time.time()
@@ -87,3 +88,6 @@ def getLuasData(request):
     end = time.time()
     print(f"[INFO] Time taken to gather Luas Data: {end-start}")
     return JsonResponse(luasData, safe = False)
+
+def getLuasStops(request):
+    return JsonResponse(luas_stops, safe = False)

@@ -10,4 +10,5 @@ urlpatterns = [
     path('bustrips/', views.getBusData),
     path('getBusStops/',views.getBusStops),
     path('getLuasData/',views.getLuasData),
+    path('getLuasStops/',views.getLuasStops),
 ]
