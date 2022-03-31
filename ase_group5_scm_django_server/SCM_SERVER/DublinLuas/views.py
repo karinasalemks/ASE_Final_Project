@@ -7,7 +7,7 @@ import requests, json
 from static.firebaseInitialization import db
 
 # Create your views here.
-def getLuasData(request):
+def getLuasData():
     print("*************** Fetching Dublin Luas API ****************")
     luasResponse = requests.get(apiSource.DUBLIN_LUAS_API['source'])
     print("*************** Fetching Done ****************")
