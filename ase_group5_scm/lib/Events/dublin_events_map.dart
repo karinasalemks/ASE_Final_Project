@@ -44,6 +44,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
 
   //is not used.
   getMarkerData() async {
+    print(" getMarkerData in");
     var noOfDays = 30;
     if (dropdownvalue == filterList[0]) {
       noOfDays = 30;
@@ -59,36 +60,27 @@ class _EventLocationMapState extends State<EventLocationMap> {
         'assets/image/bike_station_marker_red.png');
     if (widget.snapshot.docs.length > 0) {
       var eventList = widget.snapshot.docs;
-      List locationName = [];
-      List events = [];
-      List location = [];
       for (int i = 0; i < eventList.length; i++) {
-        var eventName = eventList[i].get("name");
+        var listOfEvents = "";
         var location_name = eventList[i].get("location_name");
-        var date = eventList[i].get("date");
-        var dateTime = DateTime.parse(date);
-        var currentDate = DateTime.now();
-        if (dateTime.difference(currentDate).inDays >= 0 && dateTime.difference(currentDate).inDays <= noOfDays) {
-          var dateFormat = DateFormat("yy-MM-dd");
-          var timeFormat = DateFormat("HH:mm:ss");
-          var formattedDate = dateFormat.format(dateTime);
-          var formattedTime = timeFormat.format(dateTime);
-
-          if (locationName.contains(location_name)) {
-            var index = locationName.indexOf(location_name);
-            events[index] +=
-                "Date: $formattedDate\nTime: $formattedTime\nEvent: $eventName<br /><br />";
-          } else {
-            locationName.add(location_name);
-            events.add(
-                "Date: $formattedDate\nTime: $formattedTime\nEvent: $eventName<br /><br />");
-            location.add(
-                [eventList[i].get("latitude"), eventList[i].get("longitude")]);
+        var latitude = eventList[i].get("latitude");
+        var longitude = eventList[i].get("longitude");
+        var events = eventList[i].get("events");
+        var myMap = events.map((key, value) => MapEntry(key, value.toString()));
+        for(String key in myMap.keys) {
+          var eventName = myMap[key];
+          var date = key;
+          var dateTime = DateTime.parse(date);
+          var currentDate = DateTime.now();
+          if (dateTime.difference(currentDate).inDays >= 0 && dateTime.difference(currentDate).inDays <= noOfDays) {
+            var dateFormat = DateFormat("yy-MM-dd");
+            var timeFormat = DateFormat("HH:mm:ss");
+            var formattedDate = dateFormat.format(dateTime);
+            var formattedTime = timeFormat.format(dateTime);
+            listOfEvents += "Date: $formattedDate\nTime: $formattedTime\nEvent: $eventName<br /><br />";
           }
         }
-      }
-      for (int i = 0; i < locationName.length; i++) {
-        addMarkerForEvents(locationName[i], location[i], events[i]);
+        addMarkerForEvents(location_name, latitude, longitude, listOfEvents);
       }
     }
   }
@@ -97,12 +89,12 @@ class _EventLocationMapState extends State<EventLocationMap> {
   * This function initializes all the markers from the data formatted
   * for each event location
   * */
-  void addMarkerForEvents(var location, var lat_long, var eventList) {
+  void addMarkerForEvents(var location, var lat, var long, var eventList) {
     final MarkerId markerId = MarkerId(location);
     final Marker marker = Marker(
       markerId: markerId,
       icon: customIcon_red,
-      position: LatLng(double.parse(lat_long[0]), double.parse(lat_long[1])),
+      position: LatLng(double.parse(lat), double.parse(long)),
       infoWindow: InfoWindow(title: location, snippet: eventList),
     );
     markers[markerId] = marker;
@@ -118,7 +110,6 @@ class _EventLocationMapState extends State<EventLocationMap> {
 
   @override
   void initState() {
-    //getMapIcon();
     getMarkerData();
     super.initState();
     setState(() {
@@ -177,18 +168,6 @@ class _EventLocationMapState extends State<EventLocationMap> {
                 ),
                 SizedBox(
                   width: 20,
-                ),
-                SizedBox(
-                  width: 100,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: TextField(
-                      controller: _textEditingController,
-                      onTap: () {
-                        //_selectDate(context);
-                      },
-                    ),
-                  ),
                 ),
               ],
             )));
