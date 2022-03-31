@@ -114,7 +114,6 @@ def generate_part_of_trips(trips_list):
 def transformLUASData(apiResponse):
     return "Success"
 
-
 def transformEventsData(apiResponse):
     return "Success"
 

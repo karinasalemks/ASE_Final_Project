@@ -8,5 +8,6 @@ urlpatterns = [
     path('bikes/', views.getBikeData),
     # add  url patterns for bus, luas and events here
     path('bustrips/', views.getBusData),
-    path('getBusStops/',views.getBusStops)
+    path('getBusStops/',views.getBusStops),
+    path('getLuasData/',views.getLuasData),
 ]
