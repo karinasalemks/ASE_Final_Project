@@ -6,6 +6,6 @@ from .views import busTripsToFirebase
 def start_schedulers():
     busScheduler = BackgroundScheduler()
     print("####################Started BUS Scheduler#######################")
-    busScheduler.add_job(busTripsToFirebase, 'interval', seconds=5)
+    busScheduler.add_job(busTripsToFirebase, 'interval', minutes=15)
     print("*******************End BUS Scheduler**************************")
     busScheduler.start()

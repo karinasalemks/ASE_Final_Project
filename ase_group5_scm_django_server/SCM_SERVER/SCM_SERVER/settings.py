@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'predictionApp',
     'DataTransformer',
     'DublinBus',
+    'DublinLuas'
 ]
 
 MIDDLEWARE = [
