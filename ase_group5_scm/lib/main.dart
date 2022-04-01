@@ -6,7 +6,7 @@ import 'package:ase_group5_scm/controllers/menu_controller.dart';
 import 'package:ase_group5_scm/controllers/navigation_controller.dart';
 import 'package:ase_group5_scm/layout.dart';
 import 'package:ase_group5_scm/pages/404/error.dart';
-import 'package:ase_group5_scm/pages/authentication/authentication.dart';
+import 'package:ase_group5_scm/pages/authentication/login.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         GetPage(name: rootRoute, page: () {
           return SiteLayout();
         }),
-        GetPage(name: authenticationPageRoute, page: () => AuthenticationPage()),
+        GetPage(name: authenticationPageRoute, page: () => loginScreen()),
       ],
       debugShowCheckedModeBanner: false,
       title: 'Dashboard',
