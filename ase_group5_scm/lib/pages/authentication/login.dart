@@ -61,14 +61,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         ],
                       ),
                       SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        children: [
-                          Text("Login",
-                              style: GoogleFonts.roboto(
-                                  fontSize: 20, fontWeight: FontWeight.bold)),
-                        ],
+                        height: 10,
                       ),
                       Container(
                         alignment: Alignment.center,
