@@ -15,18 +15,16 @@ class EventLocationMap extends StatefulWidget {
 }
 
 class _EventLocationMapState extends State<EventLocationMap> {
-  late DateTime _selectedDate;
-  TextEditingController _textEditingController = TextEditingController();
 
-  late BitmapDescriptor customIcon;
-  late BitmapDescriptor customIcon_orange;
   late BitmapDescriptor customIcon_red;
+  late BitmapDescriptor customIcon_concert;
+  late BitmapDescriptor customIcon_sports;
+  late BitmapDescriptor customIcon_theater;
   late BitmapDescriptor customIcon_green;
   bool mapToggle = false;
   var currentLocation;
   static final filterList = [
     'All Upcoming Events',
-    //'Filter By Date',
     'Next 1 Week',
     'Next 2 Weeks',
     'Next 3 Weeks'
@@ -44,7 +42,6 @@ class _EventLocationMapState extends State<EventLocationMap> {
 
   //is not used.
   getMarkerData() async {
-    print(" getMarkerData in");
     var noOfDays = 30;
     if (dropdownvalue == filterList[0]) {
       noOfDays = 30;
