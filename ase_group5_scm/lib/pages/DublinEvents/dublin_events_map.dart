@@ -1,13 +1,12 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 
 class EventLocationMap extends StatefulWidget {
   final snapshot;
+  final dateFilter;
 
-  const EventLocationMap({Key? key, required this.snapshot}) : super(key: key);
+  const EventLocationMap({Key? key, required this.snapshot, required this.dateFilter}) : super(key: key);
 
   @override
   _EventLocationMapState createState() => _EventLocationMapState();
@@ -42,18 +41,18 @@ class _EventLocationMapState extends State<EventLocationMap> {
   //is not used.
   getMarkerData() async {
     var noOfDays = 30;
-    if (dropdownvalue == filterList[0]) {
+    if (widget.dateFilter == filterList[0]) {
       noOfDays = 30;
-    } else if (dropdownvalue == filterList[1]) {
+    } else if (widget.dateFilter == filterList[1]) {
       noOfDays = 7;
-    } else if (dropdownvalue == filterList[2]) {
+    } else if (widget.dateFilter == filterList[2]) {
       noOfDays = 14;
-    } else if (dropdownvalue == filterList[3]) {
+    } else if (widget.dateFilter == filterList[3]) {
       noOfDays = 21;
     }
     customIcon_red = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
-        'assets/image/bike_station_marker_red.png');
+        'assets/image/events_abc.png');
     if (widget.snapshot.docs.length > 0) {
       var eventList = widget.snapshot.docs;
       for (int i = 0; i < eventList.length; i++) {
@@ -191,7 +190,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
   Widget build(BuildContext context) {
     var heightOfFilter =
         (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
-            0.10;
+            0.20;
     //Todo: Refine the code here to stop calling setState method before build.
 
     return Container(
@@ -203,7 +202,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
               child: Column(
                 children: <Widget>[
                   // DublinBikesUsageChart(snapshot: snapshot),
-                  eventMapHeaderContainer(heightOfFilter, widget.snapshot),
+                  //eventMapHeaderContainer(heightOfFilter, widget.snapshot),
                   eventsMapContainer(heightOfFilter, widget.snapshot)
                 ],
               ))),
