@@ -88,7 +88,8 @@ def transformBUSData(bus_data, isPrimarySource):
             trips_list.append(jsonObj)
     part_of_trips = generate_part_of_trips(trips_list)
     result = {}
-    result["trips_list"] = trips_list
+    sorted_trips_list = sorted(trips_list, key=lambda k: k.get('co2Emission', 0), reverse=True)
+    result["trips_list"] = sorted_trips_list
     result["part_of_trips"] = part_of_trips
     return result
 
