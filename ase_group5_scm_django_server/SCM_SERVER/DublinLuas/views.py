@@ -5,11 +5,11 @@ from static import Endpoints as apiSource
 from django.http import HttpResponse
 import requests, json
 from static.firebaseInitialization import db
-
+from LoadBalancer.views import send_request
 # Create your views here.
 def getLuasData():
     print("*************** Fetching Dublin Luas API ****************")
-    luasResponse = requests.get(apiSource.DUBLIN_LUAS_API['source'])
+    luasResponse = send_request(apiSource.DUBLIN_LUAS_API['source'])
     print("*************** Fetching Done ****************")
     if luasResponse.status_code == 200 or luasResponse.status_code == 201:
         #busData = transformData(source="DUBLIN_BUS", apiResponse=json.loads(busResponse.text))
@@ -24,7 +24,7 @@ def getLuasData():
 
 def getLuasStopsData():
     print("*************** Fetching Dublin Luas Stops API ****************")
-    luasResponse = requests.get(apiSource.DUBLIN_LUAS_API['stops'])
+    luasResponse = send_request(apiSource.DUBLIN_LUAS_API['stops'])
     print("*************** Fetching Done ****************")
     if luasResponse.status_code == 200 or luasResponse.status_code == 201:
         luasData = json.loads(luasResponse.text)

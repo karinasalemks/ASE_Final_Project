@@ -11,14 +11,17 @@ from DataTransformer.views import transformData
 from .bike_swap_suggestions import *
 from static.firebaseInitialization import db
 import time
+from LoadBalancer.views import send_request
 
+import warnings
+warnings.filterwarnings("ignore")
 #this method call should be done only once before the server starts
 bike_station_distance_matrix = proprocessBikeStationData()
 
 def bikeAvailability():
     start = time.time()
     print("*************** Fetching Dublin Bike's API ****************")
-    response = requests.get(apiSource.DUBLIN_BIKES_API['source'])
+    response = send_request(apiSource.DUBLIN_BIKES_API['source'])
 
     if response.status_code == 200 or response.status_code == 201:
       # prediction engine call and transforming data

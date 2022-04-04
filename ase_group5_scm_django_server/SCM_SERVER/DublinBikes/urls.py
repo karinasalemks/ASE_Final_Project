@@ -3,5 +3,4 @@ from . import views
 
 urlpatterns=[    
     path('bikeAvailability/', views.bikeAvailability, name="availability"),
-
 ]
