@@ -67,7 +67,9 @@ flutter:
     - assets/image/bike_station_marker_orange.png
     - assets/image/bike_station_marker_red.png
     - assets/image/bike_station_marker_green.png
-    - assets/image/events_abc.png
+    - assets/image/events_concert.png
+    - assets/image/events_sports.png
+    - assets/image/events_theater.png
     - assets/icons/logo.png
   # To add assets to your application, add an assets section, like this:
   # assets:
