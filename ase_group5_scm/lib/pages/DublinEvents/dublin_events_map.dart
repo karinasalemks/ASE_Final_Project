@@ -4,21 +4,17 @@ import 'package:intl/intl.dart';
 
 class EventLocationMap extends StatefulWidget {
   final snapshot;
-  final dateFilter;
 
-  const EventLocationMap({Key? key, required this.snapshot, required this.dateFilter}) : super(key: key);
+  const EventLocationMap({Key? key, required this.snapshot}) : super(key: key);
 
   @override
   _EventLocationMapState createState() => _EventLocationMapState();
 }
 
 class _EventLocationMapState extends State<EventLocationMap> {
-
-  late BitmapDescriptor customIcon_red;
   late BitmapDescriptor customIcon_concert;
   late BitmapDescriptor customIcon_sports;
   late BitmapDescriptor customIcon_theater;
-  late BitmapDescriptor customIcon_green;
   bool mapToggle = false;
   var currentLocation;
   static final filterList = [
@@ -38,21 +34,27 @@ class _EventLocationMapState extends State<EventLocationMap> {
     title: Text("Dublin Events Map"),
   );
 
-  //is not used.
+  //to get the marker data for each event location
   getMarkerData() async {
     var noOfDays = 30;
-    if (widget.dateFilter == filterList[0]) {
+    if (dropdownvalue == filterList[0]) {
       noOfDays = 30;
-    } else if (widget.dateFilter == filterList[1]) {
+    } else if (dropdownvalue == filterList[1]) {
       noOfDays = 7;
-    } else if (widget.dateFilter == filterList[2]) {
+    } else if (dropdownvalue == filterList[2]) {
       noOfDays = 14;
-    } else if (widget.dateFilter == filterList[3]) {
+    } else if (dropdownvalue == filterList[3]) {
       noOfDays = 21;
     }
-    customIcon_red = await BitmapDescriptor.fromAssetImage(
+    customIcon_concert = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
-        'assets/image/events_abc.png');
+        'assets/image/events_concert.png');
+    customIcon_sports = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
+        'assets/image/events_sports.png');
+    customIcon_theater = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
+        'assets/image/events_theater.png');
     if (widget.snapshot.docs.length > 0) {
       var eventList = widget.snapshot.docs;
       for (int i = 0; i < eventList.length; i++) {
@@ -86,9 +88,24 @@ class _EventLocationMapState extends State<EventLocationMap> {
   * */
   void addMarkerForEvents(var location, var lat, var long, var eventList) {
     final MarkerId markerId = MarkerId(location);
+    BitmapDescriptor mapIcon = customIcon_concert;
+    switch(location) {
+      case "Aviva Stadium":
+      case "National Stadium":
+      mapIcon = customIcon_sports;
+      break;
+      case "Gaiety Theatre":
+      case "Bord Gais Energy Theatre":
+        mapIcon = customIcon_theater;
+        break;
+      case "RDS Arena":
+      case "3Arena":
+      mapIcon = customIcon_concert;
+      break;
+    }
     final Marker marker = Marker(
       markerId: markerId,
-      icon: customIcon_red,
+      icon: mapIcon,
       position: LatLng(double.parse(lat), double.parse(long)),
       infoWindow: InfoWindow(title: location, snippet: eventList),
     );
@@ -190,7 +207,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
   Widget build(BuildContext context) {
     var heightOfFilter =
         (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
-            0.20;
+            0.10;
     //Todo: Refine the code here to stop calling setState method before build.
 
     return Container(
@@ -201,8 +218,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-                  // DublinBikesUsageChart(snapshot: snapshot),
-                  //eventMapHeaderContainer(heightOfFilter, widget.snapshot),
+                  eventMapHeaderContainer(heightOfFilter, widget.snapshot),
                   eventsMapContainer(heightOfFilter, widget.snapshot)
                 ],
               ))),

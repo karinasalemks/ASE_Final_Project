@@ -25,7 +25,6 @@ class _EventsTableState extends State<EventsTable> {
       var eventList = widget.snapshot.docs;
       for (int i = 0; i < eventList.length; i++) {
         var events = eventList[i].get("events");
-        print("events count:" + events.length.toString());
         var location_name = eventList[i].get("location_name");
         switch(location_name) {
           case "Aviva Stadium":

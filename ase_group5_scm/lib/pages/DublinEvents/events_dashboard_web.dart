@@ -17,14 +17,6 @@ class EventsDashboardWeb extends StatefulWidget {
 
 class _EventsDashboardWebState extends State<EventsDashboardWeb> {
   late GoogleMapController mapController;
-  static final filterList = [
-    'All Upcoming Events',
-    'Next 1 Week',
-    'Next 2 Weeks',
-    'Next 3 Weeks'
-  ]; //station occupancy filter list
-  String dropdownvalue =
-      'All Upcoming Events';
 
   StreamBuilder<Object?> combinedStreams() {
     Stream<QuerySnapshot> eventsStream = FirebaseFirestore.instance
@@ -44,94 +36,20 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
                     mainAxisSize: MainAxisSize.max, // match parent
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    /*children: <Widget>[
-                      Column(*/
                     children: <Widget>[
-                      /*Container(
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: FittedBox(
-                            fit: BoxFit.cover,
-                            child: Text('Event Date Filter',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    letterSpacing: 0.5,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                    fontSize: 16)),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        child: DropdownButton(
-                          value: dropdownvalue,
-                          icon: Icon(Icons.keyboard_arrow_down),
-                          items: filterList.map((String items) {
-                            return DropdownMenuItem(value: items, child: Text(items));
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownvalue = newValue!;
-                              //getMarkerData();
-                            });
-                          },
-                        ),
-                      ),*/
                       Expanded(
-                        child: Container(
-                          child: Column(
-                              children: <Widget>[
-
-                                /*Flexible(
-                                  fit: FlexFit.tight,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: FittedBox(
-                                      fit: BoxFit.cover,
-                                      child: Text('Event Date Filter',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              letterSpacing: 0.5,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                              fontSize: 16)),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),*/
-                                Flexible(
-                                  fit: FlexFit.loose,
-                                  child: DropdownButton(
-                                    value: dropdownvalue,
-                                    icon: Icon(Icons.keyboard_arrow_down),
-                                    items: filterList.map((String items) {
-                                      return DropdownMenuItem(value: items, child: Text(items));
-                                    }).toList(),
-                                    onChanged: (String? newValue) {
-                                      setState(() {
-                                        dropdownvalue = newValue!;
-                                        //getMarkerData();
-                                      });
-                                    },
-                                  ),
-                                ),
-                                EventLocationMap(snapshot: snapshot, dateFilter: dropdownvalue,),
-    ]
-                          )
-                        ),
-
+                        child: EventLocationMap(snapshot: snapshot),
                         flex: 2,
                         //flex: 2,
-                      )/*])*/,
+                      ),
                       Expanded(
                         child: Container(
                           padding: EdgeInsets.all(8),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              EventsTable(snapshot: snapshot),
+                              Expanded(
+                              child: EventsTable(snapshot: snapshot)),
                               /*Expanded(
                                 child: ClientsPage(),
                                 flex: 2,
@@ -176,6 +94,3 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
     );
   }
 }
-@override
-get sizedByParent => true;
-
