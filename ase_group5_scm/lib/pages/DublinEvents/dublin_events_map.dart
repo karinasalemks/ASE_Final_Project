@@ -15,6 +15,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
   late BitmapDescriptor customIcon_concert;
   late BitmapDescriptor customIcon_sports;
   late BitmapDescriptor customIcon_theater;
+  late BitmapDescriptor customIcon_bus_stop;
   bool mapToggle = false;
   var currentLocation;
   static final filterList = [
@@ -22,13 +23,23 @@ class _EventLocationMapState extends State<EventLocationMap> {
     'Next 1 Week',
     'Next 2 Weeks',
     'Next 3 Weeks'
-  ]; //station occupancy filter list
+  ];
+  static final busStopFilterList = [
+    'No Bus Stops',
+    'Aviva Stadium',
+    'National Stadium',
+    'Gaiety Theatre',
+    'Bord Gais Energy Theatre',
+    '3Arena'
+  ];//station occupancy filter list
   String dropdownvalue =
       'All Upcoming Events'; // the default value for the station occupancy filter
-
+  String stopDdropdownvalue =
+      'No Bus Stops';
   late GoogleMapController mapController;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+  Map<MarkerId, Marker> busStopMarkers = <MarkerId, Marker>{};
 
   AppBar appBar = AppBar(
     title: Text("Dublin Events Map"),
@@ -55,6 +66,9 @@ class _EventLocationMapState extends State<EventLocationMap> {
     customIcon_theater = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
         'assets/image/events_theater.png');
+    customIcon_bus_stop = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(36, 36)),
+        'assets/image/bus_stop.png');
     if (widget.snapshot.docs.length > 0) {
       var eventList = widget.snapshot.docs;
       for (int i = 0; i < eventList.length; i++) {
@@ -63,6 +77,12 @@ class _EventLocationMapState extends State<EventLocationMap> {
         var latitude = eventList[i].get("latitude");
         var longitude = eventList[i].get("longitude");
         var events = eventList[i].get("events");
+        var event_near_by_stops = eventList[i].get("nearest_bus_stops");
+        if (location_name == stopDdropdownvalue) {
+          event_near_by_stops.forEach((key, value) {
+            addMarkerForBusStops(key, value[0], value[1], key);
+          });
+        }
         var myMap = events.map((key, value) => MapEntry(key, value.toString()));
         for(String key in myMap.keys) {
           var eventName = myMap[key];
@@ -86,6 +106,22 @@ class _EventLocationMapState extends State<EventLocationMap> {
   * This function initializes all the markers from the data formatted
   * for each event location
   * */
+  void addMarkerForBusStops(var location, var lat, var long, var info) {
+    final MarkerId markerId = MarkerId(location);
+    BitmapDescriptor mapIcon = customIcon_bus_stop;
+    final Marker marker = Marker(
+      markerId: markerId,
+      icon: mapIcon,
+      position: LatLng(lat, long),
+      infoWindow: InfoWindow(title: location),
+    );
+    busStopMarkers[markerId] = marker;
+  }
+
+  /*
+  * This function initializes all the markers from the data formatted
+  * for each event location
+  * */
   void addMarkerForEvents(var location, var lat, var long, var eventList) {
     final MarkerId markerId = MarkerId(location);
     BitmapDescriptor mapIcon = customIcon_concert;
@@ -98,7 +134,6 @@ class _EventLocationMapState extends State<EventLocationMap> {
       case "Bord Gais Energy Theatre":
         mapIcon = customIcon_theater;
         break;
-      case "RDS Arena":
       case "3Arena":
       mapIcon = customIcon_concert;
       break;
@@ -117,7 +152,10 @@ class _EventLocationMapState extends State<EventLocationMap> {
   * it was being called before the StreamBuilder was done building
   * */
   Map<MarkerId, Marker> getMarkers() {
-    return markers;
+    Map<MarkerId, Marker> finalMarkers = {};
+    finalMarkers.addAll(busStopMarkers);
+    finalMarkers.addAll(markers);
+    return finalMarkers;
   }
 
   @override
@@ -149,7 +187,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
                     padding: const EdgeInsets.only(left: 10.0),
                     child: FittedBox(
                       fit: BoxFit.cover,
-                      child: Text('Event Date Filter',
+                      child: Text('Event Date',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               letterSpacing: 0.5,
@@ -160,7 +198,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
                   ),
                 ),
                 SizedBox(
-                  width: 20,
+                  width: 10,
                 ),
                 Flexible(
                   fit: FlexFit.loose,
@@ -178,8 +216,41 @@ class _EventLocationMapState extends State<EventLocationMap> {
                     },
                   ),
                 ),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text('Bus Stop',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 16)),
+                    ),
+                  ),
+                ),
                 SizedBox(
-                  width: 20,
+                  width: 10,
+                ),
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: DropdownButton(
+                    value: stopDdropdownvalue,
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    items: busStopFilterList.map((String items) {
+                      return DropdownMenuItem(value: items, child: Text(items));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        busStopMarkers = {};
+                        stopDdropdownvalue = newValue!;
+                        getMarkerData();
+                      });
+                    },
+                  ),
                 ),
               ],
             )));
