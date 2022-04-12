@@ -21,5 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls',namespace='rest_framework')),
     path('getData/', include('ApiHandler.urls')),
-    path('availability/',views.ping_handler)
+    path('availability/',views.ping_handler),
+    path('crash/',views.make_server_unavailable),
+    path('reboot/',views.make_server_available)
 ]

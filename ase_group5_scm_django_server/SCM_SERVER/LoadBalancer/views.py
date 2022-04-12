@@ -1,7 +1,3 @@
-from ipaddress import ip_address
-from urllib import request
-from django.shortcuts import render
-from grpc import server
 import requests
 import time
 from collections import deque
@@ -11,13 +7,12 @@ class Server:
     def __init__(self,server_name,host_address,port,is_master=False) -> None:        
         self.server_name = server_name
         self.host_address = host_address
-        self.port = port
         self.is_master = is_master
     
     def is_available(self):
         server_available = False
         latency = -1
-        availability_endpoint = "http://"+self.host_address+":"+self.port+"/availability/"
+        availability_endpoint = "https://"+self.host_address+"/availability/"
         try:
             start_time = time.time()
             response = requests.get(availability_endpoint)
@@ -36,9 +31,9 @@ class Server:
         return response
 
 available_servers = deque()
-available_servers.append(Server("Alpha","127.0.0.1","7000",is_master=True))
-available_servers.append(Server("Beta","127.0.0.1","7001"))
-available_servers.append(Server("Gamma","127.0.0.1","7002"))
+available_servers.append(Server("Alpha","scm-insights",is_master=True))
+available_servers.append(Server("Beta","scm-insights-beta"))
+available_servers.append(Server("Gamma","scm-insights-gamma"))
 
 def send_request(path):
     #Decide the data server where the request has to be routed
