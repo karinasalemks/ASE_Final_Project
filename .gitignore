@@ -8,3 +8,6 @@ documentation/.DS_Store
 ase_group5_scm_django_server/SCM_SERVER/utilityScripts/testAPI.py
 *.lock
 ase_group5_scm/pubspec.lock
+ase_group5_scm_django_server/DataServer/Server_DataTransformer/StaticFiles/stop_times.csv
+ase_group5_scm_django_server/DataServer/Server_DataTransformer/StaticFiles/stop_times.csv
+ase_group5_scm_django_server/DataServer/Server_DataTransformer/StaticFiles/stop_times.csv

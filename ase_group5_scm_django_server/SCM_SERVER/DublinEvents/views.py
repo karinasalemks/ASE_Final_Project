@@ -12,6 +12,9 @@ def eventsDataCreate(request):
     start = time.time()
     print("*************** Fetching Dublin Events API ****************")
     response = requests.get(apiSource.DUBLIN_EVENTS_API['source'])
+    # with open('static/nearest_stop_dict.json') as f:
+    #     nearest_stops_dict = json.load(f)
+
     if response.status_code == 200 or response.status_code == 201:
         eventsData = json.loads(response.text)
         eventsCollectionRef = db.collection(u'DublinEvents')
@@ -19,6 +22,9 @@ def eventsDataCreate(request):
         for location in eventsData:
             jsonEvent = json.loads(location[0]);
             currentDocRef = eventsCollectionRef.document(jsonEvent['location_name'])
+            #
+            # print("Nearest stops for ",jsonEvent['location_name'], ": ")
+            # print(nearest_stops_dict[jsonEvent['location_name']])
             doc = currentDocRef.get()
             if doc.exists:
                 batch.update(currentDocRef, jsonEvent)
