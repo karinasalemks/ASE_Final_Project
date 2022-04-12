@@ -50,10 +50,6 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
                             children: <Widget>[
                               Expanded(
                               child: EventsTable(snapshot: snapshot)),
-                              /*Expanded(
-                                child: ClientsPage(),
-                                flex: 2,
-                              ),*/
                               Text("3rd Widget")
                             ],
                           ),

@@ -2,7 +2,6 @@ import 'package:data_table_2/data_table_2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ase_group5_scm/constants/style.dart';
-import 'package:ase_group5_scm/widgets/custom_text.dart';
 
 /// Example without datasource
 class EventsTable extends StatefulWidget {
@@ -15,8 +14,8 @@ class EventsTable extends StatefulWidget {
 }
 
 class _EventsTableState extends State<EventsTable> {
-  List eventLocation = ["Aviva Stadium", "Bord Gais Energy Theatre", "Gaiety Theatre", "National Stadium", "RDS Arena", "3Arena"];
-  List eventCount = [0, 0, 0, 0, 0, 0];
+  List eventLocation = ["Aviva Stadium", "Bord Gais Energy Theatre", "Gaiety Theatre", "National Stadium", "3Arena"];
+  List eventCount = [0, 0, 0, 0, 0];
   List capacity = [0, 0, 0, 0, 0];
 
   @override
@@ -47,15 +46,10 @@ class _EventsTableState extends State<EventsTable> {
             capacity[3] = 2000;
             eventCount[3] = events.length;
             break;
-          case "RDS Arena":
-            //Dublin 4
-            capacity[4] = 18500;
-            eventCount[4] = events.length;
-            break;
           case "3Arena":
             //Dublin 1
-            capacity[5] = 13000;
-            eventCount[5] = events.length;
+            capacity[4] = 13000;
+            eventCount[4] = events.length;
             break;
         }
       }
@@ -81,14 +75,13 @@ class _EventsTableState extends State<EventsTable> {
           columns: [
             DataColumn2(
               label: Text("Event Location"),
-              //size: ColumnSize.L,
             ),
             DataColumn(
               label: Text('No of Events'),
             )
           ],
           rows: List<DataRow>.generate(
-              5,
+              eventLocation.length,
                   (index) => generateEventRows(eventLocation[index], eventCount[index], capacity[index])),
       ),
     );
