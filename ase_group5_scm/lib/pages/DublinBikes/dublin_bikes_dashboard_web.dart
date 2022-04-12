@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:ase_group5_scm/pages/DublinBikes/widgets/row_column_container.dart';
 import 'package:flutter/foundation.dart';
 
 import 'dublin_bikes_map.dart';
@@ -43,27 +42,12 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Expanded(
-                              child: BikeStationMap(snapshot: snapshot),
-                              flex: 2,
-                            ),
-                            Expanded(
-                              child: Container(
-                                padding: EdgeInsets.all(8),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: <Widget>[
-                                    DublinBikesUsageChart(
-                                        snapshot: snapshot, series: "overuse"),
-                                    DublinBikesUsageChart(
-                                        snapshot: snapshot, series: "underuse")
-                                  ],
-                                ),
-                              ),
-                              flex: 1,
-                            ),
-                          ],
-                        )
+                              BikeStationMap(snapshot: snapshot),
+                              DublinBikesUsageChart(
+                                  snapshot: snapshot, series: "overuse"),
+                              DublinBikesUsageChart(
+                                  snapshot: snapshot, series: "underuse")
+                            ])
                       : Row(
                           mainAxisSize: MainAxisSize.max, // match parent
                           mainAxisAlignment: MainAxisAlignment.start,
