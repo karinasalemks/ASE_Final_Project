@@ -201,13 +201,13 @@ def getLuasData(request):
             red_line[stop_code] = luasStop
         else:
             green_line[stop_code] = luasStop
-    luasData["green"] = green_line
-    luasData["red"] = red_line
+    luasData['green'] = green_line
+    luasData['red'] = red_line
     end = time.time()
     print(f"[INFO] Time taken to gather Luas Data: {end - start}")
     green_line_elec, green_line_num_active_luas = estimate_electricity(luasData['green'], "green")
     red_line_elec, red_line_num_active_luas = estimate_electricity(luasData['red'], "red")
-    result = {"luas_data": luasData,
+    result = {"luas_data": {**green_line,**red_line},
               "green_line": {"electricity_consumption_estimate": green_line_elec,
                              "num_active_luas": green_line_num_active_luas},
               "red_line": {"electricity_consumption_estimate": red_line_elec,
