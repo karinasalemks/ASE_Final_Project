@@ -18,6 +18,7 @@ import 'package:logging/logging.dart';
 import 'package:sentry_logging/sentry_logging.dart';
 import 'routing/routes.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(

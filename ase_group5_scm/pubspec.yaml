@@ -45,7 +45,7 @@ dependencies:
   sentry: ^6.4.0
   sentry_logging: ^6.4.0
   logging: ^1.0.2
-
+  
 dependency_overrides:
   cloud_functions_platform_interface: 5.0.21
   cloud_firestore_platform_interface: 5.4.13
