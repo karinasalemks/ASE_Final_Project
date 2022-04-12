@@ -12,10 +12,16 @@ DUBLIN_BUSES_API = {
 }
 
 DUBLIN_EVENTS_API = {
-    "weatherForecast": "http://127.0.0.1:7000/getData/weatherForecast/",
+    "weatherForecast": "/getData/weatherForecast/",
 }
 
 DUBLIN_LUAS_API = {
     "source": "/getData/getLuasData/",
     "stops": "/getData/getLuasStops/",
 }
+
+DUBLIN_EVENTS_API = {
+
+}
+
+
