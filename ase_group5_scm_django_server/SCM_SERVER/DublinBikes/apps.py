@@ -8,5 +8,6 @@ class DublinbikesConfig(AppConfig):
 
     #changed for scheduling 
     def ready(self):
-        from DublinBikes import scheduler
+        from DublinBikes import views
+        views.bikeAvailability()
         scheduler.start_schedulers()

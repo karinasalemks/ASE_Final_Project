@@ -14,20 +14,24 @@ def transformBikeData(inputData):
     for apiResponse in inputData:
         # Call Prediction Engine here
         apiResponse = json.loads(apiResponse)
-        recent_list = np.fromstring(
-            bikePredictor.recent_df.loc[int(apiResponse['station_id'])].recentObservations[1:-1],
-            sep=' ', dtype='int64')
-        updated_list = np.empty(20, dtype='int64')
-        updated_list[:19] = recent_list[1:]
-        updated_list[19] = apiResponse['available_bikes']
-        bikePredictor.recent_df.loc[int(apiResponse['station_id'])].recentObservations = updated_list
-        predictions = bikePredictor.predictDublinBikes(updated_list, int(apiResponse['station_id'])).tolist()
-        predictions.insert(0, apiResponse['available_bikes'])
-        apiResponse['available_bikes'] = predictions
-        apiResponse['available_bike_stands'] = [(apiResponse['bike_stands'] - x) for x in predictions]
-        bikeData = BikeModel(apiResponse)
-        bikeData.calculateOccupancyList()
-        stationData.append(bikeData)
+        if apiResponse['station_id'] != 507 and apiResponse['station_id'] != '507':
+            recent_list = np.fromstring(
+                bikePredictor.recent_df.loc[int(apiResponse['station_id'])].recentObservations[1:-1],
+                sep=' ', dtype='int64')
+            updated_list = np.empty(20, dtype='int64')
+            updated_list[:19] = recent_list[1:]
+            updated_list[19] = apiResponse['available_bikes']
+            bikePredictor.recent_df.loc[int(apiResponse['station_id'])].recentObservations = updated_list
+            predictions = bikePredictor.predictDublinBikes(updated_list, int(apiResponse['station_id'])).tolist()
+            predictions.insert(0, apiResponse['available_bikes'])
+            apiResponse['available_bikes'] = predictions
+            apiResponse['available_bike_stands'] = [(apiResponse['bike_stands'] - x) for x in predictions]
+            bikeData = BikeModel(apiResponse)
+            bikeData.calculateOccupancyList()
+            stationData.append(bikeData)
+        else :
+            print('printing key values')
+            print(apiResponse['station_id'])
 
     bikePredictor.updateAndCloseFiles()
     return stationData
