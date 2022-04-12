@@ -1,0 +1,185 @@
+tram_id,source_station,destination_station,start_time,end_time,duration,day
+194,Sandyford,Broombridge,5:30,6:15,0:45,Mon-Fri
+195,Bride's Glen,Broombridge,5:30,6:33,1:03,Mon-Fri
+196,Broadstone-DIT,Broombridge,5:42,5:49,0:07,Mon-Fri
+197,Bride's Glen,Broombridge,5:50,6:53,1:03,Mon-Fri
+198,Sandyford,Parnell,6:00,6:35,0:35,Mon-Fri
+199,Bride's Glen,Broombridge,6:10,7:13,1:03,Mon-Fri
+200,Sandyford,Parnell,6:17,6:52,0:35,Mon-Fri
+201,Bride's Glen,Parnell,6:22,7:15,0:53,Mon-Fri
+202,Bride's Glen,Parnell,6:32,7:25,0:53,Mon-Fri
+203,Sandyford,Broombridge,6:35,7:20,0:45,Mon-Fri
+204,Bride's Glen,Parnell,6:42,7:35,0:53,Mon-Fri
+205,Sandyford,Broombridge,6:45,7:30,0:45,Mon-Fri
+206,Bride's Glen,Parnell,6:52,7:45,0:53,Mon-Fri
+207,Sandyford,Broombridge,6:55,7:40,0:45,Mon-Fri
+208,Bride's Glen,Parnell,7:01,7:54,0:53,Mon-Fri
+209,Sandyford,Broombridge,7:05,7:50,0:45,Mon-Fri
+210,Bride's Glen,Parnell,7:14,8:07,0:53,Mon-Fri
+211,Sandyford,Broombridge,7:15,8:00,0:45,Mon-Fri
+212,Bride's Glen,Parnell,7:21,8:16,0:55,Mon-Fri
+213,Sandyford,Broombridge,7:25,8:10,0:45,Mon-Fri
+214,Bride's Glen,Parnell,7:29,8:25,0:56,Mon-Fri
+215,Sandyford,Broombridge,7:36,8:21,0:45,Mon-Fri
+216,Bride's Glen,Parnell,7:37,8:34,0:57,Mon-Fri
+217,Sandyford,Broombridge,7:44,8:30,0:46,Mon-Fri
+218,Bride's Glen,Parnell,7:44,8:41,0:57,Mon-Fri
+219,Bride's Glen,Parnell,7:47,8:44,0:57,Mon-Fri
+220,Sandyford,Broombridge,7:52,8:39,0:47,Mon-Fri
+221,Sandyford,Broombridge,8:00,8:48,0:48,Mon-Fri
+222,Sandyford,Broombridge,8:09,8:57,0:48,Mon-Fri
+223,Bride's Glen,Parnell,7:53,8:50,0:57,Mon-Fri
+224,Bride's Glen,Parnell,8:05,9:02,0:57,Mon-Fri
+225,Bride's Glen,Parnell,8:23,9:20,0:57,Mon-Fri
+226,Bride's Glen,Parnell,8:32,9:29,0:57,Mon-Fri
+227,Bride's Glen,Parnell,8:42,9:39,0:57,Mon-Fri
+228,Bride's Glen,Parnell,8:52,9:48,0:56,Mon-Fri
+229,Bride's Glen,Parnell,9:02,9:57,0:55,Mon-Fri
+230,Bride's Glen,Parnell,9:12,10:06,0:54,Mon-Fri
+231,Bride's Glen,Parnell,9:22,10:16,0:54,Mon-Fri
+232,Bride's Glen,Broombridge,7:59,9:06,1:07,Mon-Fri
+233,Bride's Glen,Broombridge,8:08,9:15,1:07,Mon-Fri
+234,Bride's Glen,Broombridge,8:17,9:24,1:07,Mon-Fri
+235,Bride's Glen,Broombridge,8:26,9:33,1:07,Mon-Fri
+236,Bride's Glen,Broombridge,8:38,9:45,1:07,Mon-Fri
+237,Sandyford,Parnell,8:15,8:53,0:38,Mon-Fri
+238,Sandyford,Parnell,8:21,8:59,0:38,Mon-Fri
+239,Sandyford,Parnell,8:30,9:08,0:38,Mon-Fri
+240,Sandyford,Parnell,8:33,9:11,0:38,Mon-Fri
+241,Sandyford,Broombridge,9:27,10:12,0:45,Mon-Fri
+242,Sandyford,Broombridge,9:36,10:21,0:45,Mon-Fri
+243,Sandyford,Broombridge,9:46,10:31,0:45,Mon-Fri
+244,Sandyford,Broombridge,10:12,10:57,0:45,Mon-Fri
+245,Sandyford,Broombridge,10:25,11:10,0:45,Mon-Fri
+246,Sandyford,Broombridge,10:51,11:36,0:45,Mon-Fri
+247,Sandyford,Broombridge,11:04,11:49,0:45,Mon-Fri
+248,Sandyford,Broombridge,11:30,12:15,0:45,Mon-Fri
+249,Sandyford,Broombridge,11:43,12:28,0:45,Mon-Fri
+250,Sandyford,Broombridge,11:56,12:41,0:45,Mon-Fri
+251,Sandyford,Broombridge,12:09,12:54,0:45,Mon-Fri
+252,Bride's Glen,Parnell,9:34,10:28,0:54,Mon-Fri
+253,Bride's Glen,Parnell,9:48,10:41,0:53,Mon-Fri
+254,Bride's Glen,Parnell,10:00,10:53,0:53,Mon-Fri
+255,Bride's Glen,Parnell,10:13,11:06,0:53,Mon-Fri
+256,Bride's Glen,Parnell,10:26,11:19,0:53,Mon-Fri
+257,Bride's Glen,Parnell,10:39,11:32,0:53,Mon-Fri
+258,Bride's Glen,Parnell,10:52,11:45,0:53,Mon-Fri
+259,Bride's Glen,Parnell,11:06,11:59,0:53,Mon-Fri
+260,Bride's Glen,Parnell,11:18,12:11,0:53,Mon-Fri
+261,Bride's Glen,Parnell,11:31,12:24,0:53,Mon-Fri
+262,Bride's Glen,Parnell,11:44,12:37,0:53,Mon-Fri
+263,Bride's Glen,Parnell,11:57,12:50,0:53,Mon-Fri
+264,Bride's Glen,Broombridge,9:39,10:43,1:04,Mon-Fri
+265,Bride's Glen,Broombridge,10:20,11:23,1:03,Mon-Fri
+266,Bride's Glen,Broombridge,10:59,12:02,1:03,Mon-Fri
+267,Bride's Glen,Parnell,12:10,13:03,0:53,Mon-Fri
+268,Sandyford,Broombridge,12:22,13:07,0:45,Mon-Fri
+269,Bride's Glen,Parnell,12:23,13:16,0:53,Mon-Fri
+270,Sandyford,Broombridge,12:35,13:20,0:45,Mon-Fri
+271,Bride's Glen,Parnell,12:36,13:29,0:53,Mon-Fri
+272,Sandyford,Broombridge,12:48,13:33,0:45,Mon-Fri
+273,Bride's Glen,Parnell,12:49,13:42,0:53,Mon-Fri
+274,Sandyford,Broombridge,13:01,13:46,0:45,Mon-Fri
+275,Bride's Glen,Parnell,13:02,13:55,0:53,Mon-Fri
+276,Sandyford,Broombridge,13:14,13:59,0:45,Mon-Fri
+277,Bride's Glen,Parnell,13:15,14:08,0:53,Mon-Fri
+278,Sandyford,Broombridge,13:27,14:12,0:45,Mon-Fri
+279,Bride's Glen,Parnell,13:28,14:21,0:53,Mon-Fri
+280,Sandyford,Broombridge,13:40,14:25,0:45,Mon-Fri
+281,Bride's Glen,Parnell,13:41,14:34,0:53,Mon-Fri
+282,Sandyford,Broombridge,13:53,14:38,0:45,Mon-Fri
+283,Bride's Glen,Parnell,13:54,14:47,0:53,Mon-Fri
+284,Sandyford,Broombridge,14:06,14:51,0:45,Mon-Fri
+285,Bride's Glen,Parnell,14:07,15:00,0:53,Mon-Fri
+286,Sandyford,Broombridge,14:19,15:04,0:45,Mon-Fri
+287,Bride's Glen,Parnell,14:20,15:13,0:53,Mon-Fri
+288,Sandyford,Broombridge,14:32,15:17,0:45,Mon-Fri
+289,Bride's Glen,Parnell,14:33,15:26,0:53,Mon-Fri
+290,Sandyford,Broombridge,14:45,15:30,0:45,Mon-Fri
+291,Bride's Glen,Parnell,14:46,15:39,0:53,Mon-Fri
+292,Sandyford,Broombridge,14:58,15:43,0:45,Mon-Fri
+293,Bride's Glen,Parnell,14:59,15:52,0:53,Mon-Fri
+294,Sandyford,Broombridge,15:11,15:56,0:45,Mon-Fri
+295,Bride's Glen,Parnell,15:12,16:05,0:53,Mon-Fri
+296,Sandyford,Broombridge,15:24,16:09,0:45,Mon-Fri
+297,Bride's Glen,Parnell,15:25,16:18,0:53,Mon-Fri
+298,Sandyford,Broombridge,15:37,16:22,0:45,Mon-Fri
+299,Bride's Glen,Parnell,15:39,16:32,0:53,Mon-Fri
+300,Sandyford,Broombridge,15:50,16:35,0:45,Mon-Fri
+301,Bride's Glen,Parnell,15:52,16:46,0:54,Mon-Fri
+302,Bride's Glen,Parnell,16:01,16:56,0:55,Mon-Fri
+303,Sandyford,Broombridge,16:03,16:48,0:45,Mon-Fri
+304,Bride's Glen,Parnell,16:09,17:05,0:56,Mon-Fri
+305,Sandyford,Broombridge,16:14,17:00,0:46,Mon-Fri
+306,Bride's Glen,Parnell,16:17,17:13,0:56,Mon-Fri
+307,Sandyford,Broombridge,16:23,17:11,0:48,Mon-Fri
+308,Bride's Glen,Parnell,16:25,17:21,0:56,Mon-Fri
+309,Sandyford,Broombridge,16:31,17:19,0:48,Mon-Fri
+310,Bride's Glen,Parnell,16:33,17:29,0:56,Mon-Fri
+311,Sandyford,Broombridge,16:39,17:27,0:48,Mon-Fri
+312,Bride's Glen,Broombridge,16:45,17:51,1:06,Mon-Fri
+313,Sandyford,Broombridge,16:47,17:35,0:48,Mon-Fri
+314,Sandyford,Broombridge,16:55,17:43,0:48,Mon-Fri
+315,Bride's Glen,Parnell,16:57,17:53,0:56,Mon-Fri
+316,Sandyford,Parnell,16:59,17:37,0:38,Mon-Fri
+317,Bride's Glen,Parnell,17:05,18:01,0:56,Mon-Fri
+318,Sandyford,Parnell,17:07,17:45,0:38,Mon-Fri
+319,Sandyford,Broombridge,17:11,17:59,0:48,Mon-Fri
+320,Bride's Glen,Parnell,17:13,18:09,0:56,Mon-Fri
+321,Sandyford,Broombridge,17:19,18:07,0:48,Mon-Fri
+322,Bride's Glen,Broombridge,17:25,18:31,1:06,Mon-Fri
+323,Sandyford,Broombridge,17:27,18:15,0:48,Mon-Fri
+324,Bride's Glen,Broombridge,17:33,18:39,1:06,Mon-Fri
+325,Sandyford,Broombridge,17:35,18:23,0:48,Mon-Fri
+326,Sandyford,Parnell,17:39,18:17,0:38,Mon-Fri
+327,Bride's Glen,Broombridge,17:41,18:47,1:06,Mon-Fri
+328,Sandyford,Parnell,17:47,18:25,0:38,Mon-Fri
+329,Bride's Glen,Broombridge,17:50,18:49,0:59,Mon-Fri
+330,Sandyford,Parnell,17:55,18:33,0:38,Mon-Fri
+331,Sandyford,Parnell,18:03,18:41,0:38,Mon-Fri
+332,Bride's Glen,Parnell,18:03,18:57,0:54,Mon-Fri
+333,Sandyford,Parnell,18:12,18:49,0:37,Mon-Fri
+334,Bride's Glen,Parnell,18:14,19:07,0:53,Mon-Fri
+335,Sandyford,Broombridge,18:17,19:03,0:46,Mon-Fri
+336,Bride's Glen,Broombridge,18:20,19:23,1:03,Mon-Fri
+337,Bride's Glen,Parnell,18:26,19:19,0:53,Mon-Fri
+338,Sandyford,Broombridge,18:27,19:12,0:45,Mon-Fri
+339,Bride's Glen,Parnell,18:38,19:31,0:53,Mon-Fri
+340,Bride's Glen,Broombridge,18:44,19:47,1:03,Mon-Fri
+341,Sandyford,Broombridge,18:50,19:35,0:45,Mon-Fri
+342,Bride's Glen,Parnell,18:50,19:43,0:53,Mon-Fri
+343,Bride's Glen,Parnell,19:02,19:55,0:53,Mon-Fri
+344,Bride's Glen,Broombridge,19:08,20:11,1:03,Mon-Fri
+345,Sandyford,Broombridge,19:14,19:59,0:45,Mon-Fri
+346,Bride's Glen,Parnell,19:14,20:07,0:53,Mon-Fri
+347,Bride's Glen,Broombridge,19:20,20:23,1:03,Mon-Fri
+348,Bride's Glen,Parnell,19:26,20:19,0:53,Mon-Fri
+349,Bride's Glen,Parnell,19:38,20:31,0:53,Mon-Fri
+350,Bride's Glen,Broombridge,19:44,20:47,1:03,Mon-Fri
+351,Sandyford,Broombridge,19:50,20:35,0:45,Mon-Fri
+352,Bride's Glen,Parnell,19:50,20:43,0:53,Mon-Fri
+353,Bride's Glen,Parnell,20:02,20:55,0:53,Mon-Fri
+354,Bride's Glen,Parnell,20:14,21:07,0:53,Mon-Fri
+355,Sandyford,Broombridge,20:14,20:59,0:45,Mon-Fri
+356,Bride's Glen,Parnell,20:26,21:19,0:53,Mon-Fri
+357,Sandyford,Broombridge,20:26,21:11,0:45,Mon-Fri
+358,Bride's Glen,Parnell,20:38,21:31,0:53,Mon-Fri
+359,Sandyford,Broombridge,20:50,21:35,0:45,Mon-Fri
+360,Bride's Glen,Broombridge,20:50,21:53,1:03,Mon-Fri
+361,Sandyford,Broombridge,21:02,21:47,0:45,Mon-Fri
+362,Bride's Glen,Broombridge,21:02,22:05,1:03,Mon-Fri
+363,Sandyford,Broombridge,21:14,21:59,0:45,Mon-Fri
+364,Bride's Glen,Broombridge,21:14,22:17,1:03,Mon-Fri
+365,Sandyford,Broombridge,21:26,22:11,0:45,Mon-Fri
+366,Bride's Glen,Broombridge,21:30,22:33,1:03,Mon-Fri
+367,Bride's Glen,Sandyford,21:35,21:53,0:18,Mon-Fri
+368,Bride's Glen,Broombridge,21:45,22:48,1:03,Mon-Fri
+369,Bride's Glen,Broombridge,22:00,23:03,1:03,Mon-Fri
+370,Bride's Glen,Broombridge,22:15,23:18,1:03,Mon-Fri
+371,Bride's Glen,Broombridge,22:30,23:33,1:03,Mon-Fri
+372,Bride's Glen,Broombridge,22:45,23:48,1:03,Mon-Fri
+373,Bride's Glen,Broombridge,23:00,0:03,1:03,Mon-Fri
+374,Bride's Glen,Broombridge,23:15,0:18,1:03,Mon-Fri
+375,Bride's Glen,Broombridge,23:30,0:33,1:03,Mon-Fri
+376,Bride's Glen,Broombridge,23:45,0:48,1:03,Mon-Fri
+377,Bride's Glen,Broombridge,0:00,1:03,1:03,Mon-Fri

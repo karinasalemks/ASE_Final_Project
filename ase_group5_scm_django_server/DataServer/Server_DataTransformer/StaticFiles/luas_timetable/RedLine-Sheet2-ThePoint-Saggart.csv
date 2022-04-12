@@ -1,0 +1,242 @@
+tram_id,source_station,destination_station,start_time,end_time,duration,day
+230,The Point,Tallaght,05:30,06:19,00:49,Mon-Fri
+231,The Point,Tallaght,05:50,06:39,00:49,Mon-Fri
+232,The Point,Tallaght,06:10,06:59,00:49,Mon-Fri
+233,The Point,Tallaght,06:30,07:20,00:50,Mon-Fri
+234,The Point,Tallaght,06:45,07:35,00:50,Mon-Fri
+235,The Point,Tallaght,07:00,07:50,00:50,Mon-Fri
+236,The Point,Tallaght,07:09,07:59,00:50,Mon-Fri
+237,The Point,Tallaght,07:19,08:09,00:50,Mon-Fri
+238,Connolly,Saggart,07:10,07:59,00:49,Mon-Fri
+239,Connolly,Saggart,07:20,08:09,00:49,Mon-Fri
+240,Kingswood,Tallaght,05:32,05:39,00:07,Mon-Fri
+241,Kingswood,Tallaght,05:55,06:02,00:07,Mon-Fri
+242,Kingswood,Tallaght,06:22,06:29,00:07,Mon-Fri
+243,Kingswood,Tallaght,06:41,06:48,00:07,Mon-Fri
+244,Kingswood,Tallaght,06:49,06:56,00:07,Mon-Fri
+245,Kingswood,Tallaght,07:09,07:16,00:07,Mon-Fri
+246,Kingswood,Saggart,05:45,05:57,00:12,Mon-Fri
+247,Kingswood,Saggart,06:09,06:21,00:12,Mon-Fri
+248,Kingswood,Saggart,06:27,06:39,00:12,Mon-Fri
+249,Kingswood,Saggart,07:16,07:28,00:12,Mon-Fri
+250,Belgard,Saggart,06:00,06:11,00:11,Mon-Fri
+251,Belgard,Saggart,06:17,06:28,00:11,Mon-Fri
+252,Belgard,Saggart,06:36,06:47,00:11,Mon-Fri
+253,Belgard,Saggart,06:45,06:56,00:11,Mon-Fri
+254,Belgard,Saggart,06:55,07:06,00:11,Mon-Fri
+255,Belgard,Saggart,07:04,07:15,00:11,Mon-Fri
+256,The Point,Saggart,07:24,08:19,00:55,Mon-Fri
+257,The Point,Saggart,07:34,08:29,00:55,Mon-Fri
+258,The Point,Saggart,07:54,08:49,00:55,Mon-Fri
+259,The Point,Saggart,08:04,08:59,00:55,Mon-Fri
+260,The Point,Saggart,08:24,09:19,00:55,Mon-Fri
+261,The Point,Saggart,08:34,09:29,00:55,Mon-Fri
+262,The Point,Tallaght,07:39,08:29,00:50,Mon-Fri
+263,The Point,Tallaght,07:49,08:39,00:50,Mon-Fri
+264,The Point,Tallaght,08:09,08:59,00:50,Mon-Fri
+265,The Point,Tallaght,08:18,09:08,00:50,Mon-Fri
+266,The Point,Tallaght,08:39,09:29,00:50,Mon-Fri
+267,The Point,Tallaght,08:47,09:37,00:50,Mon-Fri
+268,The Point,Tallaght,08:53,09:43,00:50,Mon-Fri
+269,Connolly,Tallaght,07:35,08:19,00:44,Mon-Fri
+270,Connolly,Tallaght,08:05,08:49,00:44,Mon-Fri
+271,Connolly,Tallaght,08:35,09:19,00:44,Mon-Fri
+272,Connolly,Saggart,07:50,08:39,00:49,Mon-Fri
+273,Connolly,Saggart,08:20,09:09,00:49,Mon-Fri
+274,Connolly,Saggart,08:50,09:39,00:49,Mon-Fri
+275,Connolly,Saggart,08:56,09:45,00:49,Mon-Fri
+276,Connolly,Heuston,08:27,08:41,00:14,Mon-Fri
+277,Kingswood,Saggart,07:25,07:37,00:12,Mon-Fri
+278,Kingswood,Saggart,07:31,07:43,00:12,Mon-Fri
+279,Kingswood,Tallaght,07:39,07:46,00:07,Mon-Fri
+280,Kingswood,Tallaght,07:50,07:57,00:07,Mon-Fri
+281,Kingswood,Tallaght,07:59,08:06,00:07,Mon-Fri
+282,The Point,Saggart,08:56,09:51,00:55,Mon-Fri
+283,The Point,Saggart,09:08,10:03,00:55,Mon-Fri
+284,The Point,Saggart,09:11,10:06,00:55,Mon-Fri
+285,The Point,Saggart,09:19,10:14,00:55,Mon-Fri
+286,The Point,Saggart,09:29,10:24,00:55,Mon-Fri
+287,The Point,Saggart,09:49,10:44,00:55,Mon-Fri
+288,The Point,Saggart,09:59,10:54,00:55,Mon-Fri
+289,The Point,Saggart,10:19,11:14,00:55,Mon-Fri
+290,The Point,Saggart,10:29,11:24,00:55,Mon-Fri
+291,The Point,Saggart,10:49,11:44,00:55,Mon-Fri
+292,The Point,Red Cow,09:05,09:44,00:39,Mon-Fri
+293,The Point,Tallaght,09:34,10:24,00:50,Mon-Fri
+294,The Point,Tallaght,09:44,10:34,00:50,Mon-Fri
+295,The Point,Tallaght,10:04,10:54,00:50,Mon-Fri
+296,The Point,Tallaght,10:14,11:04,00:50,Mon-Fri
+297,The Point,Tallaght,10:34,11:24,00:50,Mon-Fri
+298,The Point,Tallaght,10:44,11:34,00:50,Mon-Fri
+299,Connolly,Red Cow,09:05,09:38,00:33,Mon-Fri
+300,Connolly,Tallaght,09:08,09:52,00:44,Mon-Fri
+301,Connolly,Tallaght,09:21,10:05,00:44,Mon-Fri
+302,Connolly,Tallaght,09:30,10:14,00:44,Mon-Fri
+303,Connolly,Tallaght,10:00,10:44,00:44,Mon-Fri
+304,Connolly,Tallaght,10:30,11:14,00:44,Mon-Fri
+305,Connolly,Saggart,09:45,10:34,00:49,Mon-Fri
+306,Connolly,Saggart,10:15,11:04,00:49,Mon-Fri
+307,Connolly,Saggart,10:45,11:34,00:49,Mon-Fri
+308,The Point,Saggart,10:59,11:54,00:55,Mon-Fri
+309,The Point,Saggart,11:19,12:14,00:55,Mon-Fri
+310,The Point,Saggart,11:29,12:24,00:55,Mon-Fri
+311,The Point,Saggart,11:49,12:44,00:55,Mon-Fri
+312,The Point,Saggart,11:59,12:54,00:55,Mon-Fri
+313,The Point,Saggart,12:18,13:13,00:55,Mon-Fri
+314,The Point,Saggart,12:28,13:23,00:55,Mon-Fri
+315,The Point,Saggart,12:47,13:42,00:55,Mon-Fri
+316,The Point,Saggart,12:56,13:51,00:55,Mon-Fri
+317,The Point,Tallaght,11:04,11:54,00:50,Mon-Fri
+318,The Point,Tallaght,11:14,12:04,00:50,Mon-Fri
+319,The Point,Tallaght,11:34,12:24,00:50,Mon-Fri
+320,The Point,Tallaght,11:44,12:34,00:50,Mon-Fri
+321,The Point,Tallaght,12:04,12:54,00:50,Mon-Fri
+322,The Point,Tallaght,12:14,13:04,00:50,Mon-Fri
+323,The Point,Tallaght,12:33,13:23,00:50,Mon-Fri
+324,The Point,Tallaght,12:42,13:32,00:50,Mon-Fri
+325,Connolly,Tallaght,11:00,11:44,00:44,Mon-Fri
+326,Connolly,Tallaght,11:30,12:14,00:44,Mon-Fri
+327,Connolly,Tallaght,12:00,12:44,00:44,Mon-Fri
+328,Connolly,Tallaght,12:29,13:13,00:44,Mon-Fri
+329,Connolly,Tallaght,12:58,13:42,00:44,Mon-Fri
+330,Connolly,Saggart,11:15,12:04,00:49,Mon-Fri
+331,Connolly,Saggart,11:45,12:34,00:49,Mon-Fri
+332,Connolly,Saggart,12:15,13:04,00:49,Mon-Fri
+333,Connolly,Saggart,12:43,13:32,00:49,Mon-Fri
+334,The Point,Saggart,13:15,14:10,00:55,Mon-Fri
+335,The Point,Saggart,13:25,14:20,00:55,Mon-Fri
+336,The Point,Saggart,13:44,14:39,00:55,Mon-Fri
+337,The Point,Saggart,13:53,14:48,00:55,Mon-Fri
+338,The Point,Saggart,14:13,15:08,00:55,Mon-Fri
+339,The Point,Saggart,14:23,15:18,00:55,Mon-Fri
+340,The Point,Saggart,14:43,15:38,00:55,Mon-Fri
+341,The Point,Saggart,14:53,15:48,00:55,Mon-Fri
+342,The Point,Tallaght,13:01,13:51,00:50,Mon-Fri
+343,The Point,Tallaght,13:11,14:01,00:50,Mon-Fri
+344,The Point,Tallaght,13:15,14:10,00:55,Mon-Fri
+345,The Point,Tallaght,13:25,14:20,00:55,Mon-Fri
+346,The Point,Tallaght,13:30,14:20,00:50,Mon-Fri
+347,The Point,Tallaght,13:39,14:29,00:50,Mon-Fri
+348,The Point,Tallaght,13:58,14:48,00:50,Mon-Fri
+349,The Point,Tallaght,14:08,14:58,00:50,Mon-Fri
+350,The Point,Tallaght,14:28,15:18,00:50,Mon-Fri
+351,The Point,Tallaght,14:38,15:28,00:50,Mon-Fri
+352,The Point,Tallaght,14:57,15:47,00:50,Mon-Fri
+353,The Point,Tallaght,15:07,15:58,00:51,Mon-Fri
+354,Connolly,Saggart,13:12,14:01,00:49,Mon-Fri
+355,Connolly,Saggart,13:41,14:30,00:49,Mon-Fri
+356,Connolly,Saggart,14:09,14:58,00:49,Mon-Fri
+357,Connolly,Saggart,14:39,15:28,00:49,Mon-Fri
+358,Connolly,Tallaght,13:27,14:11,00:44,Mon-Fri
+359,Connolly,Tallaght,13:55,14:39,00:44,Mon-Fri
+360,Connolly,Tallaght,14:24,15:08,00:44,Mon-Fri
+361,Connolly,Tallaght,14:54,15:38,00:44,Mon-Fri
+362,The Point,Saggart,15:12,16:08,00:56,Mon-Fri
+363,The Point,Saggart,15:22,16:18,00:56,Mon-Fri
+364,The Point,Saggart,15:52,16:48,00:56,Mon-Fri
+365,The Point,Saggart,16:01,16:57,00:56,Mon-Fri
+366,The Point,Saggart,16:19,17:15,00:56,Mon-Fri
+367,The Point,Saggart,16:28,17:24,00:56,Mon-Fri
+368,The Point,Saggart,16:46,17:42,00:56,Mon-Fri
+369,The Point,Saggart,16:54,17:51,00:57,Mon-Fri
+370,The Point,Tallaght,15:27,16:18,00:51,Mon-Fri
+371,The Point,Tallaght,15:37,16:28,00:51,Mon-Fri
+372,The Point,Tallaght,15:37,16:28,00:51,Mon-Fri
+373,The Point,Tallaght,15:47,16:38,00:51,Mon-Fri
+374,The Point,Tallaght,16:05,16:56,00:51,Mon-Fri
+375,The Point,Tallaght,16:14,17:05,00:51,Mon-Fri
+376,The Point,Tallaght,16:32,17:23,00:51,Mon-Fri
+377,The Point,Tallaght,16:41,17:32,00:51,Mon-Fri
+378,Connolly,Saggart,15:09,15:59,00:50,Mon-Fri
+379,Connolly,Saggart,15:39,16:29,00:50,Mon-Fri
+380,Connolly,Saggart,15:48,16:38,00:50,Mon-Fri
+381,Connolly,Saggart,16:16,17:06,00:50,Mon-Fri
+382,Connolly,Saggart,16:43,17:33,00:50,Mon-Fri
+383,Connolly,Tallaght,15:24,16:09,00:45,Mon-Fri
+384,Connolly,Tallaght,16:02,16:47,00:45,Mon-Fri
+385,Connolly,Tallaght,16:29,17:14,00:45,Mon-Fri
+386,Connolly,Tallaght,16:57,17:42,00:45,Mon-Fri
+387,Kingswood,Saggart,15:33,15:45,00:12,Mon-Fri
+388,Kingswood,Tallaght,15:49,15:56,00:07,Mon-Fri
+389,The Point,Saggart,17:13,18:10,00:57,Mon-Fri
+390,The Point,Saggart,17:21,18:18,00:57,Mon-Fri
+391,The Point,Saggart,17:40,18:36,00:56,Mon-Fri
+392,The Point,Saggart,17:49,18:45,00:56,Mon-Fri
+393,The Point,Saggart,18:07,19:03,00:56,Mon-Fri
+394,The Point,Saggart,18:16,19:11,00:55,Mon-Fri
+395,The Point,Saggart,18:35,19:30,00:55,Mon-Fri
+396,The Point,Saggart,18:45,19:40,00:55,Mon-Fri
+397,The Point,Tallaght,16:59,17:51,00:52,Mon-Fri
+398,The Point,Tallaght,17:08,18:00,00:52,Mon-Fri
+399,The Point,Tallaght,17:26,18:18,00:52,Mon-Fri
+400,The Point,Tallaght,17:35,18:27,00:52,Mon-Fri
+401,The Point,Tallaght,17:53,18:44,00:51,Mon-Fri
+402,The Point,Tallaght,18:02,18:53,00:51,Mon-Fri
+403,The Point,Tallaght,18:20,19:10,00:50,Mon-Fri
+404,The Point,Tallaght,18:30,19:20,00:50,Mon-Fri
+405,The Point,Tallaght,18:50,19:40,00:50,Mon-Fri
+406,The Point,Tallaght,19:00,19:50,00:50,Mon-Fri
+407,Connolly,Saggart,17:11,18:01,00:50,Mon-Fri
+408,Connolly,Saggart,17:37,18:27,00:50,Mon-Fri
+409,Connolly,Saggart,18:04,18:54,00:50,Mon-Fri
+410,Connolly,Saggart,18:31,19:20,00:49,Mon-Fri
+411,Connolly,Tallaght,17:24,18:09,00:45,Mon-Fri
+412,Connolly,Tallaght,17:50,18:35,00:45,Mon-Fri
+413,Connolly,Tallaght,18:18,19:03,00:45,Mon-Fri
+414,Connolly,Tallaght,18:46,19:30,00:44,Mon-Fri
+415,The Point,Saggart,19:05,20:00,00:55,Mon-Fri
+416,The Point,Saggart,19:15,20:10,00:55,Mon-Fri
+417,The Point,Tallaght,19:20,20:10,00:50,Mon-Fri
+418,The Point,Tallaght,19:30,20:20,00:50,Mon-Fri
+419,The Point,Tallaght,19:40,20:30,00:50,Mon-Fri
+420,The Point,Tallaght,19:50,20:40,00:50,Mon-Fri
+421,The Point,Tallaght,20:00,20:50,00:50,Mon-Fri
+422,The Point,Tallaght,20:10,21:00,00:50,Mon-Fri
+423,The Point,Tallaght,20:20,21:10,00:50,Mon-Fri
+424,The Point,Tallaght,20:30,21:20,00:50,Mon-Fri
+425,The Point,Tallaght,20:40,21:30,00:50,Mon-Fri
+426,The Point,Tallaght,20:50,21:40,00:50,Mon-Fri
+427,The Point,Tallaght,21:00,21:50,00:50,Mon-Fri
+428,The Point,Tallaght,21:10,22:00,00:50,Mon-Fri
+429,The Point,Tallaght,21:20,22:10,00:50,Mon-Fri
+430,Connolly,Saggart,19:01,19:50,00:49,Mon-Fri
+431,Connolly,Saggart,19:31,20:20,00:49,Mon-Fri
+432,Connolly,Tallaght,19:16,20:20,01:04,Mon-Fri
+433,Belgard,Saggart,20:16,20:27,00:11,Mon-Fri
+434,Belgard,Saggart,20:26,20:37,00:11,Mon-Fri
+435,Belgard,Saggart,20:36,20:47,00:11,Mon-Fri
+436,Belgard,Saggart,20:47,20:58,00:11,Mon-Fri
+437,Belgard,Saggart,20:57,21:08,00:11,Mon-Fri
+438,Belgard,Saggart,21:06,21:17,00:11,Mon-Fri
+439,Belgard,Saggart,21:17,21:28,00:11,Mon-Fri
+440,Belgard,Saggart,21:27,21:38,00:11,Mon-Fri
+441,The Point,Saggart,00:05,00:58,00:53,Mon-Fri
+442,The Point,Tallaght,21:30,22:20,00:50,Mon-Fri
+443,The Point,Tallaght,21:42,22:32,00:50,Mon-Fri
+444,The Point,Tallaght,21:54,22:44,00:50,Mon-Fri
+445,The Point,Tallaght,22:06,22:55,00:49,Mon-Fri
+446,The Point,Tallaght,22:18,23:07,00:49,Mon-Fri
+447,The Point,Tallaght,22:30,23:18,00:48,Mon-Fri
+448,The Point,Tallaght,22:45,23:33,00:48,Mon-Fri
+449,The Point,Tallaght,23:00,23:48,00:48,Mon-Fri
+450,The Point,Tallaght,23:15,00:03,00:48,Mon-Fri
+451,The Point,Tallaght,23:30,00:18,00:48,Mon-Fri
+452,The Point,Tallaght,23:45,00:33,00:48,Mon-Fri
+453,The Point,Tallaght,00:00,00:48,00:48,Mon-Fri
+454,Belgard,Saggart,21:36,21:47,00:11,Mon-Fri
+455,Belgard,Saggart,21:47,21:58,00:11,Mon-Fri
+456,Belgard,Saggart,21:56,22:07,00:11,Mon-Fri
+457,Belgard,Saggart,22:07,22:18,00:11,Mon-Fri
+458,Belgard,Saggart,22:17,22:28,00:11,Mon-Fri
+459,Belgard,Saggart,22:29,22:40,00:11,Mon-Fri
+460,Belgard,Saggart,22:40,22:51,00:11,Mon-Fri
+461,Belgard,Saggart,22:52,23:03,00:11,Mon-Fri
+462,Belgard,Saggart,23:03,23:14,00:11,Mon-Fri
+463,Belgard,Saggart,23:15,23:26,00:11,Mon-Fri
+464,Belgard,Saggart,23:30,23:41,00:11,Mon-Fri
+465,Belgard,Saggart,23:45,23:56,00:11,Mon-Fri
+466,Belgard,Saggart,23:59,00:10,00:11,Mon-Fri
+467,The Point,Tallaght,00:15,01:03,00:48,Mon-Fri
+468,The Point,Tallaght,00:30,01:18,00:48,Mon-Fri
+469,Belgard,Saggart,00:15,00:26,00:11,Mon-Fri
+470,Belgard,Saggart,00:30,00:41,00:11,Mon-Fri

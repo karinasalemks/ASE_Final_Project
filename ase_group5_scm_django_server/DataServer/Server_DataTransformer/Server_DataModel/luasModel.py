@@ -13,4 +13,11 @@ def readSTOPSFile(inputFilePath):
         list_of_stops[ row['stop_code']] = each_stops
     return list_of_stops
 
+class Tram:
+    def __init__(self, tram_id, src_st, dst_st, duration) -> None:
+        self.tram_id = tram_id
+        self.src_st = src_st
+        self.dst_st = dst_st
+        self.duration = duration
+
 luas_stops = readSTOPSFile(inputFilePath)
