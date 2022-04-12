@@ -40,6 +40,11 @@ dependencies:
   rxdart: ^0.27.3
   syncfusion_flutter_charts: ^19.4.55
   data_table_2: ^2.2.1
+#  doesnt work on web
+#  firebase_crashlytics: 1.0.0
+  sentry: ^6.4.0
+  sentry_logging: ^6.4.0
+  logging: ^1.0.2
 
 dependency_overrides:
   cloud_functions_platform_interface: 5.0.21
