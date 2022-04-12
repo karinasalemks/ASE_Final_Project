@@ -1,6 +1,6 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
-import 'package:ase_group5_scm/DublinBikes/dublin_bikes_map.dart';
-import 'package:ase_group5_scm/DublinBikes/dublin_bikes_usage_chart.dart';
+import 'package:ase_group5_scm/pages/DublinBikes/dublin_bikes_map.dart';
+import 'package:ase_group5_scm/pages/DublinBikes/dublin_bikes_usage_chart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

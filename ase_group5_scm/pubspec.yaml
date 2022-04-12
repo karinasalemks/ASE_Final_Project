@@ -26,6 +26,8 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  google_fonts: 2.2.0
+  get: ^4.1.4
   cupertino_icons: ^1.0.0
   firebase_core: ^1.11.0
   cloud_firestore: ^3.1.6
@@ -37,6 +39,7 @@ dependencies:
   overlay_support: ^1.2.1
   rxdart: ^0.27.3
   syncfusion_flutter_charts: ^19.4.55
+  data_table_2: ^2.2.1
 
 dependency_overrides:
   cloud_functions_platform_interface: 5.0.21
@@ -47,6 +50,7 @@ dependency_overrides:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -63,6 +67,7 @@ flutter:
     - assets/image/bike_station_marker_orange.png
     - assets/image/bike_station_marker_red.png
     - assets/image/bike_station_marker_green.png
+    - assets/icons/logo.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
