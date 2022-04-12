@@ -20,6 +20,7 @@ class AppConstants {
   static const String DUBLIN_EVENTS_MAP_VIEW = "DublinEventsMapView";
   static const String DUBLIN_EVENTS_BUS_SUG_VIEW = "DublinEventsBusSuggestionsView";
   static const String DUBLIN_EVENTS_FORECAST_VIEW = "DublinEventsForecastView";
+  static const String DUBLIN_WEATHER_COLLECTION = "DublinWeather";
 
   static const String DUBLIN_BIKES = "Dublin Bikes";
   static const String DUBLIN_BUSES = "Buses";

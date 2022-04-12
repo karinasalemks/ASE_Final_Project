@@ -1,3 +1,8 @@
+import 'dart:math';
+
+import 'package:ase_group5_scm/Components/AppConstants.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:ase_group5_scm/constants/style.dart';
 import 'package:ase_group5_scm/pages/overview/widgets/bar_chart.dart';
@@ -5,6 +10,9 @@ import 'package:ase_group5_scm/pages/overview/widgets/revenue_info.dart';
 import 'package:ase_group5_scm/widgets/custom_text.dart';
 
 class RevenueSectionLarge extends StatelessWidget {
+  final List<FlSpot> dummyData1 = List.generate(8, (index) {
+    return FlSpot(index.toDouble(), index * Random().nextDouble());
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +43,29 @@ class RevenueSectionLarge extends StatelessWidget {
                             color: lightGrey,
                           ),
                           Container(
-                              width: 600,
-                              height: 200,
-                              child: SimpleBarChart.withSampleData()),
+                            padding: const EdgeInsets.all(20),
+                            width: 500,
+                            height: 200,
+                            child: LineChart(
+                                LineChartData(
+                                  borderData: FlBorderData(show: false),
+                                  lineBarsData: [
+                                  // The red line
+                                  LineChartBarData(
+                                  spots: dummyData1,
+                                  isCurved: true,
+                                  barWidth: 3,
+                                  colors: [
+                                    Colors.red,
+                                  ],
+                                ),
+                              ],
+                                ),
+                          ),
+                              // width: 600,
+                              // height: 200,
+                              // child: SimpleBarChart.withSampleData()
+                            ),
                         ],
                       ),
                     ),

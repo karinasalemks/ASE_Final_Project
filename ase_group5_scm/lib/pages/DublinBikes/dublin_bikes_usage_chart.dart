@@ -6,8 +6,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 class DublinBikesUsageChart extends StatefulWidget {
   final snapshot;
-
-  const DublinBikesUsageChart({Key? key, this.snapshot}) : super(key: key);
+  final series;
+  const DublinBikesUsageChart({Key? key,  this.snapshot,  this.series} ) : super(key: key);
 
   @override
   _DublinBikesUsageChartState createState() => _DublinBikesUsageChartState();
@@ -125,7 +125,7 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
   Widget build(BuildContext context) {
     Map stationUsageMap = getStationUsageData(widget.snapshot);
     var seriesArray = sortStationMaps(stationUsageMap);
-    if (isSelected[0]) {
+    if (widget.series == "overuse") {
       // StationUsageMapListSeries = [];
       // StationUsageMapListSeries = seriesArray[0];
       stationFullNameList = seriesArray[2];
@@ -164,6 +164,8 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
               ),
               Expanded(
                 child: SfCartesianChart(
+                  palette: <Color>[widget.series == "overuse"?
+                  Colors.redAccent:Colors.teal],
                   primaryXAxis: CategoryAxis(
                       labelRotation: 30,
                       majorGridLines: MajorGridLines(width: 0)),
@@ -186,49 +188,6 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
                     ),
                   ],
                 ),
-              ),
-              new Row(
-                children: <Widget>[
-                  ToggleButtons(
-                    borderColor: Colors.black,
-                    fillColor: Colors.grey,
-                    borderWidth: 2,
-                    selectedBorderColor: Colors.black,
-                    selectedColor: Colors.white,
-                    borderRadius: BorderRadius.circular(0),
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Overuse Stations',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Underuse Stations',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ],
-                    onPressed: (int index) {
-                      setState(() {
-                        for (int i = 0; i < isSelected.length; i++) {
-                          isSelected[i] = i == index;
-                          if (isSelected[0] && !toogleState) {
-                            toogleState = true;
-                            stationUsageList = seriesArray[0];
-                          } else if (isSelected[1] && toogleState) {
-                            toogleState = false;
-                            stationUsageList = seriesArray[1];
-                          }
-                        }
-                      });
-                    },
-                    isSelected: isSelected,
-                  ),
-                ],
               ),
             ],
           ),

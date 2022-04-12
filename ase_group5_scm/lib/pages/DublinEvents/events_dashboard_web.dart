@@ -1,4 +1,5 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
+import 'package:ase_group5_scm/pages/DublinEvents/dublin_weather.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,19 +19,56 @@ class EventsDashboardWeb extends StatefulWidget {
 class _EventsDashboardWebState extends State<EventsDashboardWeb> {
   late GoogleMapController mapController;
 
+  WeatherDataContainer(heightOfFilter,snapshot) {
+    return new Container(
+      height: (MediaQuery.of(context).size.height -
+          heightOfFilter) *
+          0.90,
+      padding: EdgeInsets.all(8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+              child: DublinWeather(snapshot: snapshot)),
+        ],
+      ),
+    );
+  }
+  eventsDataContainer(heightOfFilter,snapshot) {
+    return new Container(
+      height: (MediaQuery.of(context).size.height -
+          heightOfFilter) *
+          0.90,
+      padding: EdgeInsets.all(8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+              child: EventsTable(snapshot: snapshot)),
+        ],
+      ),
+    );
+  }
   StreamBuilder<Object?> combinedStreams() {
     Stream<QuerySnapshot> eventsStream = FirebaseFirestore.instance
         .collection(AppConstants.DUBLIN_EVENTS_COLLECTION)
         .snapshots();
+    Stream<QuerySnapshot> weatherStream = FirebaseFirestore.instance
+        .collection(AppConstants.DUBLIN_WEATHER_COLLECTION)
+        .snapshots();
     //If needed, add other streams here
     return StreamBuilder(
         stream: CombineLatestStream.list([
-          eventsStream
+          eventsStream, weatherStream
         ]),
         builder: (context, combinedSnapshot) {
           if (combinedSnapshot.hasData) {
+            var heightOfFilter =
+                (MediaQuery.of(context).size.height) *
+                    0.10;
             var snapshotList = combinedSnapshot.data as List<QuerySnapshot>;
             var snapshot = snapshotList[0];
+            var weatherSnapshot = snapshotList[1];
             return IntrinsicHeight(
                 child: Row(
                     mainAxisSize: MainAxisSize.max, // match parent
@@ -45,18 +83,22 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
                       Expanded(
                         child: Container(
                           padding: EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Expanded(
-                              child: EventsTable(snapshot: snapshot)),
-                              /*Expanded(
-                                child: ClientsPage(),
-                                flex: 2,
-                              ),*/
-                              Text("3rd Widget")
-                            ],
-                          ),
+                          height: MediaQuery.of(context).size.height,
+                          child: Card(
+                              child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child:   eventsDataContainer(heightOfFilter,snapshot),
+                                        flex: 1,
+                                      ),
+                                      Expanded(
+                                        child: WeatherDataContainer(heightOfFilter,weatherSnapshot),
+                                        flex: 1,
+                                      ),
+                                    ],
+                                  ))),
                         ),
                         flex: 1,
                       ),
