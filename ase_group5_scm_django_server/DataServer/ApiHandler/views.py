@@ -10,6 +10,7 @@ from numpy import append
 import pandas as pd
 from datetime import datetime
 from datetime import timedelta
+import os
 
 
 def getBikeData(request):
