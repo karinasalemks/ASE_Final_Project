@@ -102,7 +102,7 @@ def generate_suggestions(distance_matrix, station_occupancy, station_dict, targe
         result.append(temp)
     return result
 
-def parse_data(station):
+def parse_data(station,distance):
     result = {}
     result['station_name'] = station.station_name
     result['occupancy'] = station.occupancy_list[0]
