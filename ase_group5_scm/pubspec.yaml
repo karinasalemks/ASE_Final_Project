@@ -45,7 +45,9 @@ dependencies:
   sentry: ^6.4.0
   sentry_logging: ^6.4.0
   logging: ^1.0.2
-  
+  fluttericon: ^2.0.0
+  fl_chart: ^0.45.1
+
 dependency_overrides:
   cloud_functions_platform_interface: 5.0.21
   cloud_firestore_platform_interface: 5.4.13
@@ -72,7 +74,11 @@ flutter:
     - assets/image/bike_station_marker_orange.png
     - assets/image/bike_station_marker_red.png
     - assets/image/bike_station_marker_green.png
+    - assets/image/events_concert.png
+    - assets/image/events_sports.png
+    - assets/image/events_theater.png
     - assets/icons/logo.png
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
