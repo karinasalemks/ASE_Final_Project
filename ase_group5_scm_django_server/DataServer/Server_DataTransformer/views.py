@@ -92,20 +92,28 @@ def transformLUASData(apiResponse):
 
 
 def transformEventsData(inputData, isPrimarySource):
+    inputFilePath = "Server_DataTransformer/StaticFiles/nearest_stop_dict_routes.json"
+    busStopsData = pd.read_json(inputFilePath)
     api_response = inputData["_embedded"]["events"]
     events_list = []
     events_list_loc = []
+    stops_list = []
     events_header = {}
     try:
-        events_header["event_location_name"] = api_response[0]["_embedded"]["venues"][0]["name"]
+        location_name = api_response[0]["_embedded"]["venues"][0]["name"]
+        events_header["event_location_name"] = location_name
         events_header["event_location_longitude"] = api_response[0]["_embedded"]["venues"][0]["location"]["longitude"]
         events_header["event_location_latitude"] = api_response[0]["_embedded"]["venues"][0]["location"]["latitude"]
+        print(busStopsData["Aviva Stadium"]["stops"])
         for event in api_response:
             date = event["dates"]["start"]["dateTime"]
             event_name = event["name"]
             events_list_loc.append([date, event_name])
-        
+        #reading stops list to find the near by bus stops location
+        for stop in busStopsData[location_name]["stops"]:
+            stops_list.append([stop["stop_name"], [stop["stop_lat"], stop["stop_long"]]])
         events_header["events"] = dict(events_list_loc)
+        events_header["stops"] = dict(stops_list)
         events_header_Data = EVENTS(events_header)
         events_list.append(events_header_Data.toJSON())
     except KeyError:

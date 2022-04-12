@@ -53,7 +53,6 @@ def get_event_id(i):
     switcher={
             "Aviva":"KovZ9177Tn7",
             "3Arena":"KovZ9177WYV",
-            "RDS":"KovZ9177TAf",
             "National Stadium":"KovZ9177TZf",
             "Bord Gais Energy Theatre":"KovZ917AZa7",
             "Gaiety Theatre":"KovZ9177XT0"
@@ -63,7 +62,7 @@ def get_event_id(i):
 def getEventsData(request):
     print("**** getEventsData")
     #List of events that are taken for usage
-    popular_events = ["Aviva", "3Arena", "RDS", "National Stadium", "Bord Gais Energy Theatre", "Gaiety Theatre"]
+    popular_events = ["Aviva", "3Arena", "National Stadium", "Bord Gais Energy Theatre", "Gaiety Theatre"]
     #get the current datetime and convert it to a format required for API request
     today = datetime.datetime.now()
     today_time = today.strftime("%H:%M:%S")
@@ -78,6 +77,7 @@ def getEventsData(request):
     dublinEventsData = []
     #For every event location get the api response and create the event details
     for place in popular_events:
+        id = get_event_id(place)
         response = requests.get(Endpoints.DUBLIN_EVENTS_API["PRIMARY"] + get_event_id(place) + "&startDateTime=" + formated_date_time+ "&endDateTime=" + month_later_formated_date_time + "&apikey=Od2QOTqrUGW7CPeiRXSgzGv3zGAquRAL", headers={
             # Request headers
             'Cache-Control': 'no-cache',
@@ -87,6 +87,7 @@ def getEventsData(request):
             dublinEventsData.append(transformData(source="DUBLIN_EVENTS", apiResponse=response.json()))
         else:
             print(response.status_code)
+    print(dublinEventsData)
     print("Get Events data done")
     return JsonResponse(dublinEventsData, safe=False)
         
