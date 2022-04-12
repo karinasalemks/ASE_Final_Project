@@ -11,4 +11,5 @@ urlpatterns = [
     path('getBusStops/',views.getBusStops),
     path('getLuasData/',views.getLuasData),
     path('getLuasStops/',views.getLuasStops),
+    path('weatherForecast/', views.aggregateWeatherForecast)
 ]

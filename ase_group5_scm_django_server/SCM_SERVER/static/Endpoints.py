@@ -8,11 +8,11 @@ DUBLIN_BIKES_API = {
 
 DUBLIN_BUSES_API = {
     "source": "http://127.0.0.1:7000/getData/bustrips/",
-    "busStops":"http://127.0.0.1:7000/getData/getBusStops/",
+    "busStops": "http://127.0.0.1:7000/getData/getBusStops/",
 }
 
 DUBLIN_EVENTS_API = {
-
+    "weatherForecast": "http://127.0.0.1:7000/getData/weatherForecast/",
 }
 
 DUBLIN_LUAS_API = {
