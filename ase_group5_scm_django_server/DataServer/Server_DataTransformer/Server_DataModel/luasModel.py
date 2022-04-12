@@ -4,7 +4,6 @@ import csv
 inputFilePath = "Server_DataTransformer/StaticFiles/luasstopnames.csv"
 def readSTOPSFile(inputFilePath):
     data = pd.read_csv(inputFilePath)
-    print(data)
     list_of_stops = {}
     for index, row in data.iterrows():
         each_stops = {}

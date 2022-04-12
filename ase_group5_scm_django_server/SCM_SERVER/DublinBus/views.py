@@ -4,7 +4,7 @@ from static import Endpoints as apiSource
 from django.http import HttpResponse
 import requests, json
 from static.firebaseInitialization import db
-
+from LoadBalancer.views import send_request
 #Bus stop static data needs to be pushed only once to firebase.
 # busStopData = requests.get(apiSource.DUBLIN_BUSES_API['busStops'])
 # print(busStopData)
@@ -20,7 +20,7 @@ from static.firebaseInitialization import db
 # Create your views here.
 def busTripsToFirebase():
     print("*************** Fetching Dublin Bus API ****************")
-    busResponse = requests.get(apiSource.DUBLIN_BUSES_API['source'])
+    busResponse = send_request(apiSource.DUBLIN_BUSES_API['source'])
     print("*************** Fetching Done ****************")
     if busResponse.status_code == 200 or busResponse.status_code == 201:
         #busData = transformData(source="DUBLIN_BUS", apiResponse=json.loads(busResponse.text))
