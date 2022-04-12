@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ase_group5_scm/pages/DublinBikes/DublinBikes.dart';
+import 'package:ase_group5_scm/pages/DublinBuses/DublinBus.dart';
 import 'package:ase_group5_scm/pages/overview/overview.dart';
 import 'package:ase_group5_scm/routing/routes.dart';
 import 'package:ase_group5_scm/pages/DublinEvents/DublinEvents.dart';
@@ -12,7 +13,7 @@ Route<dynamic> generateRoute(RouteSettings settings){
     case dublinBikesPageRoute:
       return _getPageRoute(DublinBikes());
     case dublinBusesPageRoute:
-      return _getPageRoute(DublinBikes());
+      return _getPageRoute(DublinBus());
     case eventsPageRoute:
       return _getPageRoute(DublinEvents());
     default:

@@ -33,6 +33,7 @@ dependencies:
   cloud_firestore: ^3.1.6
   google_maps_flutter: ^2.1.1
   google_maps_flutter_web: ^0.3.2+1
+  flutter_polyline_points: ^1.0.0
   geolocator: ^8.0.3
   charts_flutter: ^0.12.0
   firebase_auth: ^3.3.5
@@ -78,6 +79,11 @@ flutter:
     - assets/image/events_sports.png
     - assets/image/events_theater.png
     - assets/icons/logo.png
+    - assets/image/bus-station_marker_0.png
+    - assets/image/bus-station_marker_1.png
+    - assets/image/bus-station_marker_2.png
+    - assets/image/bus-station_marker_3.png
+    - assets/image/bus-station_marker_4.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
