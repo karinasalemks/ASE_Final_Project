@@ -5,11 +5,11 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:ase_group5_scm/DublinBikes/dublin_bikes_dashboard_web.dart';
-import 'package:ase_group5_scm/Routes/login.dart';
+import 'package:ase_group5_scm/pages/DublinBikes/dublin_bikes_dashboard_web.dart';
+//import 'package:ase_group5_scm/Routes/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ase_group5_scm/DublinBikes/dublin_bikes_map.dart';
+import 'package:ase_group5_scm/pages/DublinBikes/dublin_bikes_map.dart';
 import 'package:ase_group5_scm/main.dart';
 
 void main() {

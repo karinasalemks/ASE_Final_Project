@@ -1,5 +1,5 @@
 import 'package:ase_group5_scm/Components/AppConstants.dart';
-import 'package:ase_group5_scm/pages/DublinBikes/widgets/drivers_table.dart';
+import 'package:ase_group5_scm/pages/DublinBikes/widgets/swap_suggestions_table.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +32,7 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
           if (combinedSnapshot.hasData) {
             var snapshotList = combinedSnapshot.data as List<QuerySnapshot>;
             var snapshot = snapshotList[0];
+            var swapSnapshot = snapshotList[1];
             return Container(
                 child: new SingleChildScrollView(
               child: Column(
@@ -74,12 +75,19 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
                               flex: 1,
                             ),
                           ],
-                        ),
-                  DriversTable(),
-                  DriversTable(),
-                ],
-              ),
-            ));
+                      ),
+                      SwapSuggestionTable(
+                        snapshot: swapSnapshot,
+                        dataKey: "free_stations",
+
+                      ),
+                      SwapSuggestionTable(
+                          snapshot: swapSnapshot,
+                          dataKey: "occupied_stations",
+                      ),
+                    ],
+                  ),
+                ));
           } else {
             return Center(
                 child: Transform.scale(
