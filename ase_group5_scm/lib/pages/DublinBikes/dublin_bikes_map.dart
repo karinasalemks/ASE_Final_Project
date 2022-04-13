@@ -37,18 +37,18 @@ class _BikeStationMapState extends State<BikeStationMap> {
   );
 
   //is not used.
-  getMarkerData() async {
-    FirebaseFirestore.instance
-        .collection('DublinBikes')
-        .get()
-        .then((myMarkers) {
-      if (myMarkers.docs.isNotEmpty) {
-        for (int i = 0; i < myMarkers.docs.length; i++) {
-          initMarker(myMarkers.docs[i], myMarkers.docs[i].id, customIcon);
-        }
-      }
-    });
-  }
+  // getMarkerData() async {
+  //   FirebaseFirestore.instance
+  //       .collection('usbikes')
+  //       .get()
+  //       .then((myMarkers) {
+  //     if (myMarkers.docs.isNotEmpty) {
+  //       for (int i = 0; i < myMarkers.docs.length; i++) {
+  //         initMarker(myMarkers.docs[i], myMarkers.docs[i].id, customIcon);
+  //       }
+  //     }
+  //   });
+  // }
 
   /*
   * This function initializes all the markers from the data received from firebase
