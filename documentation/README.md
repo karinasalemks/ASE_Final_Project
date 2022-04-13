@@ -23,6 +23,8 @@ Data Pipeline UML Sequence Diagram: https://app.diagrams.net/#G1f4HO8NR2jzR9-kJ2
 
 Functional Architecture (updated for Thin-Slice): https://drive.google.com/file/d/11bTqqnq3-hNItDInqFLU872KWA_BzrTK/view?usp=sharing
 
+Functional Architecture (Sem 2) https://drive.google.com/file/d/12esQuN76H8aL_yLh4KIdhhrCGkXndmMm/view
+
 ------------------------------------------------------------------------------------------------------
 Quality of Service Technical Requirements: Yatheen
 https://docs.google.com/document/d/1drMD_0pPiLNzNefasFA36_16zqqod1I8ymRvAjJHego/edit?usp=sharing
