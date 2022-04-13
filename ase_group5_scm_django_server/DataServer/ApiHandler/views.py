@@ -91,8 +91,7 @@ luasStops = ["The Point", "Spencer Dock", "Mayor Square - NCI", "George's Dock",
              "Cookstown", "Hospital", "Tallaght"];
 
 luasStopsCode = ["TPT", "SDK", "MYS", "GDK", "CON", "BUS", "ABB", "JER", "FOU", "SMI", "MUS", "HEU", "JAM", "FAT",
-                 "RIA", "SUI",
-                 "GOL", "DRI", "FET", "CVN", "CIT", "FOR", "SAG", "DEP", "BRO", "CAB", "PHI", "GRA", "BRD", "DOM",
+                 "RIA", "SUI","GOL", "DRI", "FET", "CVN", "CIT", "FOR", "SAG", "DEP", "BRO", "CAB", "PHI", "GRA", "BRD", "DOM",
                  "PAR", "OUP", "OGP", "MAR", "WES", "TRY", "DAW",
                  "STS", "HAR", "CHA", "RAN", "BEE", "COW", "MIL", "WIN", "DUN", "BAL", "KIL", "STI", "SAN", "CPK",
                  "GLE", "GAL", "LEO", "BAW", "RCC", "CCK", "BRE",

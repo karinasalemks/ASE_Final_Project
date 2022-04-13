@@ -4,7 +4,7 @@ from collections import deque
  
 # Create your views here.
 class Server:
-    def __init__(self,server_name,host_address,port,is_master=False) -> None:        
+    def __init__(self,server_name,host_address,is_master=False) -> None:        
         self.server_name = server_name
         self.host_address = host_address
         self.is_master = is_master
@@ -54,8 +54,49 @@ def send_request(path):
     return result
 
 
+#ONE time run for Correlation Analysis
+# from static.firebaseInitialization import db
+# import pandas as pd
 
+# rain = pd.read_csv('static/Rain.csv')
+# heat = pd.read_csv('static/Heat.csv')
+# wind = pd.read_csv('static/WindData.csv')
 
+# result = {}
 
-                
-    
+# rain_data = []
+# dry_data = []
+# for index,row in rain.iterrows():
+#     if row['Rain'] == "Rain":
+#         rain_data.append(row['BikeAvailability'])
+#     else:
+#         dry_data.append(row['BikeAvailability'])
+
+# result['rain'] = rain_data
+# result['dry'] = dry_data 
+
+# high_temp_data = []
+# low_temp_data = []
+# for index,row in heat.iterrows():
+#     if row['Temp'] == "Low":
+#         low_temp_data.append(row['BikeAvailability'])
+#     else:
+#         high_temp_data.append(row['BikeAvailability'])
+
+# result['low_temp'] = low_temp_data
+# result['high_temp'] = high_temp_data 
+
+# low_wind_data = []
+# high_wind_data = []
+# for index,row in wind.iterrows():
+#     if row['Wind'] == "Low":
+#         low_wind_data.append(row['BikeAvailability'])
+#     else:
+#         high_wind_data.append(row['BikeAvailability'])
+
+# result['low_wind'] = low_wind_data
+# result['high_wind'] = high_wind_data 
+
+# data = {"data":result}
+# db.collection(u'Overview').document(u'bikesAvailability').set(data)
+# print("Bus Batch Transaction Complete..")

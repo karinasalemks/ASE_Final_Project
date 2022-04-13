@@ -3,14 +3,11 @@ import pandas as pd
 import json
 import requests
 from Server_DataTransformer.Server_DataModel.busModel import TRIP, STOPSEQUENCE
-<<<<<<< HEAD
 import xml.etree.ElementTree as ET
 import numpy as np
 from Server_DataTransformer.Server_DataModel.busModel import *
 
-=======
 from Server_DataTransformer.Server_DataModel.eventsModel import EVENTS
->>>>>>> origin/Events-server-django
 
 # Create your views here.
 def transformBikeData(inputData, isPrimarySource):
@@ -124,10 +121,6 @@ def generate_part_of_trips(trips_list):
 def transformLUASData(apiResponse):
     return "Success"
 
-<<<<<<< HEAD
-def transformEventsData(apiResponse):
-    return "Success"
-=======
 
 def transformEventsData(inputData, isPrimarySource):
     inputFilePath = "Server_DataTransformer/StaticFiles/nearest_stop_dict_routes.json"
@@ -157,7 +150,6 @@ def transformEventsData(inputData, isPrimarySource):
     except KeyError:
         print("Error, no key field", KeyError)
     return events_list
->>>>>>> origin/Events-server-django
 
 def transformWeatherForecastData(weatherXML, weatherWarning):
     weather_dict = {}

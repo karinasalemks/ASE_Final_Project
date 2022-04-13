@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'predictionApp',
     'DataTransformer',
     'DublinBus',
-    'DublinLuas'
+    'DublinLuas',
     'DublinWeather'
 ]
 
