@@ -32,6 +32,7 @@ class correlationWidget extends StatefulWidget {
   _correlationWidgetState createState() => _correlationWidgetState();
 }
 
+List <String> mapKeys = ["Dry day","High Temp","High wind","Rainy day","Low Temp","Low wind"];
 formatData(var argument) {
   if (argument.docs.isNotEmpty) {
     dry_data = argument.docs[0]['data']['dry'];
@@ -84,19 +85,33 @@ class _correlationWidgetState extends State<correlationWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return data.length != 0?Container(
-      child: LineChart(
-        LineChartData(
-          borderData: FlBorderData(show: false),
-          maxY: 1.0,
-          axisTitleData:FlAxisTitleData(leftTitle: AxisTitle(titleText: "volume of usage",showTitle:true,margin: 2.0), bottomTitle: AxisTitle(titleText: "Hours", showTitle:true,margin: 30.0) ),
-          lineBarsData: [
-            // The red line
-            LineChartBarData(
-                spots: data[widget.correlation_key], colors: [(widget.correlation_key <3 ?Colors.red: Colors.blue)]),
-          ],
-        ),
-      ),
-    ):CircularProgressIndicator();
+    return data.length != 0
+        ? Container(
+            child: LineChart(
+              LineChartData(
+                borderData: FlBorderData(show: false),
+                maxY: 1.0,
+                axisTitleData: FlAxisTitleData(
+                    leftTitle: AxisTitle(
+                        titleText: "volume of usage",
+                        showTitle: true,
+                        margin: 2.0),
+                    bottomTitle: AxisTitle(
+                        titleText: "Hours", showTitle: true, margin: 30.0),
+                topTitle: AxisTitle(
+                    titleText: mapKeys[widget.correlation_key], showTitle: true, margin: 50.0,textStyle: TextStyle(color: widget.correlation_key < 3 ? Colors.red : Colors.blue))),
+
+                lineBarsData: [
+                  // The red line
+                  LineChartBarData(
+                      spots: data[widget.correlation_key],
+                      colors: [
+                        (widget.correlation_key < 3 ? Colors.red : Colors.blue)
+                      ]),
+                ],
+              ),
+            ),
+          )
+        : CircularProgressIndicator();
   }
 }
