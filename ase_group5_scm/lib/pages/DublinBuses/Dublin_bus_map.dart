@@ -74,7 +74,8 @@ class _BusStationMapState extends State<BusStationMap> {
     dataset_busiest_trips=markersList[1]['data'];
 
     dataset_busiest_trips.forEach((k,v) => add_new_marker(k,v));
-
+    dataset_trips_test=markersList[2]['data'];
+    // print(dataset_trips_test[0]);
     // Commented out code for PolyLines
     for(int i=0;i<4;i++) {
       dataset_trip_list = markersList[2]['data'][i]['stop_sequences'];
@@ -160,12 +161,12 @@ class _BusStationMapState extends State<BusStationMap> {
       mapController = controller;
     });
   }
-  // _addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
-  //   MarkerId markerId = MarkerId(id);
-  //   Marker marker =
-  //   Marker(markerId: markerId, icon: descriptor, position: position);
-  //   markers[markerId] = marker;
-  // }
+  _addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
+    MarkerId markerId = MarkerId(id);
+    Marker marker =
+    Marker(markerId: markerId, icon: descriptor, position: position);
+    markers[markerId] = marker;
+  }
   void _setCircles(LatLng point,var rad) {
     final String circleIdVal = 'circle_id_$_circleIdCounter';
     _circleIdCounter++;
@@ -193,8 +194,8 @@ class _BusStationMapState extends State<BusStationMap> {
     });
   }
 
-  _getPolyline(var orig_lati,var orig_longi,var dest_lati, var dest_longi) async {
-    print('Hello Inside _getPolyLine Function');
+  _getPolyline(var orig_lati,var orig_longi,var dest_lati, var dest_longi, var wayPointList) async {
+    print('Hello Inside _getPolyLine Function'+'$orig_lati');
 
     // _addMarker(LatLng(orig_lati, orig_longi), "origin",
     //     BitmapDescriptor.defaultMarker);
@@ -299,7 +300,7 @@ class _BusStationMapState extends State<BusStationMap> {
             zoom: 15.0,
           ),
           markers:toggleState==true ?Set<Marker>.of(getMarkers().values):Set<Marker>.of(markers_dummy.values),
-          //polylines: Set<Polyline>.of(polylines.values),
+          polylines:toggleState==false ?Set<Polyline>.of(polylines.values):Set<Polyline>.of(polylines_dummy.values),
           circles:toggleState==false ?Set<Circle>.of(_circles.values):Set<Circle>.of(_circles_dummy.values),
         ));
   }
