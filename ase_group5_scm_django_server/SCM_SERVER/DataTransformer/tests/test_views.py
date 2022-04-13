@@ -1,7 +1,6 @@
-from SCM_SERVER.DataTransformer.views import transformBikeData
-from SCM_SERVER.DataTransformer.views import transformEventsData
+from ..views import transformBikeData, transformEventsData
+from ..DataModel.bikeModel import BikeModel
 import unittest
-from SCM_SERVER.DataTransformer.DataModel.bikeModel import BikeModel
 
 
 class TestViews(unittest.TestCase):
@@ -20,7 +19,7 @@ class TestViews(unittest.TestCase):
 
     def test_transform_bike_data_primary(self):
         isPrimarySource = True
-
+        print("DDDDDDEEEEKKKKSSHHAA")
         response = [
             {"id": 46085583, "harvest_time": "2022-02-03T16:35:02", "station_id": 2, "available_bike_stands": 11,
              "bike_stands": 20, "available_bikes": 9, "banking": False, "bonus": False,

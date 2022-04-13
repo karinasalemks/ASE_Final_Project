@@ -2,11 +2,11 @@ from django.urls import path, include
 
 # from ASE_Final_Project.ase_group5_scm_django_server.DataServer.Server_DataTransformer.views import getBusTrips
 from . import views
-
+# from views import  *
 urlpatterns = [
     # url to get bike data
     path('bikes/', views.getBikeData),
-    # add  url patterns for bus, luas and events here
+    # add  url patterns for bus, luas and events hereZ
     path('bustrips/', views.getBusData),
     path('getBusStops/',views.getBusStops),
     path('getLuasData/',views.getLuasData),

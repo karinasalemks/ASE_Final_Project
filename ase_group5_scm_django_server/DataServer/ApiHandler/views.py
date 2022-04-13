@@ -7,7 +7,7 @@ import json
 import datetime
 from datetime import timedelta
 from Server_DataTransformer.Server_DataModel import serverBikeModel
-from datetime import datetime,timezone,timedelta
+from datetime import datetime, timezone, timedelta
 from Server_DataTransformer.Server_DataModel.busModel import bus_stops
 from Server_DataTransformer.Server_DataModel.luasModel import luas_stops, Tram
 import xml.etree.ElementTree as ET
@@ -17,6 +17,7 @@ import pandas as pd
 from datetime import datetime
 from datetime import timedelta
 import os
+
 
 def getBikeData(request):
     # dummy logic to determine the api source, it needs a change
@@ -52,24 +53,34 @@ def getBusData(request):
 def getBusStops(request):
     returnStopList = {}
     for bus_stop in bus_stops.items():
-        stop_id,busStopJson = bus_stop[1].toJSON()
-        returnStopList[stop_id]=busStopJson
-    return JsonResponse(returnStopList, safe = False)
+        stop_id, busStopJson = bus_stop[1].toJSON()
+        returnStopList[stop_id] = busStopJson
+    return JsonResponse(returnStopList, safe=False)
 
-#static data for luas
-luasStops = ["The Point","Spencer Dock","Mayor Square - NCI","George's Dock","Connolly","BusÃ¡ras","Abbey Street","Jervis",
-	"Four Courts","Smithfield","Museum","Heuston","James's","Fatima","Rialto","Suir Road","Goldenbridge","Drimnagh","Fettercairn",
-	"Cheeverstown","Citywest Campus","Fortunestown","Saggart","Depot","Broombridge","Cabra","Phibsborough","Grangegorman","Broadstone - DIT",
-	"Dominick","Parnell","O'Connell - Upper","O'Connell - GPO","Marlborough","Westmoreland","Trinity","Dawson","St. Stephen's Green","Harcourt",
-	"Charlemont","Ranelagh","Beechwood","Cowper","Milltown","Windy Arbour","Dundrum","Balally","Kilmacud","Stillorgan","Sandyford",
-	"Central Park","Glencairn","The Gallops","Leopardstown Valley","Ballyogan Wood","Racecourse","Carrickmines","Brennanstown","Laughanstown",
-	"Cherrywood","Brides Glen","Blackhorse","Bluebell","Kylemore","Red Cow","Kingswood","Belgard","Cookstown","Hospital","Tallaght"];
-	
-luasStopsCode = ["TPT","SDK","MYS","GDK","CON","BUS","ABB","JER","FOU","SMI","MUS","HEU","JAM","FAT","RIA","SUI",
-	"GOL","DRI","FET","CVN","CIT","FOR","SAG","DEP","BRO","CAB","PHI","GRA","BRD","DOM","PAR","OUP","OGP","MAR","WES","TRY","DAW",
-	"STS","HAR","CHA","RAN","BEE","COW","MIL","WIN","DUN","BAL","KIL","STI","SAN","CPK","GLE","GAL","LEO","BAW","RCC","CCK","BRE",
-        "LAU","CHE","BRI","BLA","BLU","KYL","RED","KIN","BEL","COO","HOS","TAL"]
 
+# static data for luas
+luasStops = ["The Point", "Spencer Dock", "Mayor Square - NCI", "George's Dock", "Connolly", "BusÃ¡ras", "Abbey Street",
+             "Jervis",
+             "Four Courts", "Smithfield", "Museum", "Heuston", "James's", "Fatima", "Rialto", "Suir Road",
+             "Goldenbridge", "Drimnagh", "Fettercairn",
+             "Cheeverstown", "Citywest Campus", "Fortunestown", "Saggart", "Depot", "Broombridge", "Cabra",
+             "Phibsborough", "Grangegorman", "Broadstone - DIT",
+             "Dominick", "Parnell", "O'Connell - Upper", "O'Connell - GPO", "Marlborough", "Westmoreland", "Trinity",
+             "Dawson", "St. Stephen's Green", "Harcourt",
+             "Charlemont", "Ranelagh", "Beechwood", "Cowper", "Milltown", "Windy Arbour", "Dundrum", "Balally",
+             "Kilmacud", "Stillorgan", "Sandyford",
+             "Central Park", "Glencairn", "The Gallops", "Leopardstown Valley", "Ballyogan Wood", "Racecourse",
+             "Carrickmines", "Brennanstown", "Laughanstown",
+             "Cherrywood", "Brides Glen", "Blackhorse", "Bluebell", "Kylemore", "Red Cow", "Kingswood", "Belgard",
+             "Cookstown", "Hospital", "Tallaght"];
+
+luasStopsCode = ["TPT", "SDK", "MYS", "GDK", "CON", "BUS", "ABB", "JER", "FOU", "SMI", "MUS", "HEU", "JAM", "FAT",
+                 "RIA", "SUI",
+                 "GOL", "DRI", "FET", "CVN", "CIT", "FOR", "SAG", "DEP", "BRO", "CAB", "PHI", "GRA", "BRD", "DOM",
+                 "PAR", "OUP", "OGP", "MAR", "WES", "TRY", "DAW",
+                 "STS", "HAR", "CHA", "RAN", "BEE", "COW", "MIL", "WIN", "DUN", "BAL", "KIL", "STI", "SAN", "CPK",
+                 "GLE", "GAL", "LEO", "BAW", "RCC", "CCK", "BRE",
+                 "LAU", "CHE", "BRI", "BLA", "BLU", "KYL", "RED", "KIN", "BEL", "COO", "HOS", "TAL"]
 
 # 60 Kw/h for 120 minutes
 UNITS_PER_MIN = 0.5  # Units:Kw/h
@@ -91,7 +102,8 @@ luasStops = ["The Point", "Spencer Dock", "Mayor Square - NCI", "George's Dock",
              "Cookstown", "Hospital", "Tallaght"];
 
 luasStopsCode = ["TPT", "SDK", "MYS", "GDK", "CON", "BUS", "ABB", "JER", "FOU", "SMI", "MUS", "HEU", "JAM", "FAT",
-                 "RIA", "SUI","GOL", "DRI", "FET", "CVN", "CIT", "FOR", "SAG", "DEP", "BRO", "CAB", "PHI", "GRA", "BRD", "DOM",
+                 "RIA", "SUI", "GOL", "DRI", "FET", "CVN", "CIT", "FOR", "SAG", "DEP", "BRO", "CAB", "PHI", "GRA",
+                 "BRD", "DOM",
                  "PAR", "OUP", "OGP", "MAR", "WES", "TRY", "DAW",
                  "STS", "HAR", "CHA", "RAN", "BEE", "COW", "MIL", "WIN", "DUN", "BAL", "KIL", "STI", "SAN", "CPK",
                  "GLE", "GAL", "LEO", "BAW", "RCC", "CCK", "BRE",
@@ -233,8 +245,10 @@ def getLuasData(request):
 
     return JsonResponse(result, safe=False)
 
+
 def getLuasStops(request):
-    return JsonResponse(luas_stops, safe = False)
+    return JsonResponse(luas_stops, safe=False)
+
 
 def parse_time(time):
     # parsing the string to time format
@@ -319,6 +333,7 @@ def estimate_electricity(luas_stops, line):
     result = total_duration * UNITS_PER_MIN
     return result, len(trams)
 
+
 def getTimeStrings():
     startTime = datetime.now(timezone.utc)
     numDays = timedelta(days=30)
@@ -327,11 +342,13 @@ def getTimeStrings():
     endTimeString = endTime.strftime("%Y-%m-%dT") + "23:59"
     return startTimeString, endTimeString
 
+
 def aggregateWeatherForecast(request):
     weather_warning = getWeatherWarning()
     weather_forecast = getWeatherForecast()
     weather_data = transformWeatherData(weatherXML=weather_forecast, weatherWarning=weather_warning)
     return JsonResponse(weather_data, safe=False)
+
 
 def getWeatherForecast():
     # can only get weather data 10 days into the future
@@ -343,6 +360,7 @@ def getWeatherForecast():
         print(response.status_code)
         return ""
 
+
 def getWeatherWarning():
     response = requests.get(Endpoints.WEATHER_WARNING_API["PRIMARY"])
     if (response.status_code == 200):
@@ -351,41 +369,45 @@ def getWeatherWarning():
         print(response.status_code)
         return []
 
+
 def get_event_id(i):
     """returns the event id for respective event place"""
-    switcher={
-            "Aviva":"KovZ9177Tn7",
-            "3Arena":"KovZ9177WYV",
-            "National Stadium":"KovZ9177TZf",
-            "Bord Gais Energy Theatre":"KovZ917AZa7",
-            "Gaiety Theatre":"KovZ9177XT0"
-            }
-    return switcher.get(i,"Invalid Event")
+    switcher = {
+        "Aviva": "KovZ9177Tn7",
+        "3Arena": "KovZ9177WYV",
+        "National Stadium": "KovZ9177TZf",
+        "Bord Gais Energy Theatre": "KovZ917AZa7",
+        "Gaiety Theatre": "KovZ9177XT0"
+    }
+    return switcher.get(i, "Invalid Event")
+
 
 def getEventsData(request):
     print("**** getEventsData")
-    #List of events that are taken for usage
+    # List of events that are taken for usage
     popular_events = ["Aviva", "3Arena", "National Stadium", "Bord Gais Energy Theatre", "Gaiety Theatre"]
-    #get the current datetime and convert it to a format required for API request
+    # get the current datetime and convert it to a format required for API request
     today = datetime.datetime.now()
     today_time = today.strftime("%H:%M:%S")
     today_date = today.strftime("%Y-%m-%d")
-    formated_date_time = today_date+'T'+today_time+'Z'
-    #get the datetime after 30 days and convert it to a format required for API request
+    formated_date_time = today_date + 'T' + today_time + 'Z'
+    # get the datetime after 30 days and convert it to a format required for API request
     month_later = datetime.datetime.now() + timedelta(days=30)
     month_later_time = month_later.strftime("%H:%M:%S")
     month_later_date = month_later.strftime("%Y-%m-%d")
     month_later_formated_date_time = month_later_date + 'T' + month_later_time + 'Z'
-    #list that contains all the details of the event happenings
+    # list that contains all the details of the event happenings
     dublinEventsData = []
-    #For every event location get the api response and create the event details
+    # For every event location get the api response and create the event details
     for place in popular_events:
         id = get_event_id(place)
-        response = requests.get(Endpoints.DUBLIN_EVENTS_API["PRIMARY"] + get_event_id(place) + "&startDateTime=" + formated_date_time+ "&endDateTime=" + month_later_formated_date_time + "&apikey=Od2QOTqrUGW7CPeiRXSgzGv3zGAquRAL", headers={
-            # Request headers
-            'Cache-Control': 'no-cache',
-            'x-api-key': 'Od2QOTqrUGW7CPeiRXSgzGv3zGAquRAL',
-            })
+        response = requests.get(Endpoints.DUBLIN_EVENTS_API["PRIMARY"] + get_event_id(
+            place) + "&startDateTime=" + formated_date_time + "&endDateTime=" + month_later_formated_date_time + "&apikey=Od2QOTqrUGW7CPeiRXSgzGv3zGAquRAL",
+                                headers={
+                                    # Request headers
+                                    'Cache-Control': 'no-cache',
+                                    'x-api-key': 'Od2QOTqrUGW7CPeiRXSgzGv3zGAquRAL',
+                                })
         if (response.status_code == 200):
             dublinEventsData.append(transformData(source="DUBLIN_EVENTS", apiResponse=response.json()))
         else:
@@ -393,6 +415,3 @@ def getEventsData(request):
     print(dublinEventsData)
     print("Get Events data done")
     return JsonResponse(dublinEventsData, safe=False)
-
-
-
