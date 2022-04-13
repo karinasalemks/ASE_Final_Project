@@ -26,4 +26,5 @@ class AppConstants {
   static const String DUBLIN_BUSES = "Buses";
   static const String DUBLIN_LUAS = "Luas";
   static const String DUBLIN_EVENTS = "Events";
+  static const String CORRELATION_OVERVIEW = "Overview";
 }
