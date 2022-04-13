@@ -25,15 +25,15 @@ class Server:
         return server_available,latency
     
     def request_data_server(self,path):
-        target_url = "http://"+self.host_address+":"+self.port+path
+        target_url = "http://"+self.host_address+path
         print(f"[INFO] Sending Request to Server: {self.server_name}")
         response = requests.get(target_url)
         return response
 
 available_servers = deque()
-available_servers.append(Server("Alpha","scm-insights",is_master=True))
-available_servers.append(Server("Beta","scm-insights-beta"))
-available_servers.append(Server("Gamma","scm-insights-gamma"))
+# available_servers.append(Server("Alpha","scm-insights",is_master=True))
+# available_servers.append(Server("Beta","scm-insights-beta"))
+available_servers.append(Server("Gamma","scm-insights-gamma.herokuapp.com"))
 
 def send_request(path):
     #Decide the data server where the request has to be routed

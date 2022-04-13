@@ -28,5 +28,5 @@ class BikeModel:
         result['longitude'] = self.longitude
         result['station_name'] = self.station_name
         result['station_status'] = self.station_status
-        result['occupancy_list'] = self.occupancy_list
+        result['station_occupancy'] = self.occupancy_list
         return result

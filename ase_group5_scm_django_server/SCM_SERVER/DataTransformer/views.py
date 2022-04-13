@@ -14,6 +14,8 @@ def transformBikeData(inputData):
     for apiResponse in inputData:
         # Call Prediction Engine here
         apiResponse = json.loads(apiResponse)
+        if apiResponse['station_id'] == "507":
+            continue
         recent_list = np.fromstring(
             bikePredictor.recent_df.loc[int(apiResponse['station_id'])].recentObservations[1:-1],
             sep=' ', dtype='int64')
