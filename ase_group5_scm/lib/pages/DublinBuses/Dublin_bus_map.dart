@@ -23,6 +23,7 @@ class _BusStationMapState extends State<BusStationMap> {
   late Map<dynamic, dynamic> dataset;
   late Map<dynamic, dynamic> dataset_busiest_trips;
   late var dataset_trip_list;
+  late var dataset_trips_test;
   late GoogleMapController mapController;
   bool flag=false;
   List<bool> isSelected = [true, false];
@@ -32,12 +33,14 @@ class _BusStationMapState extends State<BusStationMap> {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   Map<MarkerId, Marker> markers_dummy ={};
   Map<PolylineId, Polyline> polylines = {};
+  Map<PolylineId, Polyline> polylines_dummy = {};
   Map<CircleId, Circle> _circles = {};
   Map<CircleId, Circle> _circles_dummy = {};
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
   String googleAPiKey = "AIzaSyAGUwl_spXiMnoxkDmPpAj0sVsfccchDjY";
   var _circleIdCounter = 0;
+  var _polylineCount = 0;
 
   AppBar appBar = AppBar(
     title: Text("Dublin Bus Map"),
@@ -48,7 +51,7 @@ class _BusStationMapState extends State<BusStationMap> {
       if (myMarkers.docs.isNotEmpty) {
         // Map<dynamic, dynamic> dataset = myMarkers.docs[0].get(0);
         // dataset.entries.forEach((element) {
-        //   var station_id = element.key();
+        //   var   = element.key();
         //   var station_latitude = element.value().get('latitude');
         //   var station_longitude = element.value().get('longitude');
         //   var station_name = element.value().get('name');
@@ -63,6 +66,7 @@ class _BusStationMapState extends State<BusStationMap> {
 
   void initAllMarkers(var markersList) {
     markers.clear();
+    polylines.clear();
     dataset = markersList[0]['data'][0];
     //var dataset = markersList[0][0];
 
@@ -72,29 +76,36 @@ class _BusStationMapState extends State<BusStationMap> {
     dataset_busiest_trips.forEach((k,v) => add_new_marker(k,v));
 
     // Commented out code for PolyLines
-    // for(int i=5;i<15;i++) {
-    //   dataset_trip_list = markersList[2]['data'][i]['stop_sequences'];
-    //
-    //   double origin_lat = dataset[dataset_trip_list[0]]['latitude'];
-    //   double origin_longi = dataset[dataset_trip_list[0]]['longitude'];
-    //
-    //   double dest_lat = dataset[dataset_trip_list[dataset_trip_list.length -
-    //       1]]['latitude'];
-    //   double dest_longi = dataset[dataset_trip_list[dataset_trip_list.length -
-    //       1]]['longitude'];
-    //   // List<PolylineWayPoint> wayPoint = [];
-    //   // for (int i = 1; i < dataset_trip_list.length - 1; i++) {
-    //   //   double lat = dataset[dataset_trip_list[i]]['latitude'];
-    //   //   double longi = dataset[dataset_trip_list[i]]['longitude'];
-    //   //   print(lat);
-    //   //   print(longi);
-    //   //   wayPoint.add(
-    //   //       PolylineWayPoint(location: '$lat,$longi', stopOver: true));
-    //   // }
-    //
-    //   _getPolyline(origin_lat, origin_longi, dest_lat, dest_longi);
-    //
-    // }
+    for(int i=0;i<4;i++) {
+      dataset_trip_list = markersList[2]['data'][i]['stop_sequences'];
+
+      double origin_lat = dataset[dataset_trip_list[0]]['latitude'];
+      double origin_longi = dataset[dataset_trip_list[0]]['longitude'];
+
+      double dest_lat = dataset[dataset_trip_list[dataset_trip_list.length -
+          1]]['latitude'];
+      double dest_longi = dataset[dataset_trip_list[dataset_trip_list.length -
+          1]]['longitude'];
+      List<PolylineWayPoint> wayPoint = [];
+
+      int k=1;
+      while(k<dataset_trip_list.length -2){
+        if(k==22)
+          break;
+        print("helooo");
+        double lat = dataset[dataset_trip_list[k]]['latitude'];
+        double longi = dataset[dataset_trip_list[k]]['longitude'];
+        // print(lat);
+        // print(longi);
+        wayPoint.add(
+            PolylineWayPoint(location: '$lat,$longi'));
+        k++;
+
+      }
+      _getPolyline(origin_lat, origin_longi, dest_lat, dest_longi,wayPoint);
+
+
+    }
   }
   void add_new_marker(var id, var part_of_trips){
     _setCircles(LatLng(dataset[id]['latitude'], dataset[id]['longitude']),part_of_trips*5);
@@ -133,6 +144,7 @@ class _BusStationMapState extends State<BusStationMap> {
     isSelected = [true, false];
     super.initState();
     setState(() {
+      polylines.clear();
       mapToggle = true;
     });
 
@@ -171,11 +183,14 @@ class _BusStationMapState extends State<BusStationMap> {
   }
   _addPolyLine() {
     print('Hello Inside _addPolyLine Function');
-    PolylineId id = PolylineId("poly");
+    PolylineId id = PolylineId("poly$_polylineCount");
     Polyline polyline = Polyline(
-        polylineId: id, color: Colors.red, points: polylineCoordinates);
+        polylineId: id, color: Colors.red, points: polylineCoordinates ,width: 4);
     polylines[id] = polyline;
-    setState(() {});
+    setState(() {
+      // polylines[id] = polyline;
+      _polylineCount++;
+    });
   }
 
   _getPolyline(var orig_lati,var orig_longi,var dest_lati, var dest_longi) async {
@@ -191,8 +206,10 @@ class _BusStationMapState extends State<BusStationMap> {
         googleAPiKey,
         PointLatLng(orig_lati,orig_longi),
         PointLatLng(dest_lati,dest_longi),
-        travelMode: TravelMode.transit);
-    //wayPoints: wayPointList);
+        travelMode: TravelMode.driving,
+        optimizeWaypoints: true,
+        wayPoints: wayPointList);
+    polylineCoordinates=[];
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
@@ -200,7 +217,6 @@ class _BusStationMapState extends State<BusStationMap> {
     }
     _addPolyLine();
   }
-
   getMapIcon() async {
     low = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
