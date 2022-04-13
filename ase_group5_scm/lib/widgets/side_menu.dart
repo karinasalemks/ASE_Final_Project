@@ -1,3 +1,4 @@
+import 'package:ase_group5_scm/pages/authentication/login.dart';
 import 'package:flutter/material.dart';
 import 'package:ase_group5_scm/constants/controllers.dart';
 import 'package:ase_group5_scm/constants/style.dart';
@@ -13,6 +14,7 @@ class SideMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
+    final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
     return Container(
             color: light,
@@ -56,7 +58,14 @@ class SideMenu extends StatelessWidget {
                       .map((item) => SideMenuItem(
                           itemName: item.name,
                           onTap: () {
-                            if (!menuController.isActive(item.name)) {
+                            if(item.name == "Log out") {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => loginScreen()),
+                                      (Route<dynamic> route) => false);
+                            }
+                            else if (!menuController.isActive(item.name)) {
                               menuController.changeActiveItemTo(item.name);
                               if(ResponsiveWidget.isSmallScreen(context))
                               Get.back();
