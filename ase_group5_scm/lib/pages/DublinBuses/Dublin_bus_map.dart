@@ -23,20 +23,24 @@ class _BusStationMapState extends State<BusStationMap> {
   late Map<dynamic, dynamic> dataset;
   late Map<dynamic, dynamic> dataset_busiest_trips;
   late var dataset_trip_list;
+  late var dataset_trips_test;
   late GoogleMapController mapController;
-  bool flag = false;
+  bool flag=false;
   List<bool> isSelected = [true, false];
   bool toggleState = true;
 
+
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
-  Map<MarkerId, Marker> markers_dummy = {};
+  Map<MarkerId, Marker> markers_dummy ={};
   Map<PolylineId, Polyline> polylines = {};
+  Map<PolylineId, Polyline> polylines_dummy = {};
   Map<CircleId, Circle> _circles = {};
   Map<CircleId, Circle> _circles_dummy = {};
   List<LatLng> polylineCoordinates = [];
   PolylinePoints polylinePoints = PolylinePoints();
   String googleAPiKey = "AIzaSyAGUwl_spXiMnoxkDmPpAj0sVsfccchDjY";
   var _circleIdCounter = 0;
+  var _polylineCount = 0;
 
   AppBar appBar = AppBar(
     title: Text("Dublin Bus Map"),
@@ -47,7 +51,7 @@ class _BusStationMapState extends State<BusStationMap> {
       if (myMarkers.docs.isNotEmpty) {
         // Map<dynamic, dynamic> dataset = myMarkers.docs[0].get(0);
         // dataset.entries.forEach((element) {
-        //   var station_id = element.key();
+        //   var   = element.key();
         //   var station_latitude = element.value().get('latitude');
         //   var station_longitude = element.value().get('longitude');
         //   var station_name = element.value().get('name');
@@ -59,57 +63,63 @@ class _BusStationMapState extends State<BusStationMap> {
     });
   }
 
+
   void initAllMarkers(var markersList) {
     markers.clear();
+    polylines.clear();
     dataset = markersList[0]['data'][0];
     //var dataset = markersList[0][0];
 
-    dataset.forEach((k, v) =>
-        initMarker(v['name'], v['latitude'], v['longitude'], k, medium));
-    dataset_busiest_trips = markersList[1]['data'];
+    dataset.forEach((k,v) => initMarker(v['name'], v['latitude'], v['longitude'], k, medium));
+    dataset_busiest_trips=markersList[1]['data'];
 
-    dataset_busiest_trips.forEach((k, v) => add_new_marker(k, v));
-
+    dataset_busiest_trips.forEach((k,v) => add_new_marker(k,v));
+    dataset_trips_test=markersList[2]['data'];
+    // print(dataset_trips_test[0]);
     // Commented out code for PolyLines
-    // for(int i=5;i<15;i++) {
-    //   dataset_trip_list = markersList[2]['data'][i]['stop_sequences'];
-    //
-    //   double origin_lat = dataset[dataset_trip_list[0]]['latitude'];
-    //   double origin_longi = dataset[dataset_trip_list[0]]['longitude'];
-    //
-    //   double dest_lat = dataset[dataset_trip_list[dataset_trip_list.length -
-    //       1]]['latitude'];
-    //   double dest_longi = dataset[dataset_trip_list[dataset_trip_list.length -
-    //       1]]['longitude'];
-    //   // List<PolylineWayPoint> wayPoint = [];
-    //   // for (int i = 1; i < dataset_trip_list.length - 1; i++) {
-    //   //   double lat = dataset[dataset_trip_list[i]]['latitude'];
-    //   //   double longi = dataset[dataset_trip_list[i]]['longitude'];
-    //   //   print(lat);
-    //   //   print(longi);
-    //   //   wayPoint.add(
-    //   //       PolylineWayPoint(location: '$lat,$longi', stopOver: true));
-    //   // }
-    //
-    //   _getPolyline(origin_lat, origin_longi, dest_lat, dest_longi);
-    //
-    // }
-  }
+    for(int i=0;i<4;i++) {
+      dataset_trip_list = markersList[2]['data'][i]['stop_sequences'];
 
-  void add_new_marker(var id, var part_of_trips) {
-    _setCircles(LatLng(dataset[id]['latitude'], dataset[id]['longitude']),
-        part_of_trips * 5);
-    // if(part_of_trips>=10 && part_of_trips<=15){
-    //   initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, high);
-    // }
-    // else if(part_of_trips<=20){
-    //   initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, higher);
-    // }
-    // else{
-    //   initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, highest);
-    // }
-  }
+      double origin_lat = dataset[dataset_trip_list[0]]['latitude'];
+      double origin_longi = dataset[dataset_trip_list[0]]['longitude'];
 
+      double dest_lat = dataset[dataset_trip_list[dataset_trip_list.length -
+          1]]['latitude'];
+      double dest_longi = dataset[dataset_trip_list[dataset_trip_list.length -
+          1]]['longitude'];
+      List<PolylineWayPoint> wayPoint = [];
+
+      int k=1;
+      while(k<dataset_trip_list.length -2){
+        if(k==22)
+          break;
+        print("helooo");
+        double lat = dataset[dataset_trip_list[k]]['latitude'];
+        double longi = dataset[dataset_trip_list[k]]['longitude'];
+        // print(lat);
+        // print(longi);
+        wayPoint.add(
+            PolylineWayPoint(location: '$lat,$longi'));
+        k++;
+
+      }
+      _getPolyline(origin_lat, origin_longi, dest_lat, dest_longi,wayPoint);
+
+
+    }
+  }
+  void add_new_marker(var id, var part_of_trips){
+    _setCircles(LatLng(dataset[id]['latitude'], dataset[id]['longitude']),part_of_trips*5);
+    if(part_of_trips>=10 && part_of_trips<=15){
+      initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, high);
+    }
+    else if(part_of_trips<=20){
+      initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, higher);
+    }
+    else{
+      initMarker(dataset[id]['name'], dataset[id]['latitude'], dataset[id]['longitude'], id, highest);
+    }
+  }
   void initMarker(
       station_name, station_latitude, station_longitude, stationID, inputIcon) {
     var markerIdVal = stationID;
@@ -119,7 +129,8 @@ class _BusStationMapState extends State<BusStationMap> {
         icon: inputIcon,
         position: LatLng(double.parse(station_latitude.toString()),
             double.parse(station_longitude.toString())),
-        infoWindow: InfoWindow(title: station_name));
+        infoWindow: InfoWindow(title: station_name)
+    );
     markers[markerId] = marker;
   }
 
@@ -134,11 +145,15 @@ class _BusStationMapState extends State<BusStationMap> {
     isSelected = [true, false];
     super.initState();
     setState(() {
+      polylines.clear();
       mapToggle = true;
     });
 
     /// origin marker
     // _getPolyline();
+
+
+
   }
 
   void onMapCreated(controller) {
@@ -146,20 +161,19 @@ class _BusStationMapState extends State<BusStationMap> {
       mapController = controller;
     });
   }
-
-  // _addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
-  //   MarkerId markerId = MarkerId(id);
-  //   Marker marker =
-  //   Marker(markerId: markerId, icon: descriptor, position: position);
-  //   markers[markerId] = marker;
-  // }
-  void _setCircles(LatLng point, var rad) {
+  _addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
+    MarkerId markerId = MarkerId(id);
+    Marker marker =
+    Marker(markerId: markerId, icon: descriptor, position: position);
+    markers[markerId] = marker;
+  }
+  void _setCircles(LatLng point,var rad) {
     final String circleIdVal = 'circle_id_$_circleIdCounter';
     _circleIdCounter++;
     print(
         'Circle | Latitude: ${point.latitude}  Longitude: ${point.longitude}  Radius: 10');
-    CircleId id = CircleId(circleIdVal);
-    _circles[id] = Circle(
+    CircleId id=CircleId(circleIdVal);
+    _circles[id]=Circle(
         circleId: CircleId(circleIdVal),
         center: point,
         radius: rad,
@@ -168,19 +182,20 @@ class _BusStationMapState extends State<BusStationMap> {
         strokeColor: Colors.redAccent);
     setState(() {});
   }
-
   _addPolyLine() {
     print('Hello Inside _addPolyLine Function');
-    PolylineId id = PolylineId("poly");
+    PolylineId id = PolylineId("poly$_polylineCount");
     Polyline polyline = Polyline(
-        polylineId: id, color: Colors.red, points: polylineCoordinates);
+        polylineId: id, color: Colors.red, points: polylineCoordinates ,width: 4);
     polylines[id] = polyline;
-    setState(() {});
+    setState(() {
+      // polylines[id] = polyline;
+      _polylineCount++;
+    });
   }
 
-  _getPolyline(
-      var orig_lati, var orig_longi, var dest_lati, var dest_longi) async {
-    print('Hello Inside _getPolyLine Function');
+  _getPolyline(var orig_lati,var orig_longi,var dest_lati, var dest_longi, var wayPointList) async {
+    print('Hello Inside _getPolyLine Function'+'$orig_lati');
 
     // _addMarker(LatLng(orig_lati, orig_longi), "origin",
     //     BitmapDescriptor.defaultMarker);
@@ -190,10 +205,12 @@ class _BusStationMapState extends State<BusStationMap> {
     //     BitmapDescriptor.defaultMarkerWithHue(90));
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleAPiKey,
-        PointLatLng(orig_lati, orig_longi),
-        PointLatLng(dest_lati, dest_longi),
-        travelMode: TravelMode.transit);
-    //wayPoints: wayPointList);
+        PointLatLng(orig_lati,orig_longi),
+        PointLatLng(dest_lati,dest_longi),
+        travelMode: TravelMode.driving,
+        optimizeWaypoints: true,
+        wayPoints: wayPointList);
+    polylineCoordinates=[];
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
@@ -201,7 +218,6 @@ class _BusStationMapState extends State<BusStationMap> {
     }
     _addPolyLine();
   }
-
   getMapIcon() async {
     low = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
@@ -209,7 +225,7 @@ class _BusStationMapState extends State<BusStationMap> {
     medium = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
         'assets/image/bus-station_marker_1.png');
-    high = await BitmapDescriptor.fromAssetImage(
+    high= await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(size: Size(36, 36)),
         'assets/image/bus-station_marker_2.png');
     higher = await BitmapDescriptor.fromAssetImage(
@@ -219,7 +235,6 @@ class _BusStationMapState extends State<BusStationMap> {
         ImageConfiguration(size: Size(36, 36)),
         'assets/image/bus-station_marker_4.png');
   }
-
   bikeMapHeaderContainer(heightOfFilter) {
     return new Container(
         height: heightOfFilter,
@@ -239,14 +254,14 @@ class _BusStationMapState extends State<BusStationMap> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'Bus Stations',
-                        style: TextStyle(fontSize: 12),
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        'Bus Stations with high CO2 Emissions',
-                        style: TextStyle(fontSize: 12),
+                        'CO2 Emissions',
+                        style: TextStyle(fontSize: 16),
                       ),
                     ),
                   ],
@@ -256,8 +271,10 @@ class _BusStationMapState extends State<BusStationMap> {
                         isSelected[i] = i == index;
                         if (isSelected[0] && !toggleState) {
                           toggleState = true;
+
                         } else if (isSelected[1] && toggleState) {
                           toggleState = false;
+
                         }
                       }
                     });
@@ -271,8 +288,8 @@ class _BusStationMapState extends State<BusStationMap> {
   bikesMapContainer(heightOfFilter) {
     return new Container(
         height: (MediaQuery.of(context).size.height -
-                appBar.preferredSize.height -
-                heightOfFilter) *
+            appBar.preferredSize.height -
+            heightOfFilter) *
             0.90,
         key: Key("dublin-bikes-map"),
         child: GoogleMap(
@@ -282,13 +299,9 @@ class _BusStationMapState extends State<BusStationMap> {
             target: LatLng(53.344007, -6.266802),
             zoom: 15.0,
           ),
-          markers: toggleState == true
-              ? Set<Marker>.of(getMarkers().values)
-              : Set<Marker>.of(markers_dummy.values),
-          //polylines: Set<Polyline>.of(polylines.values),
-          circles: toggleState == false
-              ? Set<Circle>.of(_circles.values)
-              : Set<Circle>.of(_circles_dummy.values),
+          markers:toggleState==true ?Set<Marker>.of(getMarkers().values):Set<Marker>.of(markers_dummy.values),
+          polylines:toggleState==false ?Set<Polyline>.of(polylines.values):Set<Polyline>.of(polylines_dummy.values),
+          circles:toggleState==false ?Set<Circle>.of(_circles.values):Set<Circle>.of(_circles_dummy.values),
         ));
   }
 
@@ -313,82 +326,82 @@ class _BusStationMapState extends State<BusStationMap> {
               ))),
     );
   }
-// @override
-// Widget build(BuildContext context) {
-//   var heightOfFilter =
-//       (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
-//           0.10;
-//   //Todo: Refine the code here to stop calling setState method before build.
-//   return Scaffold(
-//     //appBar: appBar,
-//     resizeToAvoidBottomInset: false,
-//     drawer: SideMenu(),
-//     body: StreamBuilder<QuerySnapshot>(
-//       stream: FirebaseFirestore.instance.collection('DublinBus').snapshots(),
-//       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//         if (snapshot.hasData) {
-//           // initAllMarkers(snapshot.data!.docs);
-//           return Column(
-//             children: <Widget>[
-//               new Container(
-//                   height: heightOfFilter,
-//                   child: Padding(
-//                       padding: const EdgeInsets.only(top: 10.0),
-//                       child: Row(
-//                         children: <Widget>[
-//                           Flexible(
-//                             fit: FlexFit.loose,
-//                             child: Padding(
-//                               padding: const EdgeInsets.only(left: 10.0),
-//                               child: FittedBox(
-//                                 fit: BoxFit.cover,
-//                                 child: Text('Current Station Occupancy',
-//                                     textAlign: TextAlign.center,
-//                                     style: TextStyle(
-//                                         letterSpacing: 0.5,
-//                                         fontWeight: FontWeight.bold,
-//                                         color: Colors.black,
-//                                         fontSize: 16)),
-//                               ),
-//                             ),
-//                           ),
-//                           SizedBox(
-//                             width: 20,
-//                           )
-//                         ],
-//                       ))),
-//               new Container(
-//                   height: (MediaQuery.of(context).size.height -
-//                       appBar.preferredSize.height -
-//                       heightOfFilter) *
-//                       0.90,
-//                   key: Key("dublin-buses-map"),
-//                   child: GoogleMap(
-//                     onMapCreated: onMapCreated,
-//                     myLocationEnabled: true,
-//                     initialCameraPosition: CameraPosition(
-//                       target: LatLng(53.344007, -6.266802),
-//                       zoom: 15.0,
-//                     ),
-//                     // polylines: polyline,
-//                     markers: Set<Marker>.of(getMarkers().values),
-//                     polylines: Set<Polyline>.of(polylines.values),
-//                     circles: Set<Circle>.of(_circles.values),
-//                   )),
-//             ],
-//           );
-//         } else if (snapshot.hasError) {
-//           print(snapshot.error);
-//           return Text("Error pa thambi! :)");
-//         } else {
-//           return Center(
-//               child: Transform.scale(
-//                 scale: 1,
-//                 child: CircularProgressIndicator(),
-//               ));
-//         }
-//       },
-//     ),
-//   );
-// }
+  // @override
+  // Widget build(BuildContext context) {
+  //   var heightOfFilter =
+  //       (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
+  //           0.10;
+  //   //Todo: Refine the code here to stop calling setState method before build.
+  //   return Scaffold(
+  //     //appBar: appBar,
+  //     resizeToAvoidBottomInset: false,
+  //     drawer: SideMenu(),
+  //     body: StreamBuilder<QuerySnapshot>(
+  //       stream: FirebaseFirestore.instance.collection('DublinBus').snapshots(),
+  //       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+  //         if (snapshot.hasData) {
+  //           // initAllMarkers(snapshot.data!.docs);
+  //           return Column(
+  //             children: <Widget>[
+  //               new Container(
+  //                   height: heightOfFilter,
+  //                   child: Padding(
+  //                       padding: const EdgeInsets.only(top: 10.0),
+  //                       child: Row(
+  //                         children: <Widget>[
+  //                           Flexible(
+  //                             fit: FlexFit.loose,
+  //                             child: Padding(
+  //                               padding: const EdgeInsets.only(left: 10.0),
+  //                               child: FittedBox(
+  //                                 fit: BoxFit.cover,
+  //                                 child: Text('Current Station Occupancy',
+  //                                     textAlign: TextAlign.center,
+  //                                     style: TextStyle(
+  //                                         letterSpacing: 0.5,
+  //                                         fontWeight: FontWeight.bold,
+  //                                         color: Colors.black,
+  //                                         fontSize: 16)),
+  //                               ),
+  //                             ),
+  //                           ),
+  //                           SizedBox(
+  //                             width: 20,
+  //                           )
+  //                         ],
+  //                       ))),
+  //               new Container(
+  //                   height: (MediaQuery.of(context).size.height -
+  //                       appBar.preferredSize.height -
+  //                       heightOfFilter) *
+  //                       0.90,
+  //                   key: Key("dublin-buses-map"),
+  //                   child: GoogleMap(
+  //                     onMapCreated: onMapCreated,
+  //                     myLocationEnabled: true,
+  //                     initialCameraPosition: CameraPosition(
+  //                       target: LatLng(53.344007, -6.266802),
+  //                       zoom: 15.0,
+  //                     ),
+  //                     // polylines: polyline,
+  //                     markers: Set<Marker>.of(getMarkers().values),
+  //                     polylines: Set<Polyline>.of(polylines.values),
+  //                     circles: Set<Circle>.of(_circles.values),
+  //                   )),
+  //             ],
+  //           );
+  //         } else if (snapshot.hasError) {
+  //           print(snapshot.error);
+  //           return Text("Error pa thambi! :)");
+  //         } else {
+  //           return Center(
+  //               child: Transform.scale(
+  //                 scale: 1,
+  //                 child: CircularProgressIndicator(),
+  //               ));
+  //         }
+  //       },
+  //     ),
+  //   );
+  // }
 }
