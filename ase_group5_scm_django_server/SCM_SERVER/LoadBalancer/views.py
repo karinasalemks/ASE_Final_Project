@@ -31,8 +31,8 @@ class Server:
         return response
 
 available_servers = deque()
-# available_servers.append(Server("Alpha","scm-insights",is_master=True))
-# available_servers.append(Server("Beta","scm-insights-beta"))
+available_servers.append(Server("Alpha","scm-insights.herokuapp.com",is_master=True))
+available_servers.append(Server("Beta","scm-insights-beta.herokuapp.com"))
 available_servers.append(Server("Gamma","scm-insights-gamma.herokuapp.com"))
 
 def send_request(path):
