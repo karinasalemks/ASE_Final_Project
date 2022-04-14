@@ -209,7 +209,34 @@ class _LuasStationMapState extends State<LuasStationMap> {
   bikeMapHeaderContainer(heightOfFilter) {
     // key : _textWidgetKey;
     double _width = MediaQuery.of(context).size.width;
-    return Column(
+    return   (defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.android)
+        ?Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            InfoCard(
+              title: "Red Line \n Active Luas $active_data_red \n"
+        "Electricity Consumption :  $elecluas_data_red",
+              value: "",
+              onTap: () {},
+              topColor: Colors.red,
+            ),
+            SizedBox(
+              width: _width / 64,
+            ),
+            InfoCard(
+              title: "Green Line \n Active Luas $active_data_green \n"
+                  "Electricity Consumption :  $elecluas_data_green",
+              value: "",
+              topColor: Colors.green,
+              onTap: () {},
+            ),
+          ],
+        ),
+      ],
+    ):Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart'; // new
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -151,7 +152,52 @@ class _BikeStationMapState extends State<BikeStationMap> {
   }
 
   bikeMapHeaderContainer(heightOfFilter, snapshot) {
-    return new Container(
+    return  (defaultTargetPlatform == TargetPlatform.iOS ||
+        defaultTargetPlatform == TargetPlatform.android)
+        ? new Container(
+        height: heightOfFilter+1.4,
+        child: Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  // fit: FlexFit.loose,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text('Current Station Occupancy',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 10)),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                Container(
+                  child: DropdownButton(
+                    value: dropdownvalue,
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    items: filterList.map((String items) {
+                      return DropdownMenuItem(value: items, child: Text(items));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownvalue = newValue!;
+                        initAllMarkers(snapshot.docs);
+                        // initAllMarkers(snapshot.data!.docs);
+                      });
+                    },
+                  ),
+                ),
+
+              ],
+            ))):new Container(
         height: heightOfFilter,
         child: Padding(
             padding: const EdgeInsets.only(top: 10.0),

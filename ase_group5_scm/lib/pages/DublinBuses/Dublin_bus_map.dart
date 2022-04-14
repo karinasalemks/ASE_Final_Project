@@ -297,7 +297,7 @@ class _BusStationMapState extends State<BusStationMap> {
     return new Container(
         height: (MediaQuery.of(context).size.height -
                 appBar.preferredSize.height -
-                heightOfFilter) *
+                heightOfFilter-10) *
             0.90,
         key: Key("dublin-bikes-map"),
         child: GoogleMap(
