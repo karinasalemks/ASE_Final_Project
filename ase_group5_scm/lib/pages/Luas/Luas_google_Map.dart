@@ -214,9 +214,10 @@ class _LuasStationMapState extends State<LuasStationMap> {
         Row(
           children: [
             InfoCard(
-              title: "",
-              value: "Electricity Consmption of Red Line$elecluas_data_red \n"
-                  "Number of Active Luas Red Line  $active_data_red",
+              title: "Red Line  ",
+              value: "Active Luas : $active_data_red \n"
+              "Electricity Consmption :$elecluas_data_red ",
+
               onTap: () {},
               topColor: Colors.red,
             ),
@@ -224,9 +225,10 @@ class _LuasStationMapState extends State<LuasStationMap> {
               width: _width / 64,
             ),
             InfoCard(
-              title: "Electricity Consmption of green Line$elecluas_data_green \n"
-                  "Number of Active Luas green Line $active_data_green",
-              value: "",
+              title: "Green Line  ",
+              value:"Active Luas : $active_data_green \n"
+              "Electricity Consmption :$elecluas_data_green ",
+
               topColor: Colors.green,
               onTap: () {},
             ),

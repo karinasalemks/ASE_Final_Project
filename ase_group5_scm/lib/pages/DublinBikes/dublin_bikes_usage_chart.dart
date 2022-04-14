@@ -160,7 +160,7 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
           child: Column(
             children: <Widget>[
               Text(
-                "Dublin Bikes Usage Chart",
+                widget.series == "overuse"? "Station over usage Chart":"Station under usage Chart",
               ),
               Expanded(
                 child: SfCartesianChart(

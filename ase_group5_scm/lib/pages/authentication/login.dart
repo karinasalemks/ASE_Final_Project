@@ -12,6 +12,8 @@ import 'package:google_fonts/google_fonts.dart';
 * Login screen class is used to implement authentication of users
 *
 * */
+
+var guestVar = false;
 class loginScreen extends StatelessWidget {
   static const String _title = 'Sustainable City Management';
 
@@ -104,12 +106,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             if (result == "success") {
                               Get.offAllNamed(overviewPageRoute);
                             } else if (result == "network-request-failed") {
-                              return showSimpleNotification(
-                                  Text(
-                                      'No Internet detected. Try again after connecting to internet',
-                                      style: TextStyle(color: Colors.white)),
-                                  background: Colors.red);
+                              setState(() {
+                                guestVar = true;
+                              });
                             } else {
+                              guestVar = false;
                               return showDialog(
                                 context: context,
                                 builder: (BuildContext context) {
@@ -145,7 +146,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           ),
                         ),
                       ),
-                      Container(
+                      guestVar == true ?Container(
                           alignment: Alignment.center,
                           padding: const EdgeInsets.all(10),
                           child: MouseRegion(
@@ -155,13 +156,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                                   Get.offAllNamed(overviewPageRoute);
                                 },
                                 child: new Text(
-                                  "Continue as a guest",
+                                  "No internet Login offline",
                                   style: TextStyle(
                                       fontSize: 16,
                                       color: active,
                                       decoration: TextDecoration.underline),
                                 ),
-                              )))
+                              ))): Container()
                     ]))));
   }
 

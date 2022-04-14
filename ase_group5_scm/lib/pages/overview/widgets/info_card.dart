@@ -47,11 +47,11 @@ class InfoCard extends StatelessWidget {
                     TextSpan(
                         text: "$title\n",
                         style: TextStyle(
-                            fontSize: 16, color: isActive ? active : lightGrey)),
+                            fontSize: 16, color: isActive ? active : dark)),
                     TextSpan(
                         text: "$value",
                         style:
-                            TextStyle(fontSize: 40, color: isActive ? active : dark)),
+                            TextStyle(fontSize: 16, color: isActive ? active : dark)),
                   ])),
               Expanded(child: Container()),
 
