@@ -6,11 +6,9 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:ase_group5_scm/pages/DublinBikes/dublin_bikes_dashboard_web.dart';
-//import 'package:ase_group5_scm/Routes/login.dart';
+import 'package:ase_group5_scm/pages/authentication/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ase_group5_scm/pages/DublinBikes/dublin_bikes_map.dart';
-import 'package:ase_group5_scm/main.dart';
 
 void main() {
   Widget testLoginWidget = new MediaQuery(
@@ -26,10 +24,38 @@ void main() {
     await tester.pump();
     expect(find.byKey(Key("username-field")), findsOneWidget);
   });
+  testWidgets("username field text validation", (WidgetTester tester) async {
+    await tester.pumpWidget(testLoginWidget);
+    await tester.pump();
+    var textField = find.byKey(Key("username-field"));
+    await tester.enterText(textField, 'Flutter Devs');
+    expect(find.text('Flutter Devs'), findsOneWidget);
+  });
+  testWidgets("username field wrong text validation", (WidgetTester tester) async {
+    await tester.pumpWidget(testLoginWidget);
+    await tester.pump();
+    var textField = find.byKey(Key("username-field"));
+    await tester.enterText(textField, 'Flutter Devs');
+    expect(find.text('Flutter Devsp'), findsNothing);
+  });
   testWidgets("password field validation", (WidgetTester tester) async {
     await tester.pumpWidget(testLoginWidget);
     await tester.pump();
     expect(find.byKey(Key("password-field")), findsOneWidget);
+  });
+  testWidgets("password field text validation", (WidgetTester tester) async {
+    await tester.pumpWidget(testLoginWidget);
+    await tester.pump();
+    var textField = find.byKey(Key("password-field"));
+    await tester.enterText(textField, 'Flutter Devs');
+    expect(find.text('Flutter Devs'), findsOneWidget);
+  });
+  testWidgets("password field invalid text validation", (WidgetTester tester) async {
+    await tester.pumpWidget(testLoginWidget);
+    await tester.pump();
+    var textField = find.byKey(Key("password-field"));
+    await tester.enterText(textField, 'Flutter Devs');
+    expect(find.text('Flutter Devsp'), findsNothing);
   });
   testWidgets("sign In widget validation", (WidgetTester tester) async {
     await tester.pumpWidget(testLoginWidget);
@@ -40,6 +66,4 @@ void main() {
     //firebase is not initialized therefore no google maps widget is expected
     expect(find.byKey(Key("dublin-bikes-map")), findsNothing);
   });
-
-
 }

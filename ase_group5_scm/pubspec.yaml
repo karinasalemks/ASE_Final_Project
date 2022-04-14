@@ -49,6 +49,7 @@ dependencies:
   fluttericon: ^2.0.0
   fl_chart: ^0.45.1
   connectivity_plus: ^2.2.1
+  fake_cloud_firestore: ^1.2.2
 
 dependency_overrides:
   cloud_functions_platform_interface: 5.0.21

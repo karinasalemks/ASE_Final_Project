@@ -373,12 +373,15 @@ class _EventLocationMapState extends State<EventLocationMap> {
     //Todo: Refine the code here to stop calling setState method before build.
 
     return Container(
+      key: Key("events_root"),
       padding: EdgeInsets.all(8),
       height: MediaQuery.of(context).size.height - heightOfFilter,
       child: Card(
+          key: Key("events_card"),
           child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
+                key: Key("events_card_column"),
                 children: <Widget>[
                   eventMapHeaderContainer(heightOfFilter, widget.snapshot),
                   eventsMapContainer(heightOfFilter, widget.snapshot)

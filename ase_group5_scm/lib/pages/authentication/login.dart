@@ -94,13 +94,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     children: [
                       Row(
                         children: [
-                          Padding(
+                          Expanded(
+                              child: Padding(
                             padding: const EdgeInsets.only(right: 12),
                             child: Image.asset("assets/icons/logo.png"),
-                          ),
-                          Text("Dublin SCM",
-                              style: GoogleFonts.roboto(
-                                  fontSize: 30, fontWeight: FontWeight.bold)),
+                          )),
+                          Expanded(
+                              child: Text("Dublin SCM",
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 30,
+                                      fontWeight: FontWeight.bold))),
                           Expanded(child: Container()),
                         ],
                       ),
