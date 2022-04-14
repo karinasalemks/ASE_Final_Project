@@ -49,7 +49,6 @@ class MyTestCase(unittest.TestCase):
     def test_WEATHER_API_data_transform(self):
         respons = aggregateWeatherForecast("")
         response = json.loads(respons.content)
-        print("DEEKSHA\n", response)
         # self.assertEqual(any(isinstance(x, dict) for x in response['green_line'].values()), True)
         self.assertEqual(isinstance(response, dict), True)
         self.assertEqual(any(isinstance(x, dict) for x in response.values()), True)

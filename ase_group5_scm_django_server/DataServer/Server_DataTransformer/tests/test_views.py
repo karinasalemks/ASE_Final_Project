@@ -5,8 +5,8 @@ from Server_DataTransformer.Server_DataModel.busModel import readSTOPSFile, BUS_
     TRIP
 from Server_DataTransformer.views import transformBUSData, transformEventsData
 
-path_to_stoptime = "/Users/deekshavyas/Documents/ASE/SustainableCity/ASE_Final_Project/ase_group5_scm_django_server/DataServer/Server_DataTransformer/StaticFiles/stop_times.csv"
-path_to_stops = "/Users/deekshavyas/Documents/ASE/SustainableCity/ASE_Final_Project/ase_group5_scm_django_server/DataServer/Server_DataTransformer/StaticFiles/stops.csv"
+path_to_stoptime = "Server_DataTransformer/StaticFiles/stop_times.csv"
+path_to_stops = "Server_DataTransformer/StaticFiles/stops.csv"
 
 
 class TestViews(unittest.TestCase):
