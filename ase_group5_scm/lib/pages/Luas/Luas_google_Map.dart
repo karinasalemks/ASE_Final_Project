@@ -29,6 +29,8 @@ class _LuasStationMapState extends State<LuasStationMap> {
   bool toggleState = true;
   late var elecluas_data_red = null;
   late var elecluas_data_green = null;
+  late var active_data_red = null;
+  late var active_data_green = null;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   Map<PolylineId, Polyline> polylines = {};
@@ -62,6 +64,11 @@ class _LuasStationMapState extends State<LuasStationMap> {
         markersList[1]['data']['red_line']['electricity_consumption_estimate'];
     elecluas_data_green = markersList[1]['data']['green_line']
         ['electricity_consumption_estimate'];
+
+    active_data_green =  markersList[1]['data']['green_line']
+    ['num_active_luas'];
+    active_data_red = markersList[1]['data']['red_line']
+    ['num_active_luas'] ;
     dataset.forEach((k, v) => initMarker(
         v['name'],
         v['Latitude'],
@@ -199,6 +206,7 @@ class _LuasStationMapState extends State<LuasStationMap> {
   }
 
   bikeMapHeaderContainer(heightOfFilter) {
+    // key : _textWidgetKey;
     double _width = MediaQuery.of(context).size.width;
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -206,8 +214,9 @@ class _LuasStationMapState extends State<LuasStationMap> {
         Row(
           children: [
             InfoCard(
-              title: "Electricity Consumption of Red Line",
-              value: "$elecluas_data_red",
+              title: "",
+              value: "Electricity Consmption of Red Line$elecluas_data_red \n"
+                  "Number of Active Luas Red Line  $active_data_red",
               onTap: () {},
               topColor: Colors.red,
             ),
@@ -215,8 +224,9 @@ class _LuasStationMapState extends State<LuasStationMap> {
               width: _width / 64,
             ),
             InfoCard(
-              title: "Electricity Consmption of green Line",
-              value: "$elecluas_data_green",
+              title: "Electricity Consmption of green Line$elecluas_data_green \n"
+                  "Number of Active Luas green Line $active_data_green",
+              value: "",
               topColor: Colors.green,
               onTap: () {},
             ),
@@ -227,12 +237,12 @@ class _LuasStationMapState extends State<LuasStationMap> {
   }
 
   LuasMapContainer(heightOfFilter) {
+    // _getSize();
     return new Container(
         padding: const EdgeInsets.all(8.0),
         height: (MediaQuery.of(context).size.height -
                 appBar.preferredSize.height -
-                heightOfFilter) *
-            0.90,
+                heightOfFilter-100),
         key: Key("dublin-bikes-map"),
         child: GoogleMap(
           onMapCreated: onMapCreated,
@@ -250,6 +260,7 @@ class _LuasStationMapState extends State<LuasStationMap> {
 
   @override
   Widget build(BuildContext context) {
+
     var heightOfFilter =
         (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
             0.10;
@@ -259,7 +270,7 @@ class _LuasStationMapState extends State<LuasStationMap> {
         ? Container(
             padding: EdgeInsets.all(8),
             height: MediaQuery.of(context).size.height - heightOfFilter,
-            child: Card(
+            child:  Card(
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(

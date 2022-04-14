@@ -28,6 +28,7 @@ class _BusStationMapState extends State<BusStationMap> {
   bool flag=false;
   List<bool> isSelected = [true, false];
   bool toggleState = true;
+  late var checkmarkerbus=null;
 
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -107,6 +108,7 @@ class _BusStationMapState extends State<BusStationMap> {
 
 
     }
+    checkmarkerbus=8;
   }
   void add_new_marker(var id, var part_of_trips){
     _setCircles(LatLng(dataset[id]['latitude'], dataset[id]['longitude']),part_of_trips*5);
@@ -311,8 +313,7 @@ class _BusStationMapState extends State<BusStationMap> {
         (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
             0.10;
     //Todo: Refine the code here to stop calling setState method before build.
-
-    return Container(
+    return (this.checkmarkerbus != null) ? Container(
       padding: EdgeInsets.all(8),
       height: MediaQuery.of(context).size.height - heightOfFilter,
       child: Card(
@@ -324,7 +325,18 @@ class _BusStationMapState extends State<BusStationMap> {
                   bikesMapContainer(heightOfFilter),
                 ],
               ))),
+    ) :
+    Center(
+    child: Container(
+    height: 20,
+    width: 20,
+    margin: EdgeInsets.all(5),
+    child: CircularProgressIndicator(
+    strokeWidth: 2.0,
+    ),
+    ),
     );
+    ;
   }
   // @override
   // Widget build(BuildContext context) {

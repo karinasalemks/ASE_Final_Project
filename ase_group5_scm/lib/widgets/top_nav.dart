@@ -80,23 +80,23 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
               children: [
                 IconButton(
                     icon: Icon(
-                      Icons.notifications,
-                      color: dark.withOpacity(.7),
+                      null,
+                      //color: dark.withOpacity(.7),
                     ),
                     onPressed: () {}),
-                Positioned(
-                  top: 7,
-                  right: 7,
-                  child: Container(
-                    width: 12,
-                    height: 12,
-                    padding: EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                        color: active,
-                        borderRadius: BorderRadius.circular(30),
-                        border: Border.all(color: light, width: 2)),
-                  ),
-                )
+                // Positioned(
+                //   top: 7,
+                //   right: 7,
+                //   child: Container(
+                //     width: 12,
+                //     height: 12,
+                //     padding: EdgeInsets.all(4),
+                //     decoration: BoxDecoration(
+                //         color: active,
+                //         borderRadius: BorderRadius.circular(30),
+                //         border: Border.all(color: light, width: 2)),
+                //   ),
+                // )
               ],
             ),
             Container(
@@ -108,7 +108,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
               width: 24,
             ),
             CustomText(
-              text: "YPKM",
+              text: "",
               color: lightGrey,
             ),
             SizedBox(

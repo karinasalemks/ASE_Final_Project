@@ -11,6 +11,7 @@ class Luas extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+
       child: Column(
         children: [
           Obx(() => Row(
@@ -22,10 +23,12 @@ class Luas extends StatelessWidget {
             ],
           ),),
 
-          Expanded(child: LuasStationMap()),
+          Expanded(
+              child: LuasStationMap()),
 
         ],
-      ),
+
+      )
     );
   }
 }

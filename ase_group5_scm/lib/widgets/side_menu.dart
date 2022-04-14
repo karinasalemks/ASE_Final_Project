@@ -59,6 +59,7 @@ class SideMenu extends StatelessWidget {
                           itemName: item.name,
                           onTap: () {
                             if(item.name == "Log out") {
+                              menuController.changeActiveItemTo("Overview");
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(

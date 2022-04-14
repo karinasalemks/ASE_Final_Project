@@ -17,7 +17,7 @@ Map getStationUsageData(snapshot) {
   Map stationUsageMap = new Map<String, double>();
   for (int i = 0; i < snapshot.docs.length; i++) {
     var stationName = snapshot.docs[i].get("station_name");
-    var stationOccupancy = snapshot.docs[i].get("occupancy_list");
+    var stationOccupancy = snapshot.docs[i].get("station_occupancy");
     var lastUpdateTime = snapshot.docs[i].get("harvest_time");
     DateTime now = DateTime.now();
     var timeDifference =
