@@ -2,6 +2,7 @@ import 'package:ase_group5_scm/Components/AppConstants.dart';
 import 'package:ase_group5_scm/pages/DublinEvents/dublin_weather.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -68,7 +69,22 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
             var snapshotList = combinedSnapshot.data as List<QuerySnapshot>;
             var snapshot = snapshotList[0];
             var weatherSnapshot = snapshotList[1];
-            return IntrinsicHeight(
+           return  (defaultTargetPlatform == TargetPlatform.iOS ||
+               defaultTargetPlatform == TargetPlatform.android)
+               ?
+           Container (
+               child :new SingleChildScrollView(
+                   child :Column(
+                     mainAxisSize: MainAxisSize.max, // match parent
+                     mainAxisAlignment: MainAxisAlignment.start,
+                     crossAxisAlignment: CrossAxisAlignment.start,
+                     children: <Widget>[
+                     EventLocationMap(snapshot: snapshot),
+                     Container(
+                         child : eventsDataContainer(heightOfFilter,snapshot)),
+                     Container(
+                         child :WeatherDataContainer(heightOfFilter,weatherSnapshot)),
+                   ]))):IntrinsicHeight(
                 child: Row(
                     mainAxisSize: MainAxisSize.max, // match parent
                     mainAxisAlignment: MainAxisAlignment.start,

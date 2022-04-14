@@ -2,6 +2,7 @@ import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:ase_group5_scm/pages/overview/widgets/info_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -242,9 +243,13 @@ class _LuasStationMapState extends State<LuasStationMap> {
     // _getSize();
     return new Container(
         padding: const EdgeInsets.all(8.0),
-        height: (MediaQuery.of(context).size.height -
+        height: (defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android)
+            ? (MediaQuery.of(context).size.height -
                 appBar.preferredSize.height -
-                heightOfFilter-100),
+                heightOfFilter-150):(MediaQuery.of(context).size.height -
+            appBar.preferredSize.height -
+            heightOfFilter-100),
         key: Key("dublin-bikes-map"),
         child: GoogleMap(
           onMapCreated: onMapCreated,

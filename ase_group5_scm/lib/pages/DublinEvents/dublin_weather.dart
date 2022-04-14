@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:fluttericon/meteocons_icons.dart';
@@ -50,7 +51,9 @@ class _DublinWeatherState extends State<DublinWeather> {
     var dates = sortedForecast.keys.toList();
     // var weather_values = sortedForecast[dates[idx]];
     return Container(
-        height: 200,
+        height: (defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android)
+            ? 800 :200,
         width: 500,
         child: Expanded(
             child: ListView.builder(
