@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +16,10 @@ import 'package:google_fonts/google_fonts.dart';
 *
 * */
 
-var guestVar = false;
+var guestVar = true;
+StreamSubscription? connection;
+bool isoffline = false;
+
 class loginScreen extends StatelessWidget {
   static const String _title = 'Sustainable City Management';
 
@@ -40,6 +46,39 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   //password field
   TextEditingController passwordController = TextEditingController();
 
+  @override
+  void initState() {
+    connection = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      // whenevery connection status is changed.
+      if(result == ConnectivityResult.none){
+        //there is no any connection
+        setState(() {
+          isoffline = true;
+        });
+      }else if(result == ConnectivityResult.mobile){
+        //connection is mobile data network
+        setState(() {
+          isoffline = false;
+        });
+      }else if(result == ConnectivityResult.wifi){
+        //connection is from wifi
+        setState(() {
+          isoffline = false;
+        });
+      }else if(result == ConnectivityResult.ethernet){
+        //connection is from wired connection
+        setState(() {
+          isoffline = false;
+        });
+      }else if(result == ConnectivityResult.bluetooth){
+        //connection is from bluetooth threatening
+        setState(() {
+          isoffline = false;
+        });
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -146,7 +185,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           ),
                         ),
                       ),
-                      guestVar == true ?Container(
+                      isoffline == true ?Container(
                           alignment: Alignment.center,
                           padding: const EdgeInsets.all(10),
                           child: MouseRegion(

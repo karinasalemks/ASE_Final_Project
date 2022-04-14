@@ -48,6 +48,7 @@ dependencies:
   logging: ^1.0.2
   fluttericon: ^2.0.0
   fl_chart: ^0.45.1
+  connectivity_plus: ^2.2.1
 
 dependency_overrides:
   cloud_functions_platform_interface: 5.0.21

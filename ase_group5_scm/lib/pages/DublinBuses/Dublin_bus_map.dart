@@ -253,10 +253,10 @@ class _BusStationMapState extends State<BusStationMap> {
             child: Row(
               children: <Widget>[
                 ToggleButtons(
-                  borderColor: Colors.black,
-                  fillColor: Colors.grey,
+                  borderColor: Colors.white,
+                  fillColor: Colors.blue,
                   borderWidth: 2,
-                  selectedBorderColor: Colors.black,
+                  selectedBorderColor: Colors.blue,
                   selectedColor: Colors.white,
                   borderRadius: BorderRadius.circular(0),
                   children: <Widget>[
@@ -325,8 +325,7 @@ class _BusStationMapState extends State<BusStationMap> {
         (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
             0.10;
     //Todo: Refine the code here to stop calling setState method before build.
-    return (this.checkmarkerbus != null)
-        ? Container(
+    return Container(
             padding: EdgeInsets.all(8),
             height: MediaQuery.of(context).size.height - heightOfFilter,
             child: Card(
@@ -339,16 +338,7 @@ class _BusStationMapState extends State<BusStationMap> {
                       ],
                     ))),
           )
-        : Center(
-            child: Container(
-              height: 20,
-              width: 20,
-              margin: EdgeInsets.all(5),
-              child: CircularProgressIndicator(
-                strokeWidth: 2.0,
-              ),
-            ),
-          );
+
     ;
   }
 // @override

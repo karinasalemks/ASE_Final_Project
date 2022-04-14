@@ -17,11 +17,6 @@ late List<dynamic> lW_data;
 late List<dynamic> rain_data;
 
 late List<List<FlSpot>> data = [];
-// late List<FlSpot> high_temp = [];
-// late List<FlSpot> high_wind = [];
-// late List<FlSpot> low_temp = [];
-// late List<FlSpot> low_wind = [];
-// late List<FlSpot> rain = [];
 
 class correlationWidget extends StatefulWidget {
   final correlation_key;
@@ -31,7 +26,7 @@ class correlationWidget extends StatefulWidget {
   @override
   _correlationWidgetState createState() => _correlationWidgetState();
 }
-
+late var checkData = null;
 List <String> mapKeys = ["Dry day","High Temp","High wind","Rainy day","Low Temp","Low wind"];
 formatData(var argument) {
   if (argument.docs.isNotEmpty) {
@@ -60,6 +55,7 @@ formatData(var argument) {
     data.add(lW_data.asMap().entries.map((element) {
       return FlSpot(element.key.toDouble(), element.value);
     }).toList());
+    checkData = true;
   }
 }
 
@@ -70,22 +66,22 @@ getCorelationData() {
       .then((argument) {
     formatData(argument);
   });
+
 }
 
 class _correlationWidgetState extends State<correlationWidget> {
-  get correlation_key => null;
+  // get correlation_key => null;
 
   @override
   void initState() {
-    // TODO: implement initState
-    print('inside init state');
-    getCorelationData();
     super.initState();
+    getCorelationData();
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return data.length != 0
+    return checkData == true
         ? Container(
             child: LineChart(
               LineChartData(

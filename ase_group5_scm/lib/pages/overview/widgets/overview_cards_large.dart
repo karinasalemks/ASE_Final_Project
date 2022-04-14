@@ -17,8 +17,8 @@ class OverviewCardsLargeScreen extends StatelessWidget {
     return  Row(
               children: [
                 InfoCard(
-                  title: "Buses",
-                  value: " Co2 estimation :"+randomNumber.toString() + " units",
+                  title: "Buses Co2 estimation   ",
+                  value: randomNumber.toString() + " units",
                   onTap: () {
 
                   },
@@ -28,8 +28,8 @@ class OverviewCardsLargeScreen extends StatelessWidget {
                   width: _width / 64,
                 ),
                 InfoCard(
-                  title: "Luas Electricity consumption  ",
-                  value: "(green and red) combined : " + luas.toString() + " units",
+                  title: "Luas - green and red Line Electricity consumption ",
+                  value: luas.toString() + " units",
                   topColor: Colors.teal,
                   onTap: () {},
                 ),
@@ -37,8 +37,8 @@ class OverviewCardsLargeScreen extends StatelessWidget {
                   width: _width / 64,
                 ),
                 InfoCard(
-                  title: " Dublin Bikes ",
-                  value: "Avg availability percentage :" + bikeRand.toString() + "%",
+                  title: " Dublin Bikes Avg availability percentage :",
+                  value:  bikeRand.toString() + "%",
                   topColor: Colors.redAccent,
                   onTap: () {},
                 ),

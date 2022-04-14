@@ -76,34 +76,6 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                   );
                 }),
 
-            Stack(
-              children: [
-                IconButton(
-                    icon: Icon(
-                      null,
-                      //color: dark.withOpacity(.7),
-                    ),
-                    onPressed: () {}),
-                // Positioned(
-                //   top: 7,
-                //   right: 7,
-                //   child: Container(
-                //     width: 12,
-                //     height: 12,
-                //     padding: EdgeInsets.all(4),
-                //     decoration: BoxDecoration(
-                //         color: active,
-                //         borderRadius: BorderRadius.circular(30),
-                //         border: Border.all(color: light, width: 2)),
-                //   ),
-                // )
-              ],
-            ),
-            Container(
-              width: 1,
-              height: 22,
-              color: lightGrey,
-            ),
             SizedBox(
               width: 24,
             ),
@@ -126,9 +98,8 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                 margin: EdgeInsets.all(2),
                 child: CircleAvatar(
                   backgroundColor: light,
-                  child: Icon(
-                    Icons.person_outline,
-                    color: dark,
+                  backgroundImage: NetworkImage(
+                    'https://source.unsplash.com/50x50/?portrait',
                   ),
                 ),
               ),
