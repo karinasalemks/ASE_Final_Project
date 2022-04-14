@@ -128,15 +128,15 @@ class _EventLocationMapState extends State<EventLocationMap> {
     switch(location) {
       case "Aviva Stadium":
       case "National Stadium":
-      mapIcon = customIcon_sports;
-      break;
+        mapIcon = customIcon_sports;
+        break;
       case "Gaiety Theatre":
       case "Bord Gais Energy Theatre":
         mapIcon = customIcon_theater;
         break;
       case "3Arena":
-      mapIcon = customIcon_concert;
-      break;
+        mapIcon = customIcon_concert;
+        break;
     }
     final Marker marker = Marker(
       markerId: markerId,
@@ -176,6 +176,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
   eventMapHeaderContainer(heightOfFilter, snapshot) {
 
     return new Container(
+        constraints: BoxConstraints(minHeight: heightOfFilter),
         height: heightOfFilter,
         child: Padding(
             padding: const EdgeInsets.only(top: 10.0),
@@ -188,6 +189,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
                     child: FittedBox(
                       fit: BoxFit.cover,
                       child: Text('Event Date',
+                          key: Key("date_filter_title"),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               letterSpacing: 0.5,
@@ -200,9 +202,9 @@ class _EventLocationMapState extends State<EventLocationMap> {
                 SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  fit: FlexFit.loose,
+                SizedBox(
                   child: DropdownButton(
+                    key: Key("date_filter"),
                     value: dropdownvalue,
                     icon: Icon(Icons.keyboard_arrow_down),
                     items: filterList.map((String items) {
@@ -223,6 +225,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
                     child: FittedBox(
                       fit: BoxFit.cover,
                       child: Text('Bus Stop',
+                          key: Key("bus_stopt_title"),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               letterSpacing: 0.5,
@@ -235,9 +238,9 @@ class _EventLocationMapState extends State<EventLocationMap> {
                 SizedBox(
                   width: 10,
                 ),
-                Flexible(
-                  fit: FlexFit.loose,
+                SizedBox(
                   child: DropdownButton(
+                    key: Key("bus_stop_filter"),
                     value: stopDdropdownvalue,
                     icon: Icon(Icons.keyboard_arrow_down),
                     items: busStopFilterList.map((String items) {
@@ -282,12 +285,15 @@ class _EventLocationMapState extends State<EventLocationMap> {
     //Todo: Refine the code here to stop calling setState method before build.
 
     return Container(
+      key: Key("events_root"),
       padding: EdgeInsets.all(8),
       height: MediaQuery.of(context).size.height - heightOfFilter,
       child: Card(
+          key: Key("events_card"),
           child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
+                key: Key("events_card_column"),
                 children: <Widget>[
                   eventMapHeaderContainer(heightOfFilter, widget.snapshot),
                   eventsMapContainer(heightOfFilter, widget.snapshot)
