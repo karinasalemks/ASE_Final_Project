@@ -74,29 +74,6 @@ luasStopsCode = ["TPT","SDK","MYS","GDK","CON","BUS","ABB","JER","FOU","SMI","MU
 # 60 Kw/h for 120 minutes
 UNITS_PER_MIN = 0.5  # Units:Kw/h
 
-# static data for luas
-luasStops = ["The Point", "Spencer Dock", "Mayor Square - NCI", "George's Dock", "Connolly", "BusÃ¡ras", "Abbey Street",
-             "Jervis",
-             "Four Courts", "Smithfield", "Museum", "Heuston", "James's", "Fatima", "Rialto", "Suir Road",
-             "Goldenbridge", "Drimnagh", "Fettercairn",
-             "Cheeverstown", "Citywest Campus", "Fortunestown", "Saggart", "Depot", "Broombridge", "Cabra",
-             "Phibsborough", "Grangegorman", "Broadstone - DIT",
-             "Dominick", "Parnell", "O'Connell - Upper", "O'Connell - GPO", "Marlborough", "Westmoreland", "Trinity",
-             "Dawson", "St. Stephen's Green", "Harcourt",
-             "Charlemont", "Ranelagh", "Beechwood", "Cowper", "Milltown", "Windy Arbour", "Dundrum", "Balally",
-             "Kilmacud", "Stillorgan", "Sandyford",
-             "Central Park", "Glencairn", "The Gallops", "Leopardstown Valley", "Ballyogan Wood", "Racecourse",
-             "Carrickmines", "Brennanstown", "Laughanstown",
-             "Cherrywood", "Brides Glen", "Blackhorse", "Bluebell", "Kylemore", "Red Cow", "Kingswood", "Belgard",
-             "Cookstown", "Hospital", "Tallaght"];
-
-luasStopsCode = ["TPT", "SDK", "MYS", "GDK", "CON", "BUS", "ABB", "JER", "FOU", "SMI", "MUS", "HEU", "JAM", "FAT",
-                 "RIA", "SUI","GOL", "DRI", "FET", "CVN", "CIT", "FOR", "SAG", "DEP", "BRO", "CAB", "PHI", "GRA", "BRD", "DOM",
-                 "PAR", "OUP", "OGP", "MAR", "WES", "TRY", "DAW",
-                 "STS", "HAR", "CHA", "RAN", "BEE", "COW", "MIL", "WIN", "DUN", "BAL", "KIL", "STI", "SAN", "CPK",
-                 "GLE", "GAL", "LEO", "BAW", "RCC", "CCK", "BRE",
-                 "LAU", "CHE", "BRI", "BLA", "BLU", "KYL", "RED", "KIN", "BEL", "COO", "HOS", "TAL"]
-
 # Read the timetables here
 path_dir = os.path.dirname(__file__)
 green_outbound_timetable = pd.read_csv(os.path.join(path_dir,
@@ -367,12 +344,12 @@ def getEventsData(request):
     #List of events that are taken for usage
     popular_events = ["Aviva", "3Arena", "National Stadium", "Bord Gais Energy Theatre", "Gaiety Theatre"]
     #get the current datetime and convert it to a format required for API request
-    today = datetime.datetime.now()
+    today = datetime.now()
     today_time = today.strftime("%H:%M:%S")
     today_date = today.strftime("%Y-%m-%d")
     formated_date_time = today_date+'T'+today_time+'Z'
     #get the datetime after 30 days and convert it to a format required for API request
-    month_later = datetime.datetime.now() + timedelta(days=30)
+    month_later = datetime.now() + timedelta(days=30)
     month_later_time = month_later.strftime("%H:%M:%S")
     month_later_date = month_later.strftime("%Y-%m-%d")
     month_later_formated_date_time = month_later_date + 'T' + month_later_time + 'Z'
