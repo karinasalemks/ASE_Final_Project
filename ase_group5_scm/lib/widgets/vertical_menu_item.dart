@@ -8,12 +8,12 @@ import 'custom_text.dart';
 class VertticalMenuItem extends StatelessWidget {
   final String itemName;
   final void Function()? onTap;
-  const VertticalMenuItem({Key? key, this.itemName="", this.onTap})
+
+  const VertticalMenuItem({Key? key, this.itemName = "", this.onTap})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     return InkWell(
         onTap: onTap,
         onHover: (value) {

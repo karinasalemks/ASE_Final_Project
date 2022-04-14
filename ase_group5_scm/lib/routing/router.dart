@@ -6,7 +6,7 @@ import 'package:ase_group5_scm/pages/overview/overview.dart';
 import 'package:ase_group5_scm/routing/routes.dart';
 import 'package:ase_group5_scm/pages/DublinEvents/DublinEvents.dart';
 
-Route<dynamic> generateRoute(RouteSettings settings){
+Route<dynamic> generateRoute(RouteSettings settings) {
   var clientsPageRoute2 = overviewPageRoute;
   switch (settings.name) {
     case overviewPageRoute:
@@ -24,6 +24,6 @@ Route<dynamic> generateRoute(RouteSettings settings){
   }
 }
 
-PageRoute _getPageRoute(Widget child){
+PageRoute _getPageRoute(Widget child) {
   return MaterialPageRoute(builder: (context) => child);
 }

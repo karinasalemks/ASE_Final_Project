@@ -15,7 +15,6 @@ class RevenueSectionSmall extends StatefulWidget {
 }
 
 class _RevenueSectionLargeState extends State<RevenueSectionSmall> {
-
   String dropdownvalue = 'Dry day vs Rainy day';
   var filterList = [
     'Dry day vs Rainy day',
@@ -45,7 +44,8 @@ class _RevenueSectionLargeState extends State<RevenueSectionSmall> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   CustomText(
-                    text: "Correlation - Bikes volume of usage based on weather",
+                    text:
+                        "Correlation - Bikes volume of usage based on weather",
                     size: 20,
                     weight: FontWeight.bold,
                     color: lightGrey,
@@ -55,7 +55,8 @@ class _RevenueSectionLargeState extends State<RevenueSectionSmall> {
                       value: dropdownvalue,
                       icon: Icon(Icons.keyboard_arrow_down),
                       items: filterList.map((String items) {
-                        return DropdownMenuItem(value: items, child: Text(items));
+                        return DropdownMenuItem(
+                            value: items, child: Text(items));
                       }).toList(),
                       onChanged: (String? newValue) {
                         setState(() {
@@ -65,7 +66,8 @@ class _RevenueSectionLargeState extends State<RevenueSectionSmall> {
                       },
                     ),
                   ),
-                  Center(child: Column(
+                  Center(
+                      child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
@@ -74,26 +76,19 @@ class _RevenueSectionLargeState extends State<RevenueSectionSmall> {
                         height: 400,
                         child: correlationWidget(
                             correlation_key: filterList.indexOf(dropdownvalue)),
-                        // width: 600,
-                        // height: 200,
-                        // child: SimpleBarChart.withSampleData()
                       ),
                       Container(
                         padding: const EdgeInsets.all(20),
                         width: 400,
                         height: 400,
                         child: correlationWidget(
-                            correlation_key: filterList.indexOf(dropdownvalue)+3),
-                        // width: 600,
-                        // height: 200,
-                        // child: SimpleBarChart.withSampleData()
+                            correlation_key:
+                                filterList.indexOf(dropdownvalue) + 3),
                       ),
                     ],
-                  )
-                  )]),
+                  ))
+                ]),
           ),
         ]));
   }
 }
-
-

@@ -8,7 +8,13 @@ class InfoCard extends StatelessWidget {
   final bool isActive;
   final void Function()? onTap;
 
-  const InfoCard({Key? key,required this.title,required this.value, this.isActive = false,required this.onTap, this.topColor=Colors.black45})
+  const InfoCard(
+      {Key? key,
+      required this.title,
+      required this.value,
+      this.isActive = false,
+      required this.onTap,
+      this.topColor = Colors.black45})
       : super(key: key);
 
   @override
@@ -23,10 +29,9 @@ class InfoCard extends StatelessWidget {
             color: Colors.white,
             boxShadow: [
               BoxShadow(
-                offset: Offset(0, 6),
-                color: lightGrey.withOpacity(.1),
-                blurRadius: 12
-              )
+                  offset: Offset(0, 6),
+                  color: lightGrey.withOpacity(.1),
+                  blurRadius: 12)
             ],
             borderRadius: BorderRadius.circular(8),
           ),
@@ -34,7 +39,8 @@ class InfoCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Expanded(child: Container(
+                  Expanded(
+                      child: Container(
                     color: topColor,
                     height: 5,
                   ))
@@ -50,11 +56,12 @@ class InfoCard extends StatelessWidget {
                             fontSize: 16, color: isActive ? active : dark)),
                     TextSpan(
                         text: "$value",
-                        style:
-                            TextStyle(fontSize: 24, color: isActive ? active : dark, fontWeight: FontWeight.bold )),
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: isActive ? active : dark,
+                            fontWeight: FontWeight.bold)),
                   ])),
               Expanded(child: Container()),
-
             ],
           ),
         ),

@@ -42,12 +42,14 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                   color: dark,
                 ),
                 onPressed: () {
-                  TextEditingController bugReportController = TextEditingController();
+                  TextEditingController bugReportController =
+                      TextEditingController();
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        title: new Text("write a short description about the bug!"),
+                        title: new Text(
+                            "write a short description about the bug!"),
                         actions: <Widget>[
                           new TextField(
                             keyboardType: TextInputType.multiline,
@@ -58,24 +60,26 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
                             child: new Text("OK"),
                             onPressed: () {
                               String? UserName = "anonymous";
-                              UserName = FirebaseAuth.instance.currentUser?.displayName;
-                              final log = new Logger("bug_report"+UserName.toString());
-                              log.info('User bug report '+UserName.toString());
+                              UserName = FirebaseAuth
+                                  .instance.currentUser?.displayName;
+                              final log = new Logger(
+                                  "bug_report" + UserName.toString());
+                              log.info(
+                                  'User bug report ' + UserName.toString());
                               try {
                                 throw Exception();
                               } catch (error, stackTrace) {
-                                log.severe( bugReportController.text, error, stackTrace);
+                                log.severe(bugReportController.text, error,
+                                    stackTrace);
                               }
                               Navigator.of(context).pop();
                             },
                           ),
-
                         ],
                       );
                     },
                   );
                 }),
-
             SizedBox(
               width: 24,
             ),

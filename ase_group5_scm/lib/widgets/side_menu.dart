@@ -10,74 +10,73 @@ import 'package:ase_group5_scm/widgets/side_menu_item.dart';
 import 'package:get/get.dart';
 
 class SideMenu extends StatelessWidget {
-  const SideMenu({ Key? key }) : super(key: key);
+  const SideMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
-    final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
     return Container(
-            color: light,
-            child: ListView(
+      color: light,
+      child: ListView(
+        children: [
+          if (ResponsiveWidget.isSmallScreen(context))
+            Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                if(ResponsiveWidget.isSmallScreen(context))
-                Column(
-                  mainAxisSize: MainAxisSize.min,
+                SizedBox(
+                  height: 40,
+                ),
+                Row(
                   children: [
-                    SizedBox(
-                      height: 40,
+                    SizedBox(width: _width / 48),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 12),
+                      child: Image.asset("assets/icons/logo.png"),
                     ),
-                    Row(
-                      children: [
-                        SizedBox(width: _width / 48),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 12),
-                          child: Image.asset("assets/icons/logo.png"),
-                        ),
-                        Flexible(
-                          child: CustomText(
-                            text: "Dublin SCM",
-                            size: 20,
-                            weight: FontWeight.bold,
-                            color: active,
-                          ),
-                        ),
-                        SizedBox(width: _width / 48),
-                      ],
+                    Flexible(
+                      child: CustomText(
+                        text: "Dublin SCM",
+                        size: 20,
+                        weight: FontWeight.bold,
+                        color: active,
+                      ),
                     ),
-                    SizedBox(
-                      height: 30,
-                    ),
+                    SizedBox(width: _width / 48),
                   ],
                 ),
-                    Divider(color: lightGrey.withOpacity(.1), ),
-
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: sideMenuItemRoutes
-                      .map((item) => SideMenuItem(
-                          itemName: item.name,
-                          onTap: () {
-                            if(item.name == "Log out") {
-                              menuController.changeActiveItemTo(AppConstants.CORRELATION_OVERVIEW);
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => loginScreen()),
-                                      (Route<dynamic> route) => false);
-                            }
-                            else if (!menuController.isActive(item.name)) {
-                              menuController.changeActiveItemTo(item.name);
-                              if(ResponsiveWidget.isSmallScreen(context))
-                              Get.back();
-                              navigationController.navigateTo(item.route);
-                            }
-                          }))
-                      .toList(),
-                )
+                SizedBox(
+                  height: 30,
+                ),
               ],
             ),
-          );
+          Divider(
+            color: lightGrey.withOpacity(.1),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: sideMenuItemRoutes
+                .map((item) => SideMenuItem(
+                    itemName: item.name,
+                    onTap: () {
+                      if (item.name == "Log out") {
+                        menuController.changeActiveItemTo(
+                            AppConstants.CORRELATION_OVERVIEW);
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => loginScreen()),
+                            (Route<dynamic> route) => false);
+                      } else if (!menuController.isActive(item.name)) {
+                        menuController.changeActiveItemTo(item.name);
+                        if (ResponsiveWidget.isSmallScreen(context)) Get.back();
+                        navigationController.navigateTo(item.route);
+                      }
+                    }))
+                .toList(),
+          )
+        ],
+      ),
+    );
   }
 }

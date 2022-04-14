@@ -7,7 +7,9 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 class DublinBikesUsageChart extends StatefulWidget {
   final snapshot;
   final series;
-  const DublinBikesUsageChart({Key? key,  this.snapshot,  this.series} ) : super(key: key);
+
+  const DublinBikesUsageChart({Key? key, this.snapshot, this.series})
+      : super(key: key);
 
   @override
   _DublinBikesUsageChartState createState() => _DublinBikesUsageChartState();
@@ -46,22 +48,15 @@ List sortStationMaps(Map stationUsageMap) {
   stationUsageMap.entries.forEach((e) => stationUsageList.add(
       BikeStationUsageData(stationName: e.key, occupancyPercentage: e.value)));
 
-  ascStationUsageList = stationUsageList.getRange(12,22).toList();
+  ascStationUsageList = stationUsageList.getRange(12, 22).toList();
   //TODO: figure out how to stop the original list from changing
   List<BikeStationUsageData> initAscStationUsageList = [];
   initAscStationUsageList = getInitializedStationName([...ascStationUsageList]);
 
   descStationUsageList = stationUsageList.reversed.toList().take(10).toList();
   List<BikeStationUsageData> initDescStationUsageList =
-  getInitializedStationName(descStationUsageList);
+      getInitializedStationName(descStationUsageList);
 
-  // List<charts.Series<BikeStationUsageData, String>> ascStationUsageSeries =
-  //     getListSeries(initAscStationUsageList);
-  // List<charts.Series<BikeStationUsageData, String>> decStationUsageSeries =
-  //     getListSeries(initDescStationUsageList);
-
-  // var seriesArray = [ascStationUsageSeries, decStationUsageSeries];
-  // var seriesArray = [decStationUsageSeries, ascStationUsageSeries];
   var seriesArray = [
     initAscStationUsageList,
     initDescStationUsageList,
@@ -76,20 +71,22 @@ List<BikeStationUsageData> getInitializedStationName(
     List<BikeStationUsageData> stationUsageList) {
   List<BikeStationUsageData> initStationUsageList = [];
   for (var i = 0; i < stationUsageList.length; i++) {
-    BikeStationUsageData bikeStationUsageData = new BikeStationUsageData(stationName: stationUsageList[i].stationName, occupancyPercentage:  stationUsageList[i].occupancyPercentage);
+    BikeStationUsageData bikeStationUsageData = new BikeStationUsageData(
+        stationName: stationUsageList[i].stationName,
+        occupancyPercentage: stationUsageList[i].occupancyPercentage);
     var stationName = bikeStationUsageData.stationName.split(" ");
     print(stationName);
     var stationInitials = "";
     for (var i = 0; i < stationName.length; i++) {
-      if(i < 2) {
+      if (i < 2) {
         stationInitials += stationName[i][0];
       }
     }
     bikeStationUsageData.stationName = stationInitials;
     bikeStationUsageData.occupancyPercentage =
-    bikeStationUsageData.occupancyPercentage == null
-        ? 0
-        : bikeStationUsageData.occupancyPercentage;
+        bikeStationUsageData.occupancyPercentage == null
+            ? 0
+            : bikeStationUsageData.occupancyPercentage;
     initStationUsageList.add(bikeStationUsageData);
   }
   return initStationUsageList;
@@ -132,8 +129,6 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
 
       stationUsageList = seriesArray[0];
     } else {
-      // StationUsageMapListSeries = [];
-      // StationUsageMapListSeries = seriesArray[1];
       stationFullNameList = seriesArray[3];
       stationUsageList = seriesArray[1];
     }
@@ -146,7 +141,7 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
               padding: const EdgeInsets.all(3),
               child: Text(
                 'Station Name : ${stationFullNameList[pointIndex].stationName} \n'
-                    'Station Occupancy: ${stationUsageList[pointIndex].occupancyPercentage.toStringAsFixed(1)}%',
+                'Station Occupancy: ${stationUsageList[pointIndex].occupancyPercentage.toStringAsFixed(1)}%',
                 style: TextStyle(color: Colors.white, fontSize: 13),
               ));
         });
@@ -160,12 +155,15 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
           child: Column(
             children: <Widget>[
               Text(
-                widget.series == "overuse"? "Station over usage Chart":"Station under usage Chart",
+                widget.series == "overuse"
+                    ? "Station over usage Chart"
+                    : "Station under usage Chart",
               ),
               Expanded(
                 child: SfCartesianChart(
-                  palette: <Color>[widget.series == "overuse"?
-                  Colors.redAccent:Colors.teal],
+                  palette: <Color>[
+                    widget.series == "overuse" ? Colors.redAccent : Colors.teal
+                  ],
                   primaryXAxis: CategoryAxis(
                       labelRotation: 30,
                       majorGridLines: MajorGridLines(width: 0)),
@@ -180,10 +178,10 @@ class _DublinBikesUsageChartState extends State<DublinBikesUsageChart> {
                       dataSource: stationUsageList,
                       xValueMapper:
                           (BikeStationUsageData bikeStationUsageData, _) =>
-                      bikeStationUsageData.stationName,
+                              bikeStationUsageData.stationName,
                       yValueMapper:
                           (BikeStationUsageData bikeStationUsageData, _) =>
-                      bikeStationUsageData.occupancyPercentage,
+                              bikeStationUsageData.occupancyPercentage,
                       enableTooltip: true,
                     ),
                   ],

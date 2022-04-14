@@ -7,7 +7,7 @@ class SimpleBarChart extends StatelessWidget {
   final List<charts.Series<dynamic, String>> seriesList;
   final bool animate;
 
-  SimpleBarChart(this.seriesList, {this.animate=true});
+  SimpleBarChart(this.seriesList, {this.animate = true});
 
   /// Creates a [BarChart] with sample data and no transition.
   factory SimpleBarChart.withSampleData() {
@@ -17,7 +17,6 @@ class SimpleBarChart extends StatelessWidget {
       animate: false,
     );
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +36,6 @@ class SimpleBarChart extends StatelessWidget {
       new OrdinalSales('23 Jun', 15),
       new OrdinalSales('22 Jun', 85),
       new OrdinalSales('21 Jun', 45),
-
     ];
 
     return [

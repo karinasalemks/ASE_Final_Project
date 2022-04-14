@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:overlay_support/overlay_support.dart';
-// import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 
 class LuasStationMap extends StatefulWidget {
   const LuasStationMap({Key? key}) : super(key: key);
@@ -56,7 +55,6 @@ class _LuasStationMapState extends State<LuasStationMap> {
   void initAllMarkers(var markersList) {
     markers.clear();
     dataset = markersList[0]['data'];
-    //var dataset = markersList[0][0];
     dataset_greenLine = markersList[0]['green_line'];
     dataset_redLine = markersList[0]['red_line'];
     dataset_trams = markersList[1]['data']['luas_data'];
@@ -66,10 +64,8 @@ class _LuasStationMapState extends State<LuasStationMap> {
     elecluas_data_green = markersList[1]['data']['green_line']
         ['electricity_consumption_estimate'];
 
-    active_data_green =  markersList[1]['data']['green_line']
-    ['num_active_luas'];
-    active_data_red = markersList[1]['data']['red_line']
-    ['num_active_luas'] ;
+    active_data_green = markersList[1]['data']['green_line']['num_active_luas'];
+    active_data_red = markersList[1]['data']['red_line']['num_active_luas'];
     dataset.forEach((k, v) => initMarker(
         v['name'],
         v['Latitude'],
@@ -89,12 +85,10 @@ class _LuasStationMapState extends State<LuasStationMap> {
   void getpolylinefromlist(var stationslist, MaterialColor varcolor) {
     double origin_lat = dataset[stationslist[0]]['Latitude'];
     double origin_longi = dataset[stationslist[0]]['Longitude'];
-    print("here after a check polyline check 1");
     double dest_lat =
         dataset[stationslist[stationslist.length - 1]]['Latitude'];
     double dest_longi =
         dataset[stationslist[stationslist.length - 1]]['Longitude'];
-    print("here after a check polyline check 2");
     List<PolylineWayPoint> wayPoint = [];
     _getPolyline(
         origin_lat, origin_longi, dest_lat, dest_longi, wayPoint, varcolor);
@@ -103,10 +97,10 @@ class _LuasStationMapState extends State<LuasStationMap> {
   void getpolylinefromname(var src, var dest, MaterialColor varcolor) {
     double origin_lat = dataset[src]['Latitude'];
     double origin_longi = dataset[src]['Longitude'];
-    print("here after a check polyline check 1");
+
     double dest_lat = dataset[dest]['Latitude'];
     double dest_longi = dataset[dest]['Longitude'];
-    print("here after a check polyline check 2");
+
     List<PolylineWayPoint> wayPoint = [];
     _getPolyline(
         origin_lat, origin_longi, dest_lat, dest_longi, wayPoint, varcolor);
@@ -137,15 +131,12 @@ class _LuasStationMapState extends State<LuasStationMap> {
   void initState() {
     getMapIcon();
     getMarkerData();
-    // isSelected = [true, false];
+
     super.initState();
     setState(() {
       polylines.clear();
       mapToggle = true;
     });
-
-    /// origin marker
-    // _getPolyline();
   }
 
   void onMapCreated(controller) {
@@ -161,7 +152,6 @@ class _LuasStationMapState extends State<LuasStationMap> {
   }
 
   _addPolyLine(MaterialColor colorreceived) {
-    print('Hello Inside _addPolyLine Function');
     PolylineId id = PolylineId("poly$_polylineCount");
     Polyline polyline = Polyline(
         onTap: () {
@@ -182,21 +172,12 @@ class _LuasStationMapState extends State<LuasStationMap> {
 
   _getPolyline(var orig_lati, var orig_longi, var dest_lati, var dest_longi,
       var wayPointList, MaterialColor varcolor) async {
-    print('Hello Inside _getPolyLine Function' + '$orig_lati');
-
-    // _addMarker(LatLng(orig_lati, orig_longi), "origin",
-    //     BitmapDescriptor.defaultMarker);
-
-    /// destination marker
-    // _addMarker(LatLng(dest_lati, dest_longi), "destination",
-    //     BitmapDescriptor.defaultMarkerWithHue(90));
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleAPiKey,
         PointLatLng(orig_lati, orig_longi),
         PointLatLng(dest_lati, dest_longi),
         travelMode: TravelMode.transit);
-    //optimizeWaypoints: true,
-    //wayPoints: wayPointList);
+
     polylineCoordinates = [];
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
@@ -207,63 +188,61 @@ class _LuasStationMapState extends State<LuasStationMap> {
   }
 
   bikeMapHeaderContainer(heightOfFilter) {
-    // key : _textWidgetKey;
     double _width = MediaQuery.of(context).size.width;
-    return   (defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android)
-        ?Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: [
-            InfoCard(
-              title: "Red Line \n Active Luas $active_data_red \n"
-        "Electricity Consumption :  $elecluas_data_red",
-              value: "",
-              onTap: () {},
-              topColor: Colors.red,
-            ),
-            SizedBox(
-              width: _width / 64,
-            ),
-            InfoCard(
-              title: "Green Line \n Active Luas $active_data_green \n"
-                  "Electricity Consumption :  $elecluas_data_green",
-              value: "",
-              topColor: Colors.green,
-              onTap: () {},
-            ),
-          ],
-        ),
-      ],
-    ):Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: [
-            InfoCard(
-              title: "Red Line  ",
-              value: "Active Luas : $active_data_red \n"
-              "Electricity Consmption :$elecluas_data_red ",
-
-              onTap: () {},
-              topColor: Colors.red,
-            ),
-            SizedBox(
-              width: _width / 64,
-            ),
-            InfoCard(
-              title: "Green Line  ",
-              value:"Active Luas : $active_data_green \n"
-              "Electricity Consmption :$elecluas_data_green ",
-
-              topColor: Colors.green,
-              onTap: () {},
-            ),
-          ],
-        ),
-      ],
-    );
+    return (defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android)
+        ? Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  InfoCard(
+                    title: "Red Line \n Active Luas $active_data_red \n"
+                        "Electricity Consumption :  $elecluas_data_red",
+                    value: "",
+                    onTap: () {},
+                    topColor: Colors.red,
+                  ),
+                  SizedBox(
+                    width: _width / 64,
+                  ),
+                  InfoCard(
+                    title: "Green Line \n Active Luas $active_data_green \n"
+                        "Electricity Consumption :  $elecluas_data_green",
+                    value: "",
+                    topColor: Colors.green,
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ],
+          )
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  InfoCard(
+                    title: "Red Line  ",
+                    value: "Active Luas : $active_data_red \n"
+                        "Electricity Consmption :$elecluas_data_red ",
+                    onTap: () {},
+                    topColor: Colors.red,
+                  ),
+                  SizedBox(
+                    width: _width / 64,
+                  ),
+                  InfoCard(
+                    title: "Green Line  ",
+                    value: "Active Luas : $active_data_green \n"
+                        "Electricity Consmption :$elecluas_data_green ",
+                    topColor: Colors.green,
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            ],
+          );
   }
 
   LuasMapContainer(heightOfFilter) {
@@ -271,12 +250,15 @@ class _LuasStationMapState extends State<LuasStationMap> {
     return new Container(
         padding: const EdgeInsets.all(8.0),
         height: (defaultTargetPlatform == TargetPlatform.iOS ||
-            defaultTargetPlatform == TargetPlatform.android)
+                defaultTargetPlatform == TargetPlatform.android)
             ? (MediaQuery.of(context).size.height -
                 appBar.preferredSize.height -
-                heightOfFilter-150):(MediaQuery.of(context).size.height -
-            appBar.preferredSize.height -
-            heightOfFilter-100),
+                heightOfFilter -
+                150)
+            : (MediaQuery.of(context).size.height -
+                appBar.preferredSize.height -
+                heightOfFilter -
+                100),
         key: Key("dublin-bikes-map"),
         child: GoogleMap(
           onMapCreated: onMapCreated,
@@ -294,7 +276,6 @@ class _LuasStationMapState extends State<LuasStationMap> {
 
   @override
   Widget build(BuildContext context) {
-
     var heightOfFilter =
         (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
             0.10;
@@ -304,7 +285,7 @@ class _LuasStationMapState extends State<LuasStationMap> {
         ? Container(
             padding: EdgeInsets.all(8),
             height: MediaQuery.of(context).size.height - heightOfFilter,
-            child:  Card(
+            child: Card(
                 child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -314,18 +295,15 @@ class _LuasStationMapState extends State<LuasStationMap> {
                       ],
                     ))),
           )
-        :
-              Center(
-                child: Container(
-                  height: 20,
-                  width: 20,
-                  margin: EdgeInsets.all(5),
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2.0,
-                  ),
-                ),
-              );
-
-
+        : Center(
+            child: Container(
+              height: 20,
+              width: 20,
+              margin: EdgeInsets.all(5),
+              child: CircularProgressIndicator(
+                strokeWidth: 2.0,
+              ),
+            ),
+          );
   }
 }

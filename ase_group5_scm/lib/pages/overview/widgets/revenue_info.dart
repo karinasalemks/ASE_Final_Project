@@ -5,7 +5,8 @@ class RevenueInfo extends StatelessWidget {
   final String title;
   final String amount;
 
-  const RevenueInfo({Key? key, this.title="", this.amount=""}) : super(key: key);
+  const RevenueInfo({Key? key, this.title = "", this.amount = ""})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

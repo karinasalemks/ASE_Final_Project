@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ase_group5_scm/helpers/reponsiveness.dart';
 import 'package:ase_group5_scm/constants/controllers.dart';
-import 'package:ase_group5_scm/pages/overview/widgets/available_drivers_table.dart';
 import 'package:ase_group5_scm/pages/overview/widgets/overview_cards_large.dart';
 import 'package:ase_group5_scm/pages/overview/widgets/overview_cards_medium.dart';
 import 'package:ase_group5_scm/pages/overview/widgets/overview_cards_small.dart';
@@ -14,7 +13,6 @@ import 'widgets/revenue_section_small.dart';
 class OverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Container(
       child: Column(
         children: [
@@ -48,8 +46,7 @@ class OverviewPage extends StatelessWidget {
               else
                 RevenueSectionSmall(),
 
-                // AvailableDriversTable(),
-             
+              // AvailableDriversTable(),
             ],
           ))
         ],

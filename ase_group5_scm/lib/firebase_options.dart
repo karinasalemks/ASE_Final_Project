@@ -61,7 +61,8 @@ class DefaultFirebaseOptions {
     projectId: 'sustainablecityase-7b01f',
     databaseURL: 'https://sustainablecityase-7b01f-default-rtdb.firebaseio.com',
     storageBucket: 'sustainablecityase-7b01f.appspot.com',
-    iosClientId: '717610476922-flnvslhb1l73h468v0vm9r24fj85s34e.apps.googleusercontent.com',
+    iosClientId:
+        '717610476922-flnvslhb1l73h468v0vm9r24fj85s34e.apps.googleusercontent.com',
     iosBundleId: 'com.asegroup5.aseGroup5Scm',
   );
 
@@ -72,7 +73,8 @@ class DefaultFirebaseOptions {
     projectId: 'sustainablecityase-7b01f',
     databaseURL: 'https://sustainablecityase-7b01f-default-rtdb.firebaseio.com',
     storageBucket: 'sustainablecityase-7b01f.appspot.com',
-    iosClientId: '717610476922-835kjueg928afd7noncnsnt5n12t3b31.apps.googleusercontent.com',
+    iosClientId:
+        '717610476922-835kjueg928afd7noncnsnt5n12t3b31.apps.googleusercontent.com',
     iosBundleId: 'com.asegroup5.aseGroup5S',
   );
 }

@@ -26,8 +26,17 @@ class correlationWidget extends StatefulWidget {
   @override
   _correlationWidgetState createState() => _correlationWidgetState();
 }
+
 late var checkData = null;
-List <String> mapKeys = ["Dry day","High Temp","High wind","Rainy day","Low Temp","Low wind"];
+List<String> mapKeys = [
+  "Dry day",
+  "High Temp",
+  "High wind",
+  "Rainy day",
+  "Low Temp",
+  "Low wind"
+];
+
 formatData(var argument) {
   if (argument.docs.isNotEmpty) {
     dry_data = argument.docs[0]['data']['dry'];
@@ -66,17 +75,13 @@ getCorelationData() {
       .then((argument) {
     formatData(argument);
   });
-
 }
 
 class _correlationWidgetState extends State<correlationWidget> {
-  // get correlation_key => null;
-
   @override
   void initState() {
     super.initState();
     getCorelationData();
-
   }
 
   @override
@@ -94,9 +99,14 @@ class _correlationWidgetState extends State<correlationWidget> {
                         margin: 2.0),
                     bottomTitle: AxisTitle(
                         titleText: "Hours", showTitle: true, margin: 30.0),
-                topTitle: AxisTitle(
-                    titleText: mapKeys[widget.correlation_key], showTitle: true, margin: 50.0,textStyle: TextStyle(color: widget.correlation_key < 3 ? Colors.red : Colors.blue))),
-
+                    topTitle: AxisTitle(
+                        titleText: mapKeys[widget.correlation_key],
+                        showTitle: true,
+                        margin: 50.0,
+                        textStyle: TextStyle(
+                            color: widget.correlation_key < 3
+                                ? Colors.red
+                                : Colors.blue))),
                 lineBarsData: [
                   // The red line
                   LineChartBarData(
