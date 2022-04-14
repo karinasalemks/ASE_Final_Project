@@ -4,9 +4,7 @@ from static.firebaseInitialization import db
 from LoadBalancer.views import send_request
 
 def weatherToFirebase():
-    print("*************** Fetching Dublin Weather API ****************")
     weatherResponse = send_request(apiSource.DUBLIN_EVENTS_API['weatherForecast'])
-    print("*************** Fetching Done ****************")
     if weatherResponse.status_code == 200 or weatherResponse.status_code == 201:
         weatherData = json.loads(weatherResponse.text)
 

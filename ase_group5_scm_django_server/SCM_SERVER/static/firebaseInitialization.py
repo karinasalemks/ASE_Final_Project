@@ -2,6 +2,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 import os
 
+# firebase one time initialization
 # replace the key with the groups private key
 privateKeyPath = os.path.join(os.getcwd(), 'static')
 privateKeyPath = os.path.join(privateKeyPath, 'privateKey.json')

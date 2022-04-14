@@ -4,7 +4,6 @@ import unittest
 import requests
 from .. import Endpoints as apiSource
 
-
 class MyTestCase(unittest.TestCase):
     def test_APIresponse_Bike(self):
         response = requests.get(apiSource.DUBLIN_BIKES_API['PRIMARY'])
@@ -20,6 +19,3 @@ class MyTestCase(unittest.TestCase):
     def test_APIresponse_Events(self):
         response = requests.get(apiSource.DUBLIN_EVENTS_API['PRIMARY'])
         self.assertEqual(response.status_code, 200)
-
-# if __name__ == '__main__':
-#     unittest.main()

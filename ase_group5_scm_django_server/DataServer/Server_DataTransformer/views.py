@@ -135,7 +135,6 @@ def transformEventsData(inputData, isPrimarySource):
         events_header["event_location_name"] = location_name
         events_header["event_location_longitude"] = api_response[0]["_embedded"]["venues"][0]["location"]["longitude"]
         events_header["event_location_latitude"] = api_response[0]["_embedded"]["venues"][0]["location"]["latitude"]
-        print(busStopsData["Aviva Stadium"]["stops"])
         for event in api_response:
             date = event["dates"]["start"]["dateTime"]
             event_name = event["name"]

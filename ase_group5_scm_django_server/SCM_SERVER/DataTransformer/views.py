@@ -5,9 +5,9 @@ import pandas as pd
 import numpy as np
 import json
 
+
 # Create your views here.
 def transformBikeData(inputData):
-    # result = {}
     stationData = []
     bikePredictor = BikePredictor()
 

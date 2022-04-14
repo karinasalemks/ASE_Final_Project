@@ -6,18 +6,6 @@ from SCM_SERVER.DataTransformer.DataModel.bikeModel import BikeModel
 
 class TestViews(unittest.TestCase):
 
-    # def test_transform_events_data_primary(self):
-    #     isPrimarySource = True
-    #
-    #     response = [{}]
-    #     result = transformEventsData(response)[0]
-    #     self.assertEqual(isinstance(result.event_name, str), True)
-    #     self.assertEqual(isinstance(result.event_date_time, str), True)
-    #     self.assertEqual(isinstance(result.event_location_name, str), True)
-    #     self.assertEqual(isinstance(result.event_location_longitude, str), True)
-    #     self.assertEqual(isinstance(result.event_location_latitude, str), True)
-    #     # self.assertEqual(isinstance(result.event_list, list), True)
-
     def test_transform_bike_data_primary(self):
         isPrimarySource = True
 

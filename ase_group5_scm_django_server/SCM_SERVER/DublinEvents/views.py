@@ -11,7 +11,6 @@ from DataTransformer.views import transformData
 
 def eventsDataCreate(request):
     start = time.time()
-    print("*************** Fetching Dublin Events API ****************")
     response = send_request(apiSource.DUBLIN_EVENTS_API['source'])
     if response.status_code == 200 or response.status_code == 201:
         eventsData = json.loads(response.text)
@@ -26,7 +25,6 @@ def eventsDataCreate(request):
             else:
                 batch.set(currentDocRef, jsonEvent)
         batch.commit()
-        print("Batch Transaction Complete..")
     else:
         print("Response code:-", response.status_code)
     end = time.time()
