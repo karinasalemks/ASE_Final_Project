@@ -1,4 +1,5 @@
 import 'package:data_table_2/data_table_2.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ase_group5_scm/constants/style.dart';
@@ -50,7 +51,9 @@ class SwapSuggestionTable extends StatefulWidget {
                 width: 10,
               ),
               CustomText(
-                text: "Swap Suggestions for $table_title",
+                text:(defaultTargetPlatform == TargetPlatform.iOS ||
+                    defaultTargetPlatform == TargetPlatform.android)
+                    ? "Swap Suggestions for \n $table_title":"Swap Suggestions for $table_title",
                 color: Colors.black,
                 weight: FontWeight.bold,
               ),

@@ -26,8 +26,8 @@ class InfoCardSmall extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-            CustomText(text: title, size: 24, weight: FontWeight.w300, color: isActive ? active : lightGrey,),
-            CustomText(text: value, size: 24, weight: FontWeight.bold, color: isActive ? active : dark,)
+            CustomText(text: title, size: 12, weight: FontWeight.w300, color: isActive ? active : lightGrey,),
+            CustomText(text: value, size: 12, weight: FontWeight.bold, color: isActive ? active : dark,)
 
           ],)
         ),

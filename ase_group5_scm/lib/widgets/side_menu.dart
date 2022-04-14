@@ -1,3 +1,4 @@
+import 'package:ase_group5_scm/Components/AppConstants.dart';
 import 'package:ase_group5_scm/pages/authentication/login.dart';
 import 'package:flutter/material.dart';
 import 'package:ase_group5_scm/constants/controllers.dart';
@@ -59,7 +60,7 @@ class SideMenu extends StatelessWidget {
                           itemName: item.name,
                           onTap: () {
                             if(item.name == "Log out") {
-                              menuController.changeActiveItemTo("Overview");
+                              menuController.changeActiveItemTo(AppConstants.CORRELATION_OVERVIEW);
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
