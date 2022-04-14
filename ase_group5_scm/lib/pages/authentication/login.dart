@@ -50,13 +50,14 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     children: [
                       Row(
                         children: [
+                          Expanded(child:
                           Padding(
                             padding: const EdgeInsets.only(right: 12),
                             child: Image.asset("assets/icons/logo.png"),
-                          ),
-                          Text("Sustainable City",
+                          )),
+                          Expanded(child: Text("Sustainable City",
                               style: GoogleFonts.roboto(
-                                  fontSize: 30, fontWeight: FontWeight.bold)),
+                                  fontSize: 30, fontWeight: FontWeight.bold))),
                           Expanded(child: Container()),
                         ],
                       ),
@@ -99,7 +100,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       InkWell(
                         onTap: () {
                           signIn(userNameController.text,
-                                  passwordController.text)
+                              passwordController.text)
                               .then((result) {
                             if (result == "success") {
                               Get.offAllNamed(overviewPageRoute);
