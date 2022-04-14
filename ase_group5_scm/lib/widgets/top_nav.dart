@@ -30,7 +30,7 @@ AppBar topNavigationBar(BuildContext context, GlobalKey<ScaffoldState> key) =>
             Visibility(
                 visible: !ResponsiveWidget.isSmallScreen(context),
                 child: CustomText(
-                  text: "insights!",
+                  text: "Dublin SCM",
                   color: lightGrey,
                   size: 24,
                   weight: FontWeight.bold,

@@ -21,7 +21,7 @@ StreamSubscription? connection;
 bool isoffline = false;
 
 class loginScreen extends StatelessWidget {
-  static const String _title = 'Sustainable City Management';
+  static const String _title = 'Dublin SCM';
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +95,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                             padding: const EdgeInsets.only(right: 12),
                             child: Image.asset("assets/icons/logo.png"),
                           ),
-                          Text("Sustainable City",
+                          Text("Dublin SCM",
                               style: GoogleFonts.roboto(
                                   fontSize: 30, fontWeight: FontWeight.bold)),
                           Expanded(child: Container()),
