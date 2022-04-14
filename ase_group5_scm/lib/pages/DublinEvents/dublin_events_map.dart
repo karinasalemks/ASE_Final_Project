@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -176,10 +177,88 @@ class _EventLocationMapState extends State<EventLocationMap> {
   eventMapHeaderContainer(heightOfFilter, snapshot) {
 
     return new Container(
-        height: heightOfFilter,
+        height: (defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android)
+            ? heightOfFilter+80:heightOfFilter,
         child: Padding(
             padding: const EdgeInsets.only(top: 10.0),
-            child: Row(
+            child: (defaultTargetPlatform == TargetPlatform.iOS ||
+                defaultTargetPlatform == TargetPlatform.android)
+                ? Column(
+              children: <Widget>[
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 5.0),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text('Event Date',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0.3,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 13)),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  // fit: FlexFit.loose,
+                  child: DropdownButton(
+                    value: dropdownvalue,
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    items: filterList.map((String items) {
+                      return DropdownMenuItem(value: items, child: Text(items));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownvalue = newValue!;
+                        getMarkerData();
+                      });
+                    },
+                  ),
+                ),
+                Container(
+                  // fit: FlexFit.loose,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: Text('Bus Stop',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              letterSpacing: 0.3,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                              fontSize: 13)),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  // fit: FlexFit.tight,
+                  child: DropdownButton(
+                    value: stopDdropdownvalue,
+                    icon: Icon(Icons.keyboard_arrow_down),
+                    items: busStopFilterList.map((String items) {
+                      return DropdownMenuItem(value: items, child: Text(items));
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        busStopMarkers = {};
+                        stopDdropdownvalue = newValue!;
+                        getMarkerData();
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ):Row(
               children: <Widget>[
                 Flexible(
                   fit: FlexFit.loose,
@@ -258,7 +337,12 @@ class _EventLocationMapState extends State<EventLocationMap> {
 
   eventsMapContainer(heightOfFilter, snapshot) {
     return new Container(
-        height: (MediaQuery.of(context).size.height -
+        height: (defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android)
+            ?(MediaQuery.of(context).size.height -
+            appBar.preferredSize.height -
+            heightOfFilter -90) *
+            0.90 :(MediaQuery.of(context).size.height -
             appBar.preferredSize.height -
             heightOfFilter) *
             0.90,
@@ -276,9 +360,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
 
   @override
   Widget build(BuildContext context) {
-    var heightOfFilter =
-        (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
-            0.10;
+    var heightOfFilter =(MediaQuery.of(context).size.height - appBar.preferredSize.height) * 0.10;
     //Todo: Refine the code here to stop calling setState method before build.
 
     return Container(
