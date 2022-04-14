@@ -9,177 +9,184 @@ import 'package:ase_group5_scm/widgets/custom_text.dart';
 class SwapSuggestionTable extends StatefulWidget {
   final snapshot;
   final String dataKey;
-  const SwapSuggestionTable({Key? key, required this.snapshot, required this.dataKey}) : super(key: key);
+
+  const SwapSuggestionTable(
+      {Key? key, required this.snapshot, required this.dataKey})
+      : super(key: key);
 
   @override
   _SwapSuggestionTableState createState() => _SwapSuggestionTableState();
-  }
+}
 
-  class _SwapSuggestionTableState extends State<SwapSuggestionTable>{
-
+class _SwapSuggestionTableState extends State<SwapSuggestionTable> {
   @override
   Widget build(BuildContext context) {
     var table_title = widget.dataKey;
-    if(table_title == "free_stations"){
+    if (table_title == "free_stations") {
       table_title = "Free Stations";
-    }else{
+    } else {
       table_title = "Occupied Stations";
     }
-    var bike_swap_suggestions = widget.snapshot.docs[0].get("swap_suggestions")[0][widget.dataKey];
-
+    var bike_swap_suggestions =
+        widget.snapshot.docs[0].get("swap_suggestions")[0][widget.dataKey];
 
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(color: active.withOpacity(.4), width: .5),
-        boxShadow: [
-          BoxShadow(
-              offset: Offset(0, 6),
-              color: lightGrey.withOpacity(.1),
-              blurRadius: 12)
-        ],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      padding: const EdgeInsets.all(16),
-      margin: EdgeInsets.only(bottom: 30),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: active.withOpacity(.4), width: .5),
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(0, 6),
+                color: lightGrey.withOpacity(.1),
+                blurRadius: 12)
+          ],
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.only(bottom: 30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(children: [
               SizedBox(
                 width: 10,
               ),
               CustomText(
-                text:(defaultTargetPlatform == TargetPlatform.iOS ||
-                    defaultTargetPlatform == TargetPlatform.android)
-                    ? "Swap Suggestions for \n $table_title":"Swap Suggestions for $table_title",
+                text: (defaultTargetPlatform == TargetPlatform.iOS ||
+                        defaultTargetPlatform == TargetPlatform.android)
+                    ? "Swap Suggestions for \n $table_title"
+                    : "Swap Suggestions for $table_title",
                 color: Colors.black,
                 weight: FontWeight.bold,
               ),
-            ]
-          ),
-          DataTable2(
-            columnSpacing: 12,
-            horizontalMargin: 12,
-            minWidth: 950,
-            columns: [
-              DataColumn2(
-                label: CustomText(
-                  text: "Source Station",
-                  color: Colors.black,
-                  weight: FontWeight.bold,
+            ]),
+            DataTable2(
+              columnSpacing: 12,
+              horizontalMargin: 12,
+              minWidth: 950,
+              columns: [
+                DataColumn2(
+                  label: CustomText(
+                    text: "Source Station",
+                    color: Colors.black,
+                    weight: FontWeight.bold,
+                  ),
+                  size: ColumnSize.L,
                 ),
-                size: ColumnSize.L,
-              ),
-              DataColumn2(
-                label: CustomText(
-                  text: "Swap Suggestion",
-                  color: Colors.black,
-                  weight: FontWeight.bold,
+                DataColumn2(
+                  label: CustomText(
+                    text: "Swap Suggestion",
+                    color: Colors.black,
+                    weight: FontWeight.bold,
+                  ),
+                  size: ColumnSize.L,
                 ),
-                size: ColumnSize.L,
-              ),
-              DataColumn2(
-                label: CustomText(
-                  text: "Distance",
-                  color: Colors.black,
-                  weight: FontWeight.bold,
+                DataColumn2(
+                  label: CustomText(
+                    text: "Distance",
+                    color: Colors.black,
+                    weight: FontWeight.bold,
+                  ),
+                  size: ColumnSize.L,
                 ),
-                size: ColumnSize.L,
-              ),
-            ],
-            rows: List<DataRow>.generate(
-                5,
-                    (index) => generateSuggestionRow(bike_swap_suggestions[index],widget.dataKey)),
-          ),
-        ],
-      ));
+              ],
+              rows: List<DataRow>.generate(
+                  5,
+                  (index) => generateSuggestionRow(
+                      bike_swap_suggestions[index], widget.dataKey)),
+            ),
+          ],
+        ));
   }
 }
 
-DataRow generateSuggestionRow(swap_suggestions,key){
+DataRow generateSuggestionRow(swap_suggestions, key) {
   var source_station = swap_suggestions["occupied_station"];
   var source_station_name = source_station["station_name"];
-  var source_station_occupancy = (source_station["occupancy"]*100).round();
+  var source_station_occupancy = (source_station["occupancy"] * 100).round();
   var source_station_ab = source_station["available_bikes"];
   var dst_station = swap_suggestions["suggested_station"];
-  var dst_station_occupancy = (dst_station["occupancy"]*100).round();
+  var dst_station_occupancy = (dst_station["occupancy"] * 100).round();
   var dst_station_ab = dst_station["available_bikes"];
   var dst_station_name = dst_station["station_name"];
-  var distance=source_station["distance"].toString();
+  var distance = source_station["distance"].toString();
   var a = 'arrow_forward';
-  return DataRow(
-      cells: [
-        DataCell( Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  return DataRow(cells: [
+    DataCell(Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(source_station_name),
+        Row(
           children: [
-            Text(source_station_name),
-            Row(
-              children: [
-                Text("Occupancy: $source_station_occupancy% | Available Bikes: $source_station_ab")
-              ],
-            ),
+            Text(
+                "Occupancy: $source_station_occupancy% | Available Bikes: $source_station_ab")
           ],
-        )),
-          DataCell(Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (key!='free_stations')...[
-                Icon(
-                  Icons.directions_bike,
-                  color: Colors.deepOrange,
-                  size: 18,
-                ),
-                Icon(
-                  Icons.arrow_forward,
-                  color: Colors.deepOrange,
-                  size: 18,
-                )
-                ] else...[
-                Icon(
-                Icons.arrow_back,
-                color: Colors.deepOrange,
-                size: 18,
-              ),Transform(
-                    alignment: Alignment.center,
-                    transform: Matrix4.rotationY(3.14),
-                    child :Icon(
-                      Icons.directions_bike,
-                      color: Colors.deepOrange,
-                      size: 18,
-                    ))],
-              SizedBox(
-              width: 5,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                Text(dst_station_name),
-                Row(
-                children: [
-                Text("Occupancy: $dst_station_occupancy% | Available Bikes: $dst_station_ab")
-                ],
-                ),
-                ],
-              ),
-            ],
-          ),),
-        DataCell(Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
+        ),
+      ],
+    )),
+    DataCell(
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (key != 'free_stations') ...[
             Icon(
-              Icons.social_distance,
+              Icons.directions_bike,
               color: Colors.deepOrange,
               size: 18,
             ),
-            SizedBox(
-              width: 5,
+            Icon(
+              Icons.arrow_forward,
+              color: Colors.deepOrange,
+              size: 18,
+            )
+          ] else ...[
+            Icon(
+              Icons.arrow_back,
+              color: Colors.deepOrange,
+              size: 18,
             ),
-            Text(distance)
+            Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(3.14),
+                child: Icon(
+                  Icons.directions_bike,
+                  color: Colors.deepOrange,
+                  size: 18,
+                ))
           ],
-        )
-       )]);
- }
+          SizedBox(
+            width: 5,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(dst_station_name),
+              Row(
+                children: [
+                  Text(
+                      "Occupancy: $dst_station_occupancy% | Available Bikes: $dst_station_ab")
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    ),
+    DataCell(Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(
+          Icons.social_distance,
+          color: Colors.deepOrange,
+          size: 18,
+        ),
+        SizedBox(
+          width: 5,
+        ),
+        Text(distance)
+      ],
+    ))
+  ]);
+}

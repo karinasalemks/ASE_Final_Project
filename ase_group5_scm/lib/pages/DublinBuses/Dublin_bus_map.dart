@@ -1,6 +1,4 @@
-import 'package:ase_group5_scm/Components/SideMenu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -49,15 +47,6 @@ class _BusStationMapState extends State<BusStationMap> {
   getMarkerData() {
     FirebaseFirestore.instance.collection('DublinBus').get().then((myMarkers) {
       if (myMarkers.docs.isNotEmpty) {
-        // Map<dynamic, dynamic> dataset = myMarkers.docs[0].get(0);
-        // dataset.entries.forEach((element) {
-        //   var   = element.key();
-        //   var station_latitude = element.value().get('latitude');
-        //   var station_longitude = element.value().get('longitude');
-        //   var station_name = element.value().get('name');
-        //   initMarker(station_name, station_latitude, station_longitude,
-        //       station_id, low);
-        // });
         initAllMarkers(myMarkers.docs);
       }
     });
@@ -67,7 +56,6 @@ class _BusStationMapState extends State<BusStationMap> {
     markers.clear();
     polylines.clear();
     dataset = markersList[0]['data'][0];
-    //var dataset = markersList[0][0];
     int counter = 0;
     for (var k in dataset.entries) {
       if (counter < 100) {
@@ -80,8 +68,6 @@ class _BusStationMapState extends State<BusStationMap> {
 
     dataset_busiest_trips.forEach((k, v) => add_new_marker(k, v));
     dataset_trips_test = markersList[2]['data'];
-    // print(dataset_trips_test[0]);
-    // Commented out code for PolyLines
     for (int i = 0; i < 4; i++) {
       dataset_trip_list = markersList[2]['data'][i]['stop_sequences'];
 
@@ -97,11 +83,8 @@ class _BusStationMapState extends State<BusStationMap> {
       int k = 1;
       while (k < dataset_trip_list.length - 2) {
         if (k == 22) break;
-        print("helooo");
         double lat = dataset[dataset_trip_list[k]]['latitude'];
         double longi = dataset[dataset_trip_list[k]]['longitude'];
-        // print(lat);
-        // print(longi);
         wayPoint.add(PolylineWayPoint(location: '$lat,$longi'));
         k++;
       }
@@ -152,9 +135,6 @@ class _BusStationMapState extends State<BusStationMap> {
       polylines.clear();
       mapToggle = true;
     });
-
-    /// origin marker
-    // _getPolyline();
   }
 
   void onMapCreated(controller) {
@@ -163,18 +143,9 @@ class _BusStationMapState extends State<BusStationMap> {
     });
   }
 
-  _addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
-    MarkerId markerId = MarkerId(id);
-    Marker marker =
-        Marker(markerId: markerId, icon: descriptor, position: position);
-    markers[markerId] = marker;
-  }
-
   void _setCircles(LatLng point, var rad) {
     final String circleIdVal = 'circle_id_$_circleIdCounter';
     _circleIdCounter++;
-    print(
-        'Circle | Latitude: ${point.latitude}  Longitude: ${point.longitude}  Radius: 10');
     CircleId id = CircleId(circleIdVal);
     _circles[id] = Circle(
         circleId: CircleId(circleIdVal),
@@ -196,21 +167,12 @@ class _BusStationMapState extends State<BusStationMap> {
         width: 4);
     polylines[id] = polyline;
     setState(() {
-      // polylines[id] = polyline;
       _polylineCount++;
     });
   }
 
   _getPolyline(var orig_lati, var orig_longi, var dest_lati, var dest_longi,
       var wayPointList) async {
-    print('Hello Inside _getPolyLine Function' + '$orig_lati');
-
-    // _addMarker(LatLng(orig_lati, orig_longi), "origin",
-    //     BitmapDescriptor.defaultMarker);
-
-    /// destination marker
-    // _addMarker(LatLng(dest_lati, dest_longi), "destination",
-    //     BitmapDescriptor.defaultMarkerWithHue(90));
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
         googleAPiKey,
         PointLatLng(orig_lati, orig_longi),
@@ -297,7 +259,8 @@ class _BusStationMapState extends State<BusStationMap> {
     return new Container(
         height: (MediaQuery.of(context).size.height -
                 appBar.preferredSize.height -
-                heightOfFilter-10) *
+                heightOfFilter -
+                10) *
             0.90,
         key: Key("dublin-bikes-map"),
         child: GoogleMap(
@@ -326,97 +289,17 @@ class _BusStationMapState extends State<BusStationMap> {
             0.10;
     //Todo: Refine the code here to stop calling setState method before build.
     return Container(
-            padding: EdgeInsets.all(8),
-            height: MediaQuery.of(context).size.height - heightOfFilter,
-            child: Card(
-                child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: <Widget>[
-                        bikeMapHeaderContainer(heightOfFilter),
-                        bikesMapContainer(heightOfFilter),
-                      ],
-                    ))),
-          )
-
-    ;
+      padding: EdgeInsets.all(8),
+      height: MediaQuery.of(context).size.height - heightOfFilter,
+      child: Card(
+          child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  bikeMapHeaderContainer(heightOfFilter),
+                  bikesMapContainer(heightOfFilter),
+                ],
+              ))),
+    );
   }
-// @override
-// Widget build(BuildContext context) {
-//   var heightOfFilter =
-//       (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
-//           0.10;
-//   //Todo: Refine the code here to stop calling setState method before build.
-//   return Scaffold(
-//     //appBar: appBar,
-//     resizeToAvoidBottomInset: false,
-//     drawer: SideMenu(),
-//     body: StreamBuilder<QuerySnapshot>(
-//       stream: FirebaseFirestore.instance.collection('DublinBus').snapshots(),
-//       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-//         if (snapshot.hasData) {
-//           // initAllMarkers(snapshot.data!.docs);
-//           return Column(
-//             children: <Widget>[
-//               new Container(
-//                   height: heightOfFilter,
-//                   child: Padding(
-//                       padding: const EdgeInsets.only(top: 10.0),
-//                       child: Row(
-//                         children: <Widget>[
-//                           Flexible(
-//                             fit: FlexFit.loose,
-//                             child: Padding(
-//                               padding: const EdgeInsets.only(left: 10.0),
-//                               child: FittedBox(
-//                                 fit: BoxFit.cover,
-//                                 child: Text('Current Station Occupancy',
-//                                     textAlign: TextAlign.center,
-//                                     style: TextStyle(
-//                                         letterSpacing: 0.5,
-//                                         fontWeight: FontWeight.bold,
-//                                         color: Colors.black,
-//                                         fontSize: 16)),
-//                               ),
-//                             ),
-//                           ),
-//                           SizedBox(
-//                             width: 20,
-//                           )
-//                         ],
-//                       ))),
-//               new Container(
-//                   height: (MediaQuery.of(context).size.height -
-//                       appBar.preferredSize.height -
-//                       heightOfFilter) *
-//                       0.90,
-//                   key: Key("dublin-buses-map"),
-//                   child: GoogleMap(
-//                     onMapCreated: onMapCreated,
-//                     myLocationEnabled: true,
-//                     initialCameraPosition: CameraPosition(
-//                       target: LatLng(53.344007, -6.266802),
-//                       zoom: 15.0,
-//                     ),
-//                     // polylines: polyline,
-//                     markers: Set<Marker>.of(getMarkers().values),
-//                     polylines: Set<Polyline>.of(polylines.values),
-//                     circles: Set<Circle>.of(_circles.values),
-//                   )),
-//             ],
-//           );
-//         } else if (snapshot.hasError) {
-//           print(snapshot.error);
-//           return Text("Error pa thambi! :)");
-//         } else {
-//           return Center(
-//               child: Transform.scale(
-//                 scale: 1,
-//                 child: CircularProgressIndicator(),
-//               ));
-//         }
-//       },
-//     ),
-//   );
-// }
 }

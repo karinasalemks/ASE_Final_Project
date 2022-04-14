@@ -32,7 +32,7 @@ class MenuController extends GetxController {
       case luasDisplayName:
         return _customIcon(Icons.directions_railway, itemName);
       case eventsDisplayName:
-        return _customIcon(Icons.calendar_today , itemName);
+        return _customIcon(Icons.calendar_today, itemName);
       case authenticationPageDisplayName:
         return _customIcon(Icons.exit_to_app, itemName);
       default:

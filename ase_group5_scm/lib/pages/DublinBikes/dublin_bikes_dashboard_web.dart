@@ -12,6 +12,7 @@ import 'package:logging/logging.dart';
 
 class DublinBikesDashboardWeb extends StatefulWidget {
   const DublinBikesDashboardWeb({Key? key}) : super(key: key);
+
   @override
   _DublinBikesDashboardWebState createState() =>
       _DublinBikesDashboardWebState();
@@ -19,6 +20,7 @@ class DublinBikesDashboardWeb extends StatefulWidget {
 
 class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
   final log = Logger('dublin_bikes_dashboard.dart');
+
   StreamBuilder<Object?> combinedStreams() {
     Stream<QuerySnapshot> map = FirebaseFirestore.instance
         .collection(AppConstants.DUBLIN_BIKES_COLLECTION)
@@ -75,19 +77,18 @@ class _DublinBikesDashboardWebState extends State<DublinBikesDashboardWeb> {
                               flex: 1,
                             ),
                           ],
-                      ),
-                      SwapSuggestionTable(
-                        snapshot: swapSnapshot,
-                        dataKey: "free_stations",
-
-                      ),
-                      SwapSuggestionTable(
-                          snapshot: swapSnapshot,
-                          dataKey: "occupied_stations",
-                      ),
-                    ],
+                        ),
+                  SwapSuggestionTable(
+                    snapshot: swapSnapshot,
+                    dataKey: "free_stations",
                   ),
-                ));
+                  SwapSuggestionTable(
+                    snapshot: swapSnapshot,
+                    dataKey: "occupied_stations",
+                  ),
+                ],
+              ),
+            ));
           } else {
             return Center(
                 child: Transform.scale(

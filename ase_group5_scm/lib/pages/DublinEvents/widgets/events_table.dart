@@ -14,7 +14,13 @@ class EventsTable extends StatefulWidget {
 }
 
 class _EventsTableState extends State<EventsTable> {
-  List eventLocation = ["Aviva Stadium", "Bord Gais Energy Theatre", "Gaiety Theatre", "National Stadium", "3Arena"];
+  List eventLocation = [
+    "Aviva Stadium",
+    "Bord Gais Energy Theatre",
+    "Gaiety Theatre",
+    "National Stadium",
+    "3Arena"
+  ];
   List eventCount = [0, 0, 0, 0, 0];
   List capacity = [0, 0, 0, 0, 0];
 
@@ -25,7 +31,7 @@ class _EventsTableState extends State<EventsTable> {
       for (int i = 0; i < eventList.length; i++) {
         var events = eventList[i].get("events");
         var location_name = eventList[i].get("location_name");
-        switch(location_name) {
+        switch (location_name) {
           case "Aviva Stadium":
             //Dublin 4
             eventCount[0] = events.length;
@@ -69,47 +75,41 @@ class _EventsTableState extends State<EventsTable> {
       padding: const EdgeInsets.all(16),
       margin: EdgeInsets.only(bottom: 30),
       child: DataTable2(
-          columnSpacing: 10,
-          horizontalMargin: 12,
-          minWidth: 380,
-          columns: [
-            DataColumn2(
-              label: Text("Event Location"),
-            ),
-            DataColumn(
-              label: Text('No of Events'),
-            )
-          ],
-          rows: List<DataRow>.generate(
-              eventLocation.length,
-                  (index) => generateEventRows(eventLocation[index], eventCount[index], capacity[index])),
+        columnSpacing: 10,
+        horizontalMargin: 12,
+        minWidth: 380,
+        columns: [
+          DataColumn2(
+            label: Text("Event Location"),
+          ),
+          DataColumn(
+            label: Text('No of Events'),
+          )
+        ],
+        rows: List<DataRow>.generate(
+            eventLocation.length,
+            (index) => generateEventRows(
+                eventLocation[index], eventCount[index], capacity[index])),
       ),
     );
   }
 }
 
 DataRow generateEventRows(var location, var count, var capacity) {
-  return DataRow(
-      cells: [
-        DataCell(Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text("$location"),
-            Row(
-              children: [
-                Text(
-                    "Capacity:$capacity")
-              ],
-            ),
-          ],
-        )),
-        DataCell(Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("$count")
-          ],
-        )
-        )
-      ]);
+  return DataRow(cells: [
+    DataCell(Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text("$location"),
+        Row(
+          children: [Text("Capacity:$capacity")],
+        ),
+      ],
+    )),
+    DataCell(Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [Text("$count")],
+    ))
+  ]);
 }

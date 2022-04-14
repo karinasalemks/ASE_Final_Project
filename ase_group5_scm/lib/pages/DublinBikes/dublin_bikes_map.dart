@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart'; // new
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -36,20 +35,6 @@ class _BikeStationMapState extends State<BikeStationMap> {
   AppBar appBar = AppBar(
     title: Text("Dublin Bikes Map"),
   );
-
-  //is not used.
-  // getMarkerData() async {
-  //   FirebaseFirestore.instance
-  //       .collection('usbikes')
-  //       .get()
-  //       .then((myMarkers) {
-  //     if (myMarkers.docs.isNotEmpty) {
-  //       for (int i = 0; i < myMarkers.docs.length; i++) {
-  //         initMarker(myMarkers.docs[i], myMarkers.docs[i].id, customIcon);
-  //       }
-  //     }
-  //   });
-  // }
 
   /*
   * This function initializes all the markers from the data received from firebase
@@ -104,7 +89,7 @@ class _BikeStationMapState extends State<BikeStationMap> {
       infoWindow: InfoWindow(
           title: stationData.get("station_name"),
           snippet:
-          "Total Stands:$totalBikes\nAvailable Stands: $bikeStand\nAvailable Bikes: $freeBikes"),
+              "Total Stands:$totalBikes\nAvailable Stands: $bikeStand\nAvailable Bikes: $freeBikes"),
     );
     markers[markerId] = marker;
   }
@@ -152,102 +137,103 @@ class _BikeStationMapState extends State<BikeStationMap> {
   }
 
   bikeMapHeaderContainer(heightOfFilter, snapshot) {
-    return  (defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android)
+    return (defaultTargetPlatform == TargetPlatform.iOS ||
+            defaultTargetPlatform == TargetPlatform.android)
         ? new Container(
-        height: heightOfFilter+1.4,
-        child: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  // fit: FlexFit.loose,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: Text('Current Station Occupancy',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              letterSpacing: 0.5,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 10)),
+            height: heightOfFilter + 1.4,
+            child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      // fit: FlexFit.loose,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: Text('Current Station Occupancy',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  letterSpacing: 0.5,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 10)),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  child: DropdownButton(
-                    value: dropdownvalue,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    items: filterList.map((String items) {
-                      return DropdownMenuItem(value: items, child: Text(items));
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownvalue = newValue!;
-                        initAllMarkers(snapshot.docs);
-                        // initAllMarkers(snapshot.data!.docs);
-                      });
-                    },
-                  ),
-                ),
-
-              ],
-            ))):new Container(
-        height: heightOfFilter,
-        child: Padding(
-            padding: const EdgeInsets.only(top: 10.0),
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: Text('Current Station Occupancy',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              letterSpacing: 0.5,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 16)),
+                    SizedBox(
+                      width: 20,
                     ),
-                  ),
-                ),
-                SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  child: DropdownButton(
-                    value: dropdownvalue,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    items: filterList.map((String items) {
-                      return DropdownMenuItem(value: items, child: Text(items));
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownvalue = newValue!;
-                        initAllMarkers(snapshot.docs);
-                        // initAllMarkers(snapshot.data!.docs);
-                      });
-                    },
-                  ),
-                ),
-
-              ],
-            )));
+                    Container(
+                      child: DropdownButton(
+                        value: dropdownvalue,
+                        icon: Icon(Icons.keyboard_arrow_down),
+                        items: filterList.map((String items) {
+                          return DropdownMenuItem(
+                              value: items, child: Text(items));
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                            initAllMarkers(snapshot.docs);
+                            // initAllMarkers(snapshot.data!.docs);
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                )))
+        : new Container(
+            height: heightOfFilter,
+            child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Row(
+                  children: <Widget>[
+                    Flexible(
+                      fit: FlexFit.loose,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10.0),
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: Text('Current Station Occupancy',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  letterSpacing: 0.5,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                  fontSize: 16)),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      child: DropdownButton(
+                        value: dropdownvalue,
+                        icon: Icon(Icons.keyboard_arrow_down),
+                        items: filterList.map((String items) {
+                          return DropdownMenuItem(
+                              value: items, child: Text(items));
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                            initAllMarkers(snapshot.docs);
+                            // initAllMarkers(snapshot.data!.docs);
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                )));
   }
 
   bikesMapContainer(heightOfFilter, snapshot) {
     return new Container(
         height: (MediaQuery.of(context).size.height -
-            appBar.preferredSize.height -
-            heightOfFilter) *
+                appBar.preferredSize.height -
+                heightOfFilter) *
             0.90,
         key: Key("dublin-bikes-map"),
         child: GoogleMap(
@@ -276,7 +262,6 @@ class _BikeStationMapState extends State<BikeStationMap> {
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
-                  // DublinBikesUsageChart(snapshot: snapshot),
                   bikeMapHeaderContainer(heightOfFilter, widget.snapshot),
                   bikesMapContainer(heightOfFilter, widget.snapshot),
                 ],

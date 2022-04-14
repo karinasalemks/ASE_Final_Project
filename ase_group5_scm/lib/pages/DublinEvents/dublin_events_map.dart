@@ -32,11 +32,10 @@ class _EventLocationMapState extends State<EventLocationMap> {
     'Gaiety Theatre',
     'Bord Gais Theatre',
     '3Arena'
-  ];//station occupancy filter list
+  ]; //station occupancy filter list
   String dropdownvalue =
       'All Upcoming Events'; // the default value for the station occupancy filter
-  String stopDdropdownvalue =
-      'No Bus Stops';
+  String stopDdropdownvalue = 'No Bus Stops';
   late GoogleMapController mapController;
 
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
@@ -68,8 +67,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
         ImageConfiguration(size: Size(36, 36)),
         'assets/image/events_theater.png');
     customIcon_bus_stop = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(36, 36)),
-        'assets/image/bus_stop.png');
+        ImageConfiguration(size: Size(36, 36)), 'assets/image/bus_stop.png');
     if (widget.snapshot.docs.length > 0) {
       var eventList = widget.snapshot.docs;
       for (int i = 0; i < eventList.length; i++) {
@@ -85,17 +83,19 @@ class _EventLocationMapState extends State<EventLocationMap> {
           });
         }
         var myMap = events.map((key, value) => MapEntry(key, value.toString()));
-        for(String key in myMap.keys) {
+        for (String key in myMap.keys) {
           var eventName = myMap[key];
           var date = key;
           var dateTime = DateTime.parse(date);
           var currentDate = DateTime.now();
-          if (dateTime.difference(currentDate).inDays >= 0 && dateTime.difference(currentDate).inDays <= noOfDays) {
+          if (dateTime.difference(currentDate).inDays >= 0 &&
+              dateTime.difference(currentDate).inDays <= noOfDays) {
             var dateFormat = DateFormat("yy-MM-dd");
             var timeFormat = DateFormat("HH:mm:ss");
             var formattedDate = dateFormat.format(dateTime);
             var formattedTime = timeFormat.format(dateTime);
-            listOfEvents += "Date: $formattedDate\nTime: $formattedTime\nEvent: $eventName<br /><br />";
+            listOfEvents +=
+                "Date: $formattedDate\nTime: $formattedTime\nEvent: $eventName<br /><br />";
           }
         }
         addMarkerForEvents(location_name, latitude, longitude, listOfEvents);
@@ -126,18 +126,18 @@ class _EventLocationMapState extends State<EventLocationMap> {
   void addMarkerForEvents(var location, var lat, var long, var eventList) {
     final MarkerId markerId = MarkerId(location);
     BitmapDescriptor mapIcon = customIcon_concert;
-    switch(location) {
+    switch (location) {
       case "Aviva Stadium":
       case "National Stadium":
-      mapIcon = customIcon_sports;
-      break;
+        mapIcon = customIcon_sports;
+        break;
       case "Gaiety Theatre":
       case "Bord Gais Theatre":
         mapIcon = customIcon_theater;
         break;
       case "3Arena":
-      mapIcon = customIcon_concert;
-      break;
+        mapIcon = customIcon_concert;
+        break;
     }
     final Marker marker = Marker(
       markerId: markerId,
@@ -175,177 +175,184 @@ class _EventLocationMapState extends State<EventLocationMap> {
   }
 
   eventMapHeaderContainer(heightOfFilter, snapshot) {
-
     return new Container(
         height: (defaultTargetPlatform == TargetPlatform.iOS ||
-            defaultTargetPlatform == TargetPlatform.android)
-            ? heightOfFilter+80:heightOfFilter,
+                defaultTargetPlatform == TargetPlatform.android)
+            ? heightOfFilter + 80
+            : heightOfFilter,
         child: Padding(
             padding: const EdgeInsets.only(top: 10.0),
             child: (defaultTargetPlatform == TargetPlatform.iOS ||
-                defaultTargetPlatform == TargetPlatform.android)
+                    defaultTargetPlatform == TargetPlatform.android)
                 ? Column(
-              children: <Widget>[
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 5.0),
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: Text('Event Date',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              letterSpacing: 0.3,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 13)),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  // fit: FlexFit.loose,
-                  child: DropdownButton(
-                    value: dropdownvalue,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    items: filterList.map((String items) {
-                      return DropdownMenuItem(value: items, child: Text(items));
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownvalue = newValue!;
-                        getMarkerData();
-                      });
-                    },
-                  ),
-                ),
-                Container(
-                  // fit: FlexFit.loose,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: Text('Bus Stop',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              letterSpacing: 0.3,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 13)),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  // fit: FlexFit.tight,
-                  child: DropdownButton(
-                    value: stopDdropdownvalue,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    items: busStopFilterList.map((String items) {
-                      return DropdownMenuItem(value: items, child: Text(items));
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        busStopMarkers = {};
-                        stopDdropdownvalue = newValue!;
-                        getMarkerData();
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ):Row(
-              children: <Widget>[
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 5.0),
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: Text('Event Date',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              letterSpacing: 0.3,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 13)),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: DropdownButton(
-                    value: dropdownvalue,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    items: filterList.map((String items) {
-                      return DropdownMenuItem(value: items, child: Text(items));
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownvalue = newValue!;
-                        getMarkerData();
-                      });
-                    },
-                  ),
-                ),
-                Flexible(
-                  fit: FlexFit.loose,
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: Text('Bus Stop',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              letterSpacing: 0.3,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                              fontSize: 13)),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Flexible(
-                  fit: FlexFit.tight,
-                  child: DropdownButton(
-                    value: stopDdropdownvalue,
-                    icon: Icon(Icons.keyboard_arrow_down),
-                    items: busStopFilterList.map((String items) {
-                      return DropdownMenuItem(value: items, child: Text(items));
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        busStopMarkers = {};
-                        stopDdropdownvalue = newValue!;
-                        getMarkerData();
-                      });
-                    },
-                  ),
-                ),
-              ],
-            )));
+                    children: <Widget>[
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5.0),
+                          child: FittedBox(
+                            fit: BoxFit.cover,
+                            child: Text('Event Date',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    letterSpacing: 0.3,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 13)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        // fit: FlexFit.loose,
+                        child: DropdownButton(
+                          value: dropdownvalue,
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          items: filterList.map((String items) {
+                            return DropdownMenuItem(
+                                value: items, child: Text(items));
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownvalue = newValue!;
+                              getMarkerData();
+                            });
+                          },
+                        ),
+                      ),
+                      Container(
+                        // fit: FlexFit.loose,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: FittedBox(
+                            fit: BoxFit.cover,
+                            child: Text('Bus Stop',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    letterSpacing: 0.3,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 13)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        // fit: FlexFit.tight,
+                        child: DropdownButton(
+                          value: stopDdropdownvalue,
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          items: busStopFilterList.map((String items) {
+                            return DropdownMenuItem(
+                                value: items, child: Text(items));
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              busStopMarkers = {};
+                              stopDdropdownvalue = newValue!;
+                              getMarkerData();
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : Row(
+                    children: <Widget>[
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 5.0),
+                          child: FittedBox(
+                            fit: BoxFit.cover,
+                            child: Text('Event Date',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    letterSpacing: 0.3,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 13)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: DropdownButton(
+                          value: dropdownvalue,
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          items: filterList.map((String items) {
+                            return DropdownMenuItem(
+                                value: items, child: Text(items));
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownvalue = newValue!;
+                              getMarkerData();
+                            });
+                          },
+                        ),
+                      ),
+                      Flexible(
+                        fit: FlexFit.loose,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: FittedBox(
+                            fit: BoxFit.cover,
+                            child: Text('Bus Stop',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    letterSpacing: 0.3,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                    fontSize: 13)),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Flexible(
+                        fit: FlexFit.tight,
+                        child: DropdownButton(
+                          value: stopDdropdownvalue,
+                          icon: Icon(Icons.keyboard_arrow_down),
+                          items: busStopFilterList.map((String items) {
+                            return DropdownMenuItem(
+                                value: items, child: Text(items));
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              busStopMarkers = {};
+                              stopDdropdownvalue = newValue!;
+                              getMarkerData();
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  )));
   }
 
   eventsMapContainer(heightOfFilter, snapshot) {
     return new Container(
         height: (defaultTargetPlatform == TargetPlatform.iOS ||
-            defaultTargetPlatform == TargetPlatform.android)
-            ?(MediaQuery.of(context).size.height -
-            appBar.preferredSize.height -
-            heightOfFilter -90) *
-            0.90 :(MediaQuery.of(context).size.height -
-            appBar.preferredSize.height -
-            heightOfFilter) *
-            0.90,
+                defaultTargetPlatform == TargetPlatform.android)
+            ? (MediaQuery.of(context).size.height -
+                    appBar.preferredSize.height -
+                    heightOfFilter -
+                    90) *
+                0.90
+            : (MediaQuery.of(context).size.height -
+                    appBar.preferredSize.height -
+                    heightOfFilter) *
+                0.90,
         key: Key("dublin-events-map"),
         child: GoogleMap(
           onMapCreated: onMapCreated,
@@ -360,7 +367,9 @@ class _EventLocationMapState extends State<EventLocationMap> {
 
   @override
   Widget build(BuildContext context) {
-    var heightOfFilter =(MediaQuery.of(context).size.height - appBar.preferredSize.height) * 0.10;
+    var heightOfFilter =
+        (MediaQuery.of(context).size.height - appBar.preferredSize.height) *
+            0.10;
     //Todo: Refine the code here to stop calling setState method before build.
 
     return Container(

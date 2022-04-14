@@ -44,14 +44,14 @@ class _SideMenuState extends State<SideMenu> {
                 children: <Widget>[
                   Expanded(
                       child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundImage: NetworkImage(
-                            'https://source.unsplash.com/50x50/?portrait',
-                          ),
-                        ),
-                      )),
+                    alignment: Alignment.centerLeft,
+                    child: CircleAvatar(
+                      radius: 40,
+                      backgroundImage: NetworkImage(
+                        'https://source.unsplash.com/50x50/?portrait',
+                      ),
+                    ),
+                  )),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Text(
@@ -75,8 +75,8 @@ class _SideMenuState extends State<SideMenu> {
               // Update the state of the app
               // ...
               // Then close the drawer
-              Navigator.of(context)
-                  .pushNamed("/DublinBikesDashboard", arguments: "Dublin Bikes");
+              Navigator.of(context).pushNamed("/DublinBikesDashboard",
+                  arguments: "Dublin Bikes");
             },
           ),
           ListTile(

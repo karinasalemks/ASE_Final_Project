@@ -46,7 +46,7 @@ List sortStationMaps(Map stationUsageMap) {
   stationUsageMap.entries.forEach((e) => stationUsageList.add(
       BikeStationUsageData(stationName: e.key, occupancyPercentage: e.value)));
 
-  ascStationUsageList = stationUsageList.getRange(0, 10).toList();
+  ascStationUsageList = stationUsageList.getRange(12,22).toList();
   //TODO: figure out how to stop the original list from changing
   List<BikeStationUsageData> initAscStationUsageList = [];
   initAscStationUsageList = getInitializedStationName([...ascStationUsageList]);

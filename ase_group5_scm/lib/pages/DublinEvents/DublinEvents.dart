@@ -6,24 +6,28 @@ import 'package:get/get.dart';
 import 'events_dashboard_web.dart';
 
 class DublinEvents extends StatelessWidget {
-  const DublinEvents({ Key? key }) : super(key: key);
+  const DublinEvents({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          Obx(() => Row(
-            children: [
-              Container(
-                  margin: EdgeInsets.only(top:
-                  ResponsiveWidget.isSmallScreen(context) ? 56 : 6),
-                  child: CustomText(text: menuController.activeItem.value, size: 24, weight: FontWeight.bold,)),
-            ],
-          ),),
-
+          Obx(
+            () => Row(
+              children: [
+                Container(
+                    margin: EdgeInsets.only(
+                        top: ResponsiveWidget.isSmallScreen(context) ? 56 : 6),
+                    child: CustomText(
+                      text: menuController.activeItem.value,
+                      size: 24,
+                      weight: FontWeight.bold,
+                    )),
+              ],
+            ),
+          ),
           Expanded(child: EventsDashboardWeb()),
-
         ],
       ),
     );

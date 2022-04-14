@@ -58,11 +58,6 @@ class CustomStreamBuilder extends StatelessWidget {
       stream: getCollectionStream(collectionName),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
-
-          // Based on the viewName, this switch statement will return the
-          // required Container. Once you've written the Widget, add it here.
-          // Make sure you add the view name to the AppConstants.dart file
-
           switch (viewName) {
             case AppConstants.DUBLIN_BIKES_MAP_VIEW:
               return BikeStationMap(snapshot: snapshot.data);
@@ -74,28 +69,28 @@ class CustomStreamBuilder extends StatelessWidget {
               //TODO:add swaps here
               return BikeSwapSuggestions(snapshot: snapshot.data);
             case AppConstants.DUBLIN_BUS_MAP_VIEW:
-            //TODO:add DublinBus Map here
+              //TODO:add DublinBus Map here
               return Text("Dublin Bus Map");
             case AppConstants.DUBLIN_BUS_CO2_VIEW:
-            //TODO:add DublinBus Co2 here
+              //TODO:add DublinBus Co2 here
               return Text("DublinBus Co2");
             case AppConstants.DUBLIN_BUS_REROUTE_VIEW:
-            //TODO:add DublinBus Rerouting here
+              //TODO:add DublinBus Rerouting here
               return Text("DublinBus Rerouting");
             case AppConstants.DUBLIN_LUAS_MAP_VIEW:
-            //TODO:add Luas Map here
+              //TODO:add Luas Map here
               return Text("Luas Map");
             case AppConstants.DUBLIN_LUAS_ELEC_VIEW:
-            //TODO:add Luas electricity here
+              //TODO:add Luas electricity here
               return Text("Luas Electricity");
             case AppConstants.DUBLIN_EVENTS_MAP_VIEW:
-            //TODO:add Dublin Events Map here
+              //TODO:add Dublin Events Map here
               return Text("Dublin Events Map");
             case AppConstants.DUBLIN_EVENTS_BUS_SUG_VIEW:
-            //TODO:add Events Bus Suggestions here
+              //TODO:add Events Bus Suggestions here
               return Text("Events Bus Suggestions");
             case AppConstants.DUBLIN_EVENTS_FORECAST_VIEW:
-            //TODO:add Dublin Forecast here
+              //TODO:add Dublin Forecast here
               return Text("Dublin Forecast");
             default:
               return Text("error in stream builder");

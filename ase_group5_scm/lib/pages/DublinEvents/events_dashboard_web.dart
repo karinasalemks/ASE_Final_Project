@@ -13,42 +13,38 @@ class EventsDashboardWeb extends StatefulWidget {
   const EventsDashboardWeb({Key? key}) : super(key: key);
 
   @override
-  _EventsDashboardWebState createState() =>
-      _EventsDashboardWebState();
+  _EventsDashboardWebState createState() => _EventsDashboardWebState();
 }
 
 class _EventsDashboardWebState extends State<EventsDashboardWeb> {
   late GoogleMapController mapController;
 
-  WeatherDataContainer(heightOfFilter,snapshot) {
+  WeatherDataContainer(heightOfFilter, snapshot) {
     return new Container(
-      height: (MediaQuery.of(context).size.height -
-          heightOfFilter) *
-          0.90,
+      height: (MediaQuery.of(context).size.height - heightOfFilter) * 0.90,
       padding: EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-              child: DublinWeather(snapshot: snapshot)),
+          Expanded(child: DublinWeather(snapshot: snapshot)),
         ],
       ),
     );
   }
-  eventsDataContainer(heightOfFilter,snapshot) {
+
+  eventsDataContainer(heightOfFilter, snapshot) {
     return new Container(
-      height: (MediaQuery.of(context).size.height -
-          heightOfFilter),
+      height: (MediaQuery.of(context).size.height - heightOfFilter),
       padding: EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          Expanded(
-              child: EventsTable(snapshot: snapshot)),
+          Expanded(child: EventsTable(snapshot: snapshot)),
         ],
       ),
     );
   }
+
   StreamBuilder<Object?> combinedStreams() {
     Stream<QuerySnapshot> eventsStream = FirebaseFirestore.instance
         .collection(AppConstants.DUBLIN_EVENTS_COLLECTION)
@@ -58,83 +54,75 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
         .snapshots();
     //If needed, add other streams here
     return StreamBuilder(
-        stream: CombineLatestStream.list([
-          eventsStream, weatherStream
-        ]),
+        stream: CombineLatestStream.list([eventsStream, weatherStream]),
         builder: (context, combinedSnapshot) {
           if (combinedSnapshot.hasData) {
-            var heightOfFilter =
-                (MediaQuery.of(context).size.height) *
-                    0.10;
+            var heightOfFilter = (MediaQuery.of(context).size.height) * 0.10;
             var snapshotList = combinedSnapshot.data as List<QuerySnapshot>;
             var snapshot = snapshotList[0];
             var weatherSnapshot = snapshotList[1];
-           return  (defaultTargetPlatform == TargetPlatform.iOS ||
-               defaultTargetPlatform == TargetPlatform.android)
-               ?
-           Container (
-               child :new SingleChildScrollView(
-                   child :Column(
-                     mainAxisSize: MainAxisSize.max, // match parent
-                     mainAxisAlignment: MainAxisAlignment.start,
-                     crossAxisAlignment: CrossAxisAlignment.start,
-                     children: <Widget>[
-                     EventLocationMap(snapshot: snapshot),
-                     Container(
-                         child : eventsDataContainer(heightOfFilter,snapshot)),
-                     Container(
-                         child :WeatherDataContainer(heightOfFilter,weatherSnapshot)),
-                   ]))):IntrinsicHeight(
-                child: Row(
-                    mainAxisSize: MainAxisSize.max, // match parent
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: EventLocationMap(snapshot: snapshot),
-                        flex: 2,
-                        //flex: 2,
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.all(8),
-                          height: MediaQuery.of(context).size.height,
-                          child: Card(
-                              child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: <Widget>[
-                                      Expanded(
-                                        child:   eventsDataContainer(heightOfFilter,snapshot),
-                                        flex: 1,
-                                      ),
-                                      Expanded(
-                                        child: WeatherDataContainer(heightOfFilter,weatherSnapshot),
-                                        flex: 1,
-                                      ),
-                                    ],
-                                  ))),
+            return (defaultTargetPlatform == TargetPlatform.iOS ||
+                    defaultTargetPlatform == TargetPlatform.android)
+                ? Container(
+                    child: new SingleChildScrollView(
+                        child: Column(
+                            mainAxisSize: MainAxisSize.max, // match parent
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                        Container(child: EventLocationMap(snapshot: snapshot)),
+                        Container(
+                            child:
+                                eventsDataContainer(heightOfFilter, snapshot)),
+                        Container(
+                            child: WeatherDataContainer(
+                                heightOfFilter, weatherSnapshot)),
+                      ])))
+                : IntrinsicHeight(
+                    child: Row(
+                        mainAxisSize: MainAxisSize.max, // match parent
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                        Expanded(
+                          child: EventLocationMap(snapshot: snapshot),
+                          flex: 2,
+                          //flex: 2,
                         ),
-                        flex: 1,
-                      ),
-                    ]));
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.all(8),
+                            height: MediaQuery.of(context).size.height,
+                            child: Card(
+                                child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: eventsDataContainer(
+                                              heightOfFilter, snapshot),
+                                          flex: 1,
+                                        ),
+                                        Expanded(
+                                          child: WeatherDataContainer(
+                                              heightOfFilter, weatherSnapshot),
+                                          flex: 1,
+                                        ),
+                                      ],
+                                    ))),
+                          ),
+                          flex: 1,
+                        ),
+                      ]));
           } else {
             return Center(
                 child: Transform.scale(
-                  scale: 1,
-                  child: CircularProgressIndicator(),
-                ));
+              scale: 1,
+              child: CircularProgressIndicator(),
+            ));
           }
         });
   }
-
-  /*@override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: Text(Utils.getAppBarTitle(context))),
-        drawer: SideMenu(),
-        body: combinedStreams());
-  }*/
 
   void onMapCreated(controller) {
     setState(() {
@@ -146,8 +134,7 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-          child: combinedStreams()),
+      child: Container(child: combinedStreams()),
     );
   }
 }
