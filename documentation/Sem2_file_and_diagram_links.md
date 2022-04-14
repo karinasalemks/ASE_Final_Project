@@ -9,7 +9,7 @@ Use Case list: https://docs.google.com/document/d/17gjEuGywSz8d-9X9BySxus5kWXxx-
 
 API List: https://docs.google.com/document/d/1ExNroR1Sd1363ZYhcXzOn0Tl3BxuHnhwb84yAaFzDBY/edit
 
-Bike Sequence Diagram: https://app.diagrams.net/?libs=general;uml#G1stluhs7i0LbvefOiwVelabZAoImRoHCt
+Bike Sequence Diagram: https://app.diagrams.net/?libs=general;uml#G1LuXxCBH4-xMCT-ytRv7oYahbngS4VZ0M
 
 Suugested Bike swaps sequence diagram: https://drive.google.com/file/d/1H36E_8HGR4Jroo2DOkXxtpTu62w9aBjk/view?usp=sharing 
 
