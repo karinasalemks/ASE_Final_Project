@@ -71,7 +71,7 @@ class _EventsTableState extends State<EventsTable> {
       child: DataTable2(
           columnSpacing: 10,
           horizontalMargin: 12,
-          minWidth: 320,
+          minWidth: 380,
           columns: [
             DataColumn2(
               label: Text("Event Location"),
@@ -99,7 +99,7 @@ DataRow generateEventRows(var location, var count, var capacity) {
             Row(
               children: [
                 Text(
-                    "Capcity:$capacity")
+                    "Capacity:$capacity")
               ],
             ),
           ],

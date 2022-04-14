@@ -37,8 +37,7 @@ class _EventsDashboardWebState extends State<EventsDashboardWeb> {
   eventsDataContainer(heightOfFilter,snapshot) {
     return new Container(
       height: (MediaQuery.of(context).size.height -
-          heightOfFilter) *
-          0.90,
+          heightOfFilter),
       padding: EdgeInsets.all(8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

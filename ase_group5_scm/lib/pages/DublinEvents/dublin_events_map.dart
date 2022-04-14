@@ -29,7 +29,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
     'Aviva Stadium',
     'National Stadium',
     'Gaiety Theatre',
-    'Bord Gais Energy Theatre',
+    'Bord Gais Theatre',
     '3Arena'
   ];//station occupancy filter list
   String dropdownvalue =
@@ -131,7 +131,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
       mapIcon = customIcon_sports;
       break;
       case "Gaiety Theatre":
-      case "Bord Gais Energy Theatre":
+      case "Bord Gais Theatre":
         mapIcon = customIcon_theater;
         break;
       case "3Arena":
@@ -184,16 +184,16 @@ class _EventLocationMapState extends State<EventLocationMap> {
                 Flexible(
                   fit: FlexFit.loose,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
+                    padding: const EdgeInsets.only(left: 5.0),
                     child: FittedBox(
                       fit: BoxFit.cover,
                       child: Text('Event Date',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              letterSpacing: 0.5,
+                              letterSpacing: 0.3,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
-                              fontSize: 16)),
+                              fontSize: 13)),
                     ),
                   ),
                 ),
@@ -225,10 +225,10 @@ class _EventLocationMapState extends State<EventLocationMap> {
                       child: Text('Bus Stop',
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              letterSpacing: 0.5,
+                              letterSpacing: 0.3,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
-                              fontSize: 16)),
+                              fontSize: 13)),
                     ),
                   ),
                 ),
@@ -236,7 +236,7 @@ class _EventLocationMapState extends State<EventLocationMap> {
                   width: 10,
                 ),
                 Flexible(
-                  fit: FlexFit.loose,
+                  fit: FlexFit.tight,
                   child: DropdownButton(
                     value: stopDdropdownvalue,
                     icon: Icon(Icons.keyboard_arrow_down),
